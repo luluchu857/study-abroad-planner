@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "liuxue-info-query": {
+      "type": "streamable-http",
+      "url": "https://hi.xwoork.cn/info/mcp"
+    },
+    "liuxue-application-helper": {
+      "type": "streamable-http",
+      "url": "https://hi.xwoork.cn/assist/mcp",
+      "headers": {
+        "Authorization": "Bearer ${LIUXUE_API_KEY}"
+      }
+    }
+  }
+}

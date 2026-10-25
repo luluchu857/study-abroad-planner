@@ -34,20 +34,50 @@ def solve(challenge_id: str, session_id: str, difficulty: int, max_iters: int = 
 
 
 class PowPipeline:
-    """Keep session + precomputed next proof between tool calls."""
+    """Keep the latest proof; callers own the single business-request retry."""
 
     def __init__(self):
         self.session_id: str | None = None
-        self._next: dict | None = None  # {challenge_id, nonce, difficulty}
+        self._next: dict | None = None  # {challenge_id, nonce, difficulty, expires_at}
         self._lock = threading.Lock()
         self._bg: threading.Thread | None = None
+        self._generation = 0
+
+    @staticmethod
+    def _unexpired(expires_at):
+        return expires_at is None or time.time() < expires_at
+
+    def _ready(self):
+        # Called with _lock held.
+        if self._next and not self._unexpired(self._next['expires_at']):
+            self._next = None
+        return self._next is not None
+
+    def _new_challenge(self, pow_obj: dict, default_difficulty: int):
+        cid = pow_obj.get('challenge_id') or pow_obj.get('challenge')
+        diff = int(pow_obj.get('difficulty') or default_difficulty)
+        expires = pow_obj.get('expires_at')
+        expires = float(expires) if expires is not None else None
+        with self._lock:
+            sid = pow_obj.get('session_id') or self.session_id
+            if not sid or not cid:
+                return None
+            self.session_id = sid
+            self._generation += 1
+            self._next = None
+            self._bg = None
+            return sid, cid, diff, expires, self._generation
+
+    def _current(self, generation, expires):
+        # Called with _lock held; stale workers may finish but cannot publish.
+        return generation == self._generation and self._unexpired(expires)
 
     def attach_args(self, kwargs: dict) -> dict:
         out = dict(kwargs)
         with self._lock:
             if self.session_id:
                 out['pow_session'] = self.session_id
-            if self._next:
+            if self._ready():
                 out['pow_challenge_id'] = self._next['challenge_id']
                 out['pow_nonce'] = self._next['nonce']
                 # consume — one-time
@@ -57,39 +87,44 @@ class PowPipeline:
     def _start_prefetch(self, pow_obj: dict):
         if not isinstance(pow_obj, dict):
             return
-        sid = pow_obj.get('session_id') or self.session_id
-        cid = pow_obj.get('challenge_id') or pow_obj.get('challenge')
-        diff = int(pow_obj.get('difficulty') or 16)
-        if not sid or not cid:
+        challenge = self._new_challenge(pow_obj, 16)
+        if challenge is None:
             return
-        self.session_id = sid
+        sid, cid, diff, expires, generation = challenge
 
         def run():
             try:
                 nonce = solve(cid, sid, diff)
                 with self._lock:
-                    self._next = {'challenge_id': cid, 'nonce': nonce, 'difficulty': diff}
+                    if self._current(generation, expires):
+                        self._next = {'challenge_id': cid, 'nonce': nonce,
+                                      'difficulty': diff, 'expires_at': expires}
             except Exception:
                 pass
 
-        if self._bg and self._bg.is_alive():
-            # abandon previous; new challenge supersedes
-            pass
-        self._bg = threading.Thread(target=run, name='pow-prefetch', daemon=True)
-        self._bg.start()
+        with self._lock:
+            if self._current(generation, expires):
+                self._bg = threading.Thread(target=run, name='pow-prefetch', daemon=True)
+                self._bg.start()
 
     def handle_response(self, res: Any) -> Any:
-        """If pow_required: solve sync and return ('retry', pow_args). Else start prefetch; return ('ok', res)."""
+        """Suggest one retry for a fresh required/invalid challenge; never send it here."""
         if not isinstance(res, dict):
             return 'ok', res
         pow_obj = res.get('pow')
-        if res.get('error') == 'pow_required' and isinstance(pow_obj, dict):
-            sid = pow_obj.get('session_id') or self.session_id or ''
-            cid = pow_obj.get('challenge_id') or pow_obj.get('challenge')
-            diff = int(pow_obj.get('difficulty') or 12)
-            self.session_id = sid
+        if res.get('error') in ('pow_required', 'pow_invalid') and isinstance(pow_obj, dict):
+            challenge = self._new_challenge(pow_obj, 12)
+            if challenge is None:
+                return 'ok', res
+            sid, cid, diff, expires, generation = challenge
+            with self._lock:
+                if not self._current(generation, expires):
+                    return 'ok', res
             nonce = solve(cid, sid, diff)
-            return 'retry', {'pow_session': sid, 'pow_challenge_id': cid, 'pow_nonce': nonce}
+            with self._lock:
+                if self._current(generation, expires):
+                    return 'retry', {'pow_session': sid, 'pow_challenge_id': cid, 'pow_nonce': nonce}
+            return 'ok', res
         if pow_obj:
             self._start_prefetch(pow_obj)
         return 'ok', res
@@ -98,14 +133,15 @@ class PowPipeline:
         t0 = time.time()
         while time.time() - t0 < timeout:
             with self._lock:
-                if self._next:
+                if self._ready():
                     return True
-            if self._bg:
-                self._bg.join(0.05)
+                bg = self._bg
+            if bg:
+                bg.join(0.05)
             else:
                 time.sleep(0.05)
         with self._lock:
-            return self._next is not None
+            return self._ready()
 
 
 if __name__ == '__main__':
