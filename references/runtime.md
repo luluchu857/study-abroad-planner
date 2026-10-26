@@ -1,38 +1,48 @@
-# 运行环境、MCP 与在线顾问
+# 运行环境、连接方式与顾问窗口
 
-本说明用于安装、排查工具缺失或适配宿主时阅读；正常给学生做咨询时不逐条解释这些实现细节。
+安装、工具缺失或切换宿主时阅读本页；日常咨询只向学生说明结果和实际缺项。
 
-## 连接两项远程 MCP
+## 两种调用路径
+
+1. **宿主 MCP**：首次安装优先配置并验证；每次使用先检查当前工具列表，复用已连接的服务，不重复安装同名连接。
+2. **包内 Python 直连**：原生 MCP 无法安装、未加载，或本次只读调用发生连接 / 协议故障时，使用 `scripts/mcp_client.py`。先复用已有 Python 3.9+，缺少运行环境才按安装指南处理。它直接实现 MCP 的初始化、工具发现和调用，不依赖先在宿主登记连接，也不需要安装 MCP SDK。
+
+两条路径访问同一远程服务，并非把服务数据库搬到本机。详情与错误处理见 [客户端说明](mcp-client.md)。
 
 | 服务 | 地址 | 授权 |
 | --- | --- | --- |
-| `liuxue-info-query` | `https://hi.xwoork.cn/info/mcp` | 按服务当前访问规则 |
-| `liuxue-application-helper` | `https://hi.xwoork.cn/assist/mcp` | 服务方提供的个人 API Key，通过 Bearer 请求头传递 |
+| 查询 | `https://hi.xwoork.cn/info/mcp` | 按当前匿名查询规则 |
+| 申请助手 | `https://hi.xwoork.cn/assist/mcp` | 个人 API Key |
 
-两者使用 Streamable HTTP。安装后检查工具发现结果，不凭文件中的名称假定连接已成功。查询与申请助手是两个独立连接：查询可用，不代表材料、文书、时间线等助手工具也可用。
+原生连接凭据不会自动交给 Python；直连读取用户明确设置的 `LIUXUE_API_KEY` 或指定密钥文件。不能扫描其他应用的凭据，不向聊天、报告、URL 或公共仓库写密钥。查询可用与助手授权完成是两项独立结果。
 
-- OpenAI 插件/支持相关元数据的宿主：`agents/openai.yaml` 声明两项依赖；是否出现安装或授权流程由宿主决定。声明本身不包含授权凭据。
-- WorkBuddy 或其他宿主：在 MCP 设置中配置远程地址；已有插件包可由插件的 `mcp.json` 声明连接。`mcp.example.json` 是配置参考，字段名和环境变量展开须以宿主要求为准，不能假定复制进去一定生效。
-- API Key 放在宿主私密设置或受支持的环境变量中，不写进 Skill、公共仓库、聊天正文或网页 URL。示例中的 `${LIUXUE_API_KEY}` 只是变量引用。
-- `401` / `api_key_required` / `forbidden`：该功能授权未完成或权限不足，停止同类重试，说明实际缺项；更换调用方式不能绕过授权。
-- 超时、限额、PoW 失败遵循 SKILL 的错误处理规则。工具不可用时，可以提供明确未查库的一般建议；不可声称查询过数据库。
+只读连接故障最多切换一次直连，保持原业务参数；失败不循环。`401` / `403` 停止同类重试；`429`、配额与过宽查询按返回说明收窄或稍后处理，不属于连接降级。正常 PoW 先处理挑战；超时不自动重发有副作用的操作。不可通过换客户端规避限制。
 
-## 谁负责打开顾问侧栏
+## 原生 MCP 的依赖声明
 
-顾问触发条件定义在 `SKILL.md` 的「在线顾问」一节。`open_advisor` 返回入口数据，真正打开窗口的是宿主的浏览器工具。
+- `agents/openai.yaml` 为支持该元数据的 OpenAI 宿主声明依赖；实际安装和授权由宿主控制。
+- Codex CLI 配置方式见 [INSTALL.md](../INSTALL.md)。
+- `mcp.example.json` 是通用示例，字段与变量展开须按目标应用确认。
+- WorkBuddy **专家 / 插件包**可在 `.codebuddy-plugin/plugin.json` 的 `dependencies.mcpServers` 指向 `.mcp.json`；本仓库提供 `references/workbuddy-mcp.example.json` 接入示例。普通 Skill 文件本身不等于官方专家，也不能保证弹出授权卡片。
 
-| 宿主 | 调用方式 |
+参考：[OpenAI Skill 依赖](https://developers.openai.com/plugins/build/skills)、[Codex MCP](https://developers.openai.com/codex/mcp/)、[WorkBuddy 专家依赖](https://open.workbuddy.cn/docs/expert)。
+
+## 打开在线顾问
+
+触发时机见 `SKILL.md` 的「在线顾问」。`open_advisor` 只是返回入口，真正打开窗口的是宿主工具。
+
+| 宿主 | 操作 |
 | --- | --- |
-| WorkBuddy | 当前目录对应的 `present_files(cwd=当前目录, explanation="在线沟通", files=["https://hi.xwoork.cn"])` |
-| Codex | `open_in_codex(target={type:"browser",url:"https://hi.xwoork.cn"}, placement="right")` |
-| 其他 | 使用已提供的网页打开能力；没有内嵌窗口时给入口链接 |
+| WorkBuddy | 当前可用的 `present_files(cwd=当前目录, explanation="在线沟通", files=["https://hi.xwoork.cn"])` |
+| Codex | 当前可用的 `open_in_codex(target={type:"browser",url:"https://hi.xwoork.cn"}, placement:"right")` |
+| 其他应用 | 使用实际提供的网页打开能力；没有内嵌窗口则给出链接 |
 
-公共入口不依赖助手 MCP 成功连接。助手不可用时仍可直接打开 `https://hi.xwoork.cn`。只有窗口工具成功后才说已打开；不把“返回网址”当成“窗口已经打开”。入口不附带学生背景、方案或附件，不能说已转交资料。Skill 不能独立给所有宿主增加一个永久侧栏按钮；界面能力取决于宿主。
+助手授权不可用时仍可打开公共入口。只在窗口工具确认成功后说已打开；工具只有 URL 不算成功。入口不携带学生资料，不说已转交背景或附件。不展示不存在的 `guide_url` / `progress_url` 页面。
 
-## Python 能否直接调用
+Skill 能说明何时打开页面，永久侧栏按钮仍取决于宿主界面功能；Python 客户端也不会自行增加宿主按钮。
 
-可以开发 Python 客户端并随 Skill 分发，由它直接连接远程 MCP，或调用服务端另行提供的 HTTP API，这样不必先在聊天宿主里登记 MCP。但本版本**没有提供这类客户端**：`pow_client.py` 仅做 PoW 求解与进程内预计算，不能发现工具、发送业务请求或打开侧栏。
+## 更新检查
 
-若增加客户端，应固定支持的 SDK 版本，处理 MCP 协议及返回格式、工具发现、超时和授权，并复用现有 PoW 的有限重试逻辑。执行环境仍需 Python、必要依赖和网络；宿主里的凭据不会自动传给 Python。不能用一个普通 REST 客户端换上 `/info/mcp` 地址就认为实现了 MCP。
+具备本地执行能力时，每次触发运行 `python3 <skill>/scripts/check_update.py --background`，其中 `<skill>` 替换为实际安装目录，读取返回的缓存状态即可继续咨询。缓存 6 小时；远程检测在后台、带超时和并发锁，不自动下载或替换当前包。后台进程不直接向聊天推送，结果由后续 `--status` 或下一次触发读取。
 
-依赖声明参考：[OpenAI 官方技能文档](https://developers.openai.com/plugins/build/skills)。客户端能力参考：[MCP 官方 Python SDK](https://py.sdk.modelcontextprotocol.io/client/)。
+`--status` 仅读本地状态，`--check` 手动立即检查。无命令权限时跳过检测，不让安装或网络问题拦住日常咨询。更新按照 INSTALL.md 下载指定版本、校验并运行安装器，原目录先保留备份。
