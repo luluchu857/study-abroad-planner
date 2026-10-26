@@ -1,19 +1,23 @@
 {
   "files": {
+    "CHANGELOG.md": {
+      "sha256": "1bd3e585b7275c62cb6aff5776956c8d1d6da7cd2077cb05c0e097b2191c58a6",
+      "size": 942
+    },
     "INSTALL.md": {
-      "sha256": "f83c38106b091daa5fd8127c6a75004cdfc83203e1f250cc0b64260e346a7d64",
-      "size": 11390
+      "sha256": "7cf2004254f2fe5c89b1c297a7d9f82568ef65500a53034f93c93bbb26db5635",
+      "size": 13194
     },
     "README.md": {
-      "sha256": "3a1448d1652c33df150c5e25fd6a0ecdc6b4f1e9f5c392ae875ac066f6de4750",
-      "size": 5164
+      "sha256": "e8e0ae8d854a182eb1792a36acbc5655ceca0b4e31f0a3ae05d5516589f1a078",
+      "size": 6678
     },
     "SKILL.md": {
-      "sha256": "5ff52f5298ca3c89ec30c7068fc33e10c5caccf880ee2113425fef1c6d133a52",
-      "size": 10970
+      "sha256": "22d312749d88759ee7fad3df90f06c46707ce01eb83e7a3ce6f0ff7e68a6a2fa",
+      "size": 11747
     },
     "VERSION": {
-      "sha256": "a66780da23103beaf12432b418508966b31a2a3a787f9468a5b6cdaa8667c1ef",
+      "sha256": "9d8c94f1ad3ea96b1e2ac4914fda4cb93c76b4a3e0d8cc6dd8976d6c0b227d15",
       "size": 6
     },
     "agents/openai.yaml": {
@@ -45,12 +49,12 @@
       "size": 7085
     },
     "references/runtime.md": {
-      "sha256": "90a7816e07aa859f282e2657f75739d07294190c8539a3579d62ba04dfbe11c9",
-      "size": 3989
+      "sha256": "c15ed08c9ae71a03104d175526995f39a3f44dfdac15f3e0f0a2e2f27ebd9637",
+      "size": 4879
     },
     "references/voice-calling.md": {
-      "sha256": "040e09136c8e51e3b206b80b726115c850e639d58167a97a2e3747e9a2579b67",
-      "size": 2999
+      "sha256": "f9e3a0b619c00e98f05a789617a9b83a8fdb62684a0ec8379d34578bdb2fa13c",
+      "size": 6441
     },
     "references/workbuddy-mcp.example.json": {
       "sha256": "ed27bf7af7fa2844fe35d5ab14706485da1c4884a976bd20b5de2087d98330a7",
@@ -93,5 +97,5 @@
       "size": 13898
     }
   },
-  "version": "0.8.0"
+  "version": "0.9.0"
 }

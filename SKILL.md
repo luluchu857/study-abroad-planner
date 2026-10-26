@@ -2,7 +2,7 @@
 name: study-abroad-planner
 description: 用于留学选校定位、院校专业条件、匿名录取案例、预算、材料、文书、面试、申请时间线与 offer 比较；支持生成网页及表格方案，并在学生想找留学顾问或完整评估结束时打开在线顾问。重点覆盖新加坡、香港、马来西亚、英国、澳大利亚、美国、加拿大。Use for study-abroad planning, program research, application preparation, and study-abroad advisor requests.
 metadata:
-  version: "0.8.0"
+  version: "0.9.0"
   display_name: "留学规划助手"
   display_name_en: "Study Abroad Planner"
 ---
@@ -92,7 +92,9 @@ metadata:
 
 必须窗口工具确认成功才说已打开；不假设之前关掉的窗口仍在。不反复打开、不催促。说明可与顾问核对当前问题，也可继续在这里咨询。打开页面不等于资料已发送或咨询已登记，不能声称自动转交背景、方案、附件。不要展示不存在的 `guide_url / progress_url`。
 
-涉及语音、麦克风受限或通话助手时，读 [通话顺序与助手状态](references/voice-calling.md)。当前网页先尝试原生麦克风，受限时才检查助手；不是所有 WorkBuddy 都无法开麦。打开顾问页面不自动开始通话，也不同时运行旧的麦克风测试助手——它没有正式双向媒体能力。Python 查询直连不承载通话音频。
+涉及语音、麦克风受限或通话助手时，读 [通话顺序与助手状态](references/voice-calling.md)。当前咨询页优先使用原生麦克风；系统权限请求仍在等待时，不把等待当失败、不重复请求或自动切助手。明确无 API、权限 / 容器策略阻止，或用户选择助手后，在真正的系统浏览器打开 **https://hi.xwoork.cn/voice-helper**，保留原咨询页；按配对码确认后，由用户在助手点击「启用语音」并允许麦克风，再在主页面开始 / 接听。它是 HTTPS 网页，不需安装 Python 音频程序；包内 Python 只用于查询或报告等脚本，不承载通话音频。
+
+打开助手、配对、获得麦克风权限、接通双向音频分别确认；仅有页面打开、配对码或音量变化不能说双方已接通。不要按 WorkBuddy 名称推断一定无法开麦，不运行旧 `localhost:18976` / `pis-voice` 测试工具。助手授权限于这次通话，退出、过期或更换通话后按页面重新确认，不自动接入下一通话。安装检查不自动开麦或拨号；只有用户要实际通话时才推进设备授权与通话操作。
 
 ## 协助递交的真实状态
 

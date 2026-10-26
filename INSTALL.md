@@ -13,8 +13,8 @@
 - 下载 Release 附件的 Skill ZIP，解压到新的临时目录；也可读取选定版本的 Git 仓库。示例安装当前版本：
 
 ```sh
-git clone --branch v0.8.0 --depth 1 https://github.com/luluchu857/study-abroad-planner.git study-abroad-planner-v0.8.0
-cd study-abroad-planner-v0.8.0
+git clone --branch v0.9.0 --depth 1 https://github.com/luluchu857/study-abroad-planner.git study-abroad-planner-v0.9.0
+cd study-abroad-planner-v0.9.0
 python3 --version
 ```
 
@@ -154,7 +154,19 @@ python3 scripts/check_update.py --background
 
 ### E. 顾问与语音边界
 
-安装测试不自动开麦、拨打或进入真实咨询。学生明确要找顾问时，才按 Skill 的触发规则打开页面。语音优先由当前网页原生能力处理；旧工程的通话助手只是采音测试工具，本包不将它当成正式备用通道安装。具体见 [通话说明](references/voice-calling.md)。
+语音助手是 **https://hi.xwoork.cn/voice-helper** 的系统浏览器 HTTPS 页面，不是本地 Python 音频程序，也不需要新增语音 MCP、浏览器扩展或 localhost 服务。Skill / 原生查询 MCP / 通话助手均不要求为了语音先安装 Python。
+
+安装检查不自动开麦、配对、拨打或进入真实咨询。用户需要在线顾问时按 Skill 的触发规则打开原咨询页；用户明确要求通话时，再按 [通话说明](references/voice-calling.md) 推进。原生麦克风优先；系统请求仍在等待，不当作失败，也不重复请求。明确无 API、权限 / 容器政策阻止或用户选择后，才使用系统浏览器助手。
+
+实际使用顺序：原咨询页保持打开 → 系统浏览器助手「准备配对」取得 10 位码 → 回原咨询页确认配对 → 助手「启用语音」并由用户允许麦克风 → 原咨询页完成同一次开始 / 接听。若原先开始 / 接听动作在配对后继续执行，不重复拨号。助手提供静音、播放、停止 / 挂断；RTC 连接必要时经 TURN 中继。不要把助手再开进同一个受限内嵌容器，不向 URL 复制原咨询身份令牌。
+
+安装验收可核对页面和指引，并明确“尚未请求麦克风、尚未验证实际通话”。用户另行要求实际验证时，分别记录配对、设备授权、实际双向声音、静音与挂断结果。新助手已有合成链路验证，不能据此声称真人设备或所有 WorkBuddy 版本通过。旧 `localhost:18976` / `pis-voice` 测试工具不属于本次安装，不安装或唤起它们。
+
+可让用户复制给 Agent：
+
+> 我已经打开在线咨询，但页面提示当前应用无法使用麦克风。请保留这个咨询，在系统浏览器打开 https://hi.xwoork.cn/voice-helper，指导我取得配对码、回原页确认和启用语音。不要另建咨询，也不要安装 Python 音频程序；系统权限由我确认。
+
+> 帮我检查留学 Skill 的安装、查询连接和通话助手说明。现在不需要开麦或真实拨号，请把已完成与尚未验证的项目分别告诉我。
 
 ## 5. 更新与回退
 
