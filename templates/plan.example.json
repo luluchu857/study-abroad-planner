@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "title": "匿名留学方案 · 合成演示",
+  "as_of": "2026-10-26",
+  "sources": [
+    {"id": "demo", "kind": "synthetic", "title": "完全虚构的示例背景和项目；不是学校数据", "url": null}
+  ],
+  "sections": {
+    "profile": [
+      {"label": "当前背景", "facts": {
+        "学历与方向": {"value": "演示：本科在读，希望申请授课型硕士", "status": "provided", "source_ids": ["demo"], "checked_at": "2026-10-26"},
+        "成绩": {"value": "演示：82/100；量表为百分制", "status": "provided", "source_ids": ["demo"], "checked_at": "2026-10-26"},
+        "语言成绩": {"value": null, "status": "unknown", "source_ids": [], "checked_at": null, "note": "下一步补充考试类型、总分和单项。"}
+      }}
+    ],
+    "conditions": [
+      {"label": "资格核对", "facts": {
+        "项目要求": {"value": null, "status": "unknown", "source_ids": [], "checked_at": null, "note": "尚未取得具体项目、申请季和通道的官方要求，不能判断符合条件。"},
+        "核对建议": {"value": "先确认学历认可、先修课和语言单项，再讨论录取竞争力。", "status": "advice", "source_ids": [], "checked_at": null, "note": "依据：资格条件与竞争性评价不同；目前语言和项目要求尚缺。"}
+      }}
+    ],
+    "selection": [
+      {"label": "虚构示例项目 A", "facts": {
+        "地区 / 层次": {"value": "示例地区 / 授课型硕士", "status": "retrieved", "source_ids": ["demo"], "checked_at": "2026-10-26"},
+        "课程方向": {"value": "演示：数据与公共服务", "status": "retrieved", "source_ids": ["demo"], "checked_at": "2026-10-26"},
+        "申请判断": {"value": "待核验候选，不能分冲稳保", "status": "advice", "source_ids": [], "checked_at": null, "note": "只有方向偏好，缺少项目资格和可比证据。"}
+      }},
+      {"label": "虚构示例项目 B", "facts": {
+        "地区 / 层次": {"value": "另一示例地区 / 研究型硕士", "status": "retrieved", "source_ids": ["demo"], "checked_at": "2026-10-26"},
+        "旧项目说明": {"value": "演示：旧申请季资料", "status": "retrieved", "source_ids": ["demo"], "checked_at": "2026-08-01", "valid_until": "2026-09-01", "note": "故意设置过期，以展示时效提示；不能沿用到新申请季。"},
+        "导师与资助": {"value": null, "status": "unknown", "source_ids": [], "checked_at": null}
+      }}
+    ],
+    "budget": [
+      {"label": "预算结构演示", "facts": {
+        "学费": {"value": null, "status": "unknown", "source_ids": [], "checked_at": null, "note": "没有填入任何真实或猜测的学校学费。"},
+        "费用口径": {"value": ["核对学费与学制", "列生活费、保险、交通与一次性费用", "确认币种、汇率日期及家庭可用预算"], "status": "advice", "source_ids": [], "checked_at": null, "note": "一般预算方法；不能把签证最低资金要求当作实际生活费。"}
+      }}
+    ],
+    "timeline": [
+      {"label": "申请时间线", "facts": {
+        "学校截止日": {"value": null, "status": "unknown", "source_ids": [], "checked_at": null},
+        "下一步": {"value": "本周补齐背景与语言信息，再按核实的截止日倒排材料。", "status": "advice", "source_ids": [], "checked_at": null, "note": "当前还没有学校截止日，不虚构月份或最终递交日期。"}
+      }}
+    ],
+    "materials": [
+      {"label": "材料准备", "facts": {
+        "参考清单": {"value": ["成绩单", "学历或在读证明", "语言成绩", "按项目要求准备文书与推荐信"], "status": "advice", "source_ids": [], "checked_at": null, "note": "通用参考，具体项目可能增减；不代表正式材料已交。"},
+        "递交状态": {"value": null, "status": "unknown", "source_ids": [], "checked_at": null, "note": "生成报告不会收取、上传或递交任何材料。"}
+      }}
+    ],
+    "offers": [
+      {"label": "获得 Offer 后的比较", "facts": {
+        "比较方法": {"value": ["先看条件与接受期限", "比较总费用、课程、地点和职业目标", "核对押金及退费规则"], "status": "advice", "source_ids": [], "checked_at": null, "note": "目前没有实际 Offer；此处仅提供比较方法，不把候选当已录取。"}
+      }}
+    ],
+    "interview": [
+      {"label": "面试准备", "facts": {
+        "练习任务": {"value": "用真实经历说明申请动机、项目匹配与一个具体问题的解决过程。", "status": "advice", "source_ids": [], "checked_at": null, "note": "通用练习建议；不能代替学校公布的实际面试要求。"}
+      }}
+    ],
+    "advisor": [
+      {"label": "人工复核与下一步", "facts": {
+        "建议复核": {"value": "补齐条件后，可以请真人顾问复核候选与材料缺项。", "status": "advice", "source_ids": [], "checked_at": null, "note": "生成器只生成本地文件，不打开窗口、不预约，也不自动发送背景或材料。"}
+      }}
+    ]
+  }
+}
