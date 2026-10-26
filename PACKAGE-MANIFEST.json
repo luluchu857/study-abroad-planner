@@ -1,0 +1,97 @@
+{
+  "files": {
+    "INSTALL.md": {
+      "sha256": "f83c38106b091daa5fd8127c6a75004cdfc83203e1f250cc0b64260e346a7d64",
+      "size": 11390
+    },
+    "README.md": {
+      "sha256": "3a1448d1652c33df150c5e25fd6a0ecdc6b4f1e9f5c392ae875ac066f6de4750",
+      "size": 5164
+    },
+    "SKILL.md": {
+      "sha256": "5ff52f5298ca3c89ec30c7068fc33e10c5caccf880ee2113425fef1c6d133a52",
+      "size": 10970
+    },
+    "VERSION": {
+      "sha256": "a66780da23103beaf12432b418508966b31a2a3a787f9468a5b6cdaa8667c1ef",
+      "size": 6
+    },
+    "agents/openai.yaml": {
+      "sha256": "068ab7e64fd0a9282bf5ffd06ef120be24d719c8894316b397fbfb758af84850",
+      "size": 827
+    },
+    "mcp.example.json": {
+      "sha256": "d16c56a21ee126ebd042fed1bece695cb1d8f9fc2a0887903ecd24ce28b4ee4c",
+      "size": 339
+    },
+    "pow_client.py": {
+      "sha256": "3d8cdea10cb98ea36cbd45188dd215080743038460034cebea31148b389bdc73",
+      "size": 6001
+    },
+    "references/advisor-methods.md": {
+      "sha256": "639a286522b375058c4917a6d5fcb8d5ce2e111faeb3d9bee735747035d85b1e",
+      "size": 15343
+    },
+    "references/data-coverage.md": {
+      "sha256": "1a6dd425986f183a7789f3c6b5b9d448b9d61be5649ccf02d8dc67d6b0fba685",
+      "size": 2447
+    },
+    "references/mcp-client.md": {
+      "sha256": "9b4ae13ef82df6534ecc0c4a533ca2a013edd7b7e21f93464e27d9816d24925f",
+      "size": 6339
+    },
+    "references/planning-workflow.md": {
+      "sha256": "f79cbe107b65469c4bf8499e9c39f07f7c88dca006d19d89c453ec555c6c259f",
+      "size": 7085
+    },
+    "references/runtime.md": {
+      "sha256": "90a7816e07aa859f282e2657f75739d07294190c8539a3579d62ba04dfbe11c9",
+      "size": 3989
+    },
+    "references/voice-calling.md": {
+      "sha256": "040e09136c8e51e3b206b80b726115c850e639d58167a97a2e3747e9a2579b67",
+      "size": 2999
+    },
+    "references/workbuddy-mcp.example.json": {
+      "sha256": "ed27bf7af7fa2844fe35d5ab14706485da1c4884a976bd20b5de2087d98330a7",
+      "size": 1517
+    },
+    "scripts/build_plan.py": {
+      "sha256": "bc71f9b42b3389671cbbd38ad1beeea267a912f1b18cc4e380fe5b8eb44ff796",
+      "size": 14698
+    },
+    "scripts/check_update.py": {
+      "sha256": "6483ca33592e89def7fbdeeb93b23d6d58f9b66a8f2f609bba519f71f55f0da4",
+      "size": 15226
+    },
+    "scripts/install.py": {
+      "sha256": "ff456c24759cdc7d233edb160291976d7a940b21aa9a9a03f518634439951082",
+      "size": 15838
+    },
+    "scripts/mcp_client.py": {
+      "sha256": "46d6c18b6fc41398ecbbcee5a4a2d5a77073f550fccbac09f7c9f3a068915316",
+      "size": 25601
+    },
+    "scripts/validate_plan.py": {
+      "sha256": "49233433b2993e2ecf830cca17611c3b96bc156a8abed26d78b59987af6e7992",
+      "size": 9884
+    },
+    "templates/plan.example.json": {
+      "sha256": "962368c94c67768fc1d2dfd3ab7b4a57a34fd3686d78aeaddd09c39f5c655288",
+      "size": 5123
+    },
+    "tests/test_install_update.py": {
+      "sha256": "b3b5f3d6d32d01bede822510394e4f585c6dd4ac873d89b4aa89c232a9b4112a",
+      "size": 29752
+    },
+    "tests/test_mcp_client.py": {
+      "sha256": "b387a612dd276788a8bd628f3c1a24868eacc99b3d75f95cd72834e960735578",
+      "size": 25891
+    },
+    "tests/test_plan.py": {
+      "sha256": "25dbdfceb4b47b784eb426d738eecb7342cd9f78a1d1679da8413bd3ed7ba3f5",
+      "size": 13898
+    }
+  },
+  "version": "0.8.0"
+}

@@ -1,68 +1,79 @@
 # 留学规划助手 · Study Abroad Planner
 
-当前 Skill 版本：**0.7.1**。
+**从选校到申请准备，把留学信息变成可执行的下一步。**
 
-一个配合远程 MCP 服务使用的留学规划 Skill，帮助学生梳理目标、查询院校与专业、比较申请条件和匿名录取案例、整理材料与时间线，并按需衔接在线顾问。覆盖新加坡、中国香港、马来西亚、英国、澳大利亚、美国、加拿大；各地区的数据覆盖程度不同，以工具实际返回结果为准。
+告诉 AI 你的背景、预算和入学目标，它会帮助你比较院校与专业、参考相似背景案例、找出申请差距，整理成可以继续修改的方案；需要时，还能打开在线顾问。
 
-## 文件结构
+[让 AI 帮我安装](INSTALL.md) · [下载最新版](https://github.com/luluchu857/study-abroad-planner/releases/latest) · [在线顾问](https://hi.xwoork.cn)
 
-```text
-SKILL.md                       Skill 入口、对话流程与工具使用规则
-pow_client.py                  部分 MCP 调用所需的 PoW 校验辅助脚本
-references/advisor-methods.md   按需读取的顾问经验与方法参考
-README.md                      本说明
-agents/openai.yaml             OpenAI 宿主的展示信息与 MCP 依赖声明
-mcp.example.json               两项 MCP 连接的无密钥配置示例
-references/runtime.md          宿主适配、顾问窗口与 MCP 连接说明
-```
+## 你可以得到什么
 
-本目录只包含 Skill、辅助代码和参考文本，不包含 MCP 服务端、业务数据库、学生档案、API Key 或线上系统部署配置。
-
-## 使用条件
-
-需要一个能够加载 Skill 并调用 MCP 工具的 AI 助手。下载 Release 的 Skill ZIP 后解压，导入 `study-abroad-planner` 文件夹；安装位置和重新加载方式按所用宿主说明操作。支持 OpenAI 技能依赖元数据的宿主可读取 `agents/openai.yaml`；其他宿主按 `mcp.example.json` 与 [运行环境说明](references/runtime.md) 配置连接。依赖声明不等于已安装成功，个人授权仍需单独完成。
-
-该 Skill 依赖两项独立的远程服务：
-
-| MCP | 用途 | 服务地址与授权 |
+| 你现在遇到的问题 | 助手会做什么 | 最终得到什么 |
 | --- | --- | --- |
-| `liuxue-info-query` | 专业搜索、条件与案例查询、排名、费用等信息 | [查询 MCP](https://hi.xwoork.cn/info/mcp)，按服务当前规则访问 |
-| `liuxue-application-helper` | 材料清单、文书提纲、时间线、在线顾问等申请辅助 | [申请助手 MCP](https://hi.xwoork.cn/assist/mcp)，需要服务方提供的个人 API Key |
+| 不知道去哪、怎么选专业 | 结合学历、成绩、预算和毕业目标，查询候选院校与专业 | 有选择理由的候选清单，以及下一步要补充的信息 |
+| 想知道自己的背景够不够 | 对比项目要求，参考相近背景的匿名案例，说明判断依据 | 条件差距表、冲刺 / 匹配 / 保底参考和具体补强建议 |
+| 几个项目各有优劣 | 比较学制、学费、语言要求、排名和个人偏好 | 并排对比表，帮助你做取舍 |
+| 不清楚要准备多少钱、什么时候行动 | 分开计算学费、生活费与一次性支出，倒排准备任务 | 预算表、时间线和近期行动清单 |
+| 材料、文书、面试无从下手 | 整理材料缺项，用真实经历梳理文书，准备面试问题 | 材料清单、文书提纲、面试练习和修改方向 |
+| 收到多个 offer 不知道怎么选 | 按你在意的费用、课程、就业与生活因素比较 | 有理由的 offer 决策表 |
+| 希望进一步与真人沟通 | 在支持的应用中打开在线咨询页面 | 可继续沟通的顾问入口 |
 
-MCP 通过 Streamable HTTP 连接。请在宿主自己的私密配置中保存授权信息，不要把真实 Key 写入 Skill、仓库或公开示例。远程服务的可用性、权限和额度由服务运营方维护；下载 Skill 本身不等于获得服务授权。
+## 数据参考
 
-部分工具要求 PoW 校验，`pow_client.py` 提供相应求解与预计算辅助逻辑。该脚本使用 Python 标准库，建议 Python 3.10 或更新版本；它不会自行配置 MCP。辅助类的后台预计算仅在宿主实际调用并保留相应进程时生效。
+**7 个重点国家 / 地区**：新加坡、中国香港、马来西亚、英国、澳大利亚、美国、加拿大。
 
-在线顾问入口为 [hi.xwoork.cn](https://hi.xwoork.cn)。打开入口不表示学生的背景、方案或附件已经传给顾问。
+**已核验的历史匿名案例库快照**：
 
-## 什么时候打开在线顾问
+| 申请项目 | 课程源记录 | 统计日期 |
+| ---: | ---: | --- |
+| **69,323** | **98,128** | **2026-10-23** |
 
-学生明确找真人顾问或求推荐、反复拿不准，或者完整评估结束需要真人复核时，按 [Skill 的在线顾问流程](SKILL.md#在线顾问) 打开入口。WorkBuddy 使用 `present_files`，Codex 使用 `open_in_codex` 在右侧打开。助手 MCP 未连接时也可直接打开公共入口；不支持侧栏的宿主提供网页链接。这里包含打开规则，不包含宿主永久侧栏按钮的界面代码。
+申请项目与课程记录采用不同统计口径，课程记录包含来源重复行，不代表独立学生或成功录取人数。各地区和功能的数据深度不同，当前查询以服务实际返回为准。[查看数据口径](references/data-coverage.md)
 
-## v0.7.1 调整
+助手结合院校专业数据、匿名案例、官网资料和你的实际背景形成建议。费用、政策、截止日期会标注来源与时间；证据不足的地方会明确指出，不用一个案例比例承诺个人录取结果。
 
-- 移除方法参考逐条附加的固定经验标签；具体学校、费用和政策仍引用实际来源。
-- 修正 Skill 元数据格式，补齐 Codex/WorkBuddy 工具适配和 MCP 依赖声明、配置示例。
-- 取消统一 150 字上限，完整方案按任务需要展开。
-- 纠正递交状态描述：取得入口不等于已登记或已提交材料。
-- 修复 PoW 辅助类对无效挑战的处理，以及旧后台结果覆盖新挑战的问题；业务请求仍最多重试一次。
+## 不止是一段聊天
 
-本版本没有合并旧 `study-abroad-counseling` 的方案生成器、导出脚本或 HTTP 客户端；这些属于另一套接口与工作流。
+需要完整方案时，可以生成：
 
-## 数据与使用边界
+- **可筛选的网页报告**：按内容、状态和关键词查看。
+- **Markdown 报告**：方便继续让 AI 修改或放进笔记。
+- **CSV 表格**：可直接用 Excel 或其他表格软件打开。
+- **Excel 工作簿**：安装可选导出依赖后生成。
+- **结构化方案文件**：保留来源、核验时间和待补充项，便于后续更新。
 
-- 院校条件、费用、政策和截止日期应以学校及相关机构的最新官方信息为准。
-- 历史匿名案例及工具返回的估算不代表个人录取概率，也不构成录取承诺。
-- `references/advisor-methods.md` 是顾问经验参考，含需要再次核实的经验判断和数字，不是官方规则。
-- MCP 不可用时，Skill 应说明未查库，不能把通用知识描述为已核实的数据。
-- 申请辅助不等于向学校正式递交或付款；具体操作须遵循 Skill 中的确认流程。
+只生成你需要的部分，单次问答不强制填写一整套表格。示例数据与真实查询结果分别标明。
 
-## 更新状态
+## 直接这样问
 
-**当前版本没有自动更新器。** 它不会在每次触发时自动检查 GitHub、下载新文件或替换自身。远程 MCP 服务更新与本地 Skill 文件更新是两件事；本地文件更新后，是否需要新会话或重新加载取决于宿主。
+> 我本科均分 82，雅思 6.5，预算 30 万元，想申请英国或香港的商科硕士。先核对适合的项目，再给我选校理由、条件差距和预算表。
 
-## English overview
+> 我已经有三份 offer。帮我根据课程内容、总费用和就业方向比较，做一份可以筛选的网页报告。
 
-Study Abroad Planner is an Agent Skill for study planning, admission research, application preparation, and optional access to an online advisor. It uses two remote MCP services: `liuxue-info-query` and `liuxue-application-helper`. The latter requires an API key supplied by the service operator.
+> 我准备申请新加坡本科。帮我梳理材料和时间线，缺什么信息先问最关键的。
 
-This repository contains Skill instructions, a Python standard-library PoW helper, advisor-method notes, and MCP dependency/configuration examples. It contains no MCP server, student records, business database, credentials, or deployment configuration. Host support and remote service availability must be checked separately. Version **0.7.1 includes neither an automatic updater nor a direct MCP/HTTP client**.
+> 我想找顾问聊聊，把在线顾问打开。
+
+## 把这个页面发给 AI，即可开始安装
+
+复制下面这段话给支持本地文件与命令执行的 AI：
+
+> 请安装 https://github.com/luluchu857/study-abroad-planner 。先阅读仓库的 INSTALL.md，选择适合当前应用的安装方式；保留旧版本备份，完成查询连接检查和示例方案导出。告诉我哪些功能已经实测可用、哪些还需要个人授权。
+
+支持 **Codex、WorkBuddy**，其他兼容 Skill 的应用可按说明选择安装目录。首次安装优先配置原生 MCP，已有连接直接复用；原生连接无法安装或只读连接故障时，使用包内的 **Python 直连客户端**访问同一服务。申请助手需要个人授权，换用 Python 不会绕过授权。
+
+[AI 安装与验收指南 →](INSTALL.md)
+
+## 保持更新
+
+触发 Skill 时可在后台检查版本；默认 6 小时内复用检测结果，网络慢或离线时继续使用当前版本。检测到的新版会在后续读取状态或下一次使用时提示，更新时保留旧包备份。正在使用的任务不会因为检查更新而被替换。
+
+## 在线顾问
+
+需要真人协助，打开 [在线顾问](https://hi.xwoork.cn)。在支持内嵌浏览器的 Codex、WorkBuddy 中，助手会按咨询场景打开页面。
+
+打开页面不会自动发送你的背景、方案或材料；实际沟通与材料提交由你在页面中完成。
+
+---
+
+当前版本：**0.8.0**。开发与接入细节见 [安装指南](INSTALL.md)、[运行说明](references/runtime.md) 与 [Python 客户端说明](references/mcp-client.md)。
