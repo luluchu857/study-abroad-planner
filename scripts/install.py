@@ -274,11 +274,26 @@ def backup_directory(source, target, create=False):
     return directory
 
 
-def install_package(source, target, dry_run=False):
+def _require_expected_target(target, expected_manifest_sha256):
+    """Cancel a guarded migration if local content changed while preparing it."""
+    if expected_manifest_sha256 is None:
+        return
+    if not re.fullmatch(r"[0-9a-f]{64}", expected_manifest_sha256):
+        raise InstallError("Invalid expected installation digest")
+    try:
+        manifest, raw = read_manifest(target)
+        if hashlib.sha256(raw).hexdigest() != expected_manifest_sha256 or not _identical(target, manifest, raw):
+            raise InstallError("Existing installation changed; migration cancelled")
+    except (InstallError, OSError) as error:
+        raise InstallError("Existing installation changed; migration cancelled") from error
+
+
+def install_package(source, target, dry_run=False, expected_manifest_sha256=None):
     source, target = _absolute(source), _absolute(target)
     manifest, raw = read_manifest(source)
     verify_package(source, manifest)
     _validate_target(source, target)
+    _require_expected_target(target, expected_manifest_sha256)
     result = {"version": manifest["version"], "target": str(target), "backup": None,
               "file_count": len(manifest["files"]) + 1, "dry_run": bool(dry_run)}
     if _identical(target, manifest, raw):
@@ -300,6 +315,7 @@ def install_package(source, target, dry_run=False):
     backup = None
     try:
         _validate_target(source, target)
+        _require_expected_target(target, expected_manifest_sha256)
         if _identical(target, manifest, raw):
             return dict(result, status="unchanged")
         existed = target.exists()
@@ -321,6 +337,7 @@ def install_package(source, target, dry_run=False):
             raise InstallError("Destination changed during staging; installation cancelled")
         if target.exists():
             _tree_files(target)
+            _require_expected_target(target, expected_manifest_sha256)
             _no_symlinks(backup_root)
             if backup_root.stat().st_dev != target.parent.stat().st_dev:
                 raise InstallError("Backup filesystem changed during staging")

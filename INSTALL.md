@@ -2,62 +2,64 @@
 
 目标：把这份 Skill 装到当前宿主，验证实际可用的功能，并向用户报告结果。不能把“文件已复制”“MCP 已登记”“已授权”“业务调用成功”混为一谈。
 
-默认安装用户指定版本；没有指定时选择本仓库的最新稳定 Release。不要从第三方镜像下载，不要执行网上搜索结果中的未知安装命令。
+**用户只给 `github:luluchu857/study-abroad-planner`、没有指定版本时，安装本仓库当前公开的最新可用版本，不把版本号写死。** 从 `updates.json` 的 stable / pilot 条目按语义版本比较选择最高版本；当前公开试用版也属于可选发布，安装结果必须如实标明试用状态。只有用户明确说“只要稳定版”时才只看 stable。用户明确指定版本则遵照该版本，但已有更高版本时不自动降级。
+
+不要把搜索引擎缓存、旧 README 截图、某个历史 Git 标签或 GitHub `/releases/latest` 当作默认安装依据；后者只代表 GitHub 稳定 Release，可能落后于本仓库已公开的试用更新。更新目录读取失败就报告无法确认最新，不自行把旧包称为最新版。
+
+当前包含首批培训知识与完整后台自动更新，知识卡与原学校 MCP 分开验收；不能声称新增远程知识服务已部署。安装过程不采音、不拨号。
 
 ## 1. 确认环境与取包
 
 - 官方仓库：https://github.com/luluchu857/study-abroad-planner
-- 稳定版本：https://github.com/luluchu857/study-abroad-planner/releases/latest
+- 公开更新目录：https://raw.githubusercontent.com/luluchu857/study-abroad-planner/main/updates.json
+- 历史稳定 Release：https://github.com/luluchu857/study-abroad-planner/releases（仅用户指定稳定通道或历史版本时使用）
 - Skill 文本与原生 MCP 本身**不要求先安装 Python**。先配置原生 MCP；环境已有 Python 可直接复用，只有需要包内安装器、直连、报告导出或版本检测时才使用 Python **3.9+**。这些核心脚本均不需要额外 Python 依赖。
 - 识别当前是 Codex、WorkBuddy 还是其他宿主；复用已有授权，不为安装无关插件或开启额外权限。
-- 下载 Release 附件的 Skill ZIP，解压到新的临时目录；也可读取选定版本的 Git 仓库。示例安装当前版本：
+- 获取默认分支的安装入口，再由 `install_latest.py` 动态取公开最新版；不要在默认安装命令中写历史标签或试用分支。源码工作目录只用于读取指南和运行安装器，不能把带 `.git` / `updates.json` 的工作目录整包复制进宿主 Skill 目录。
 
 ```sh
-git clone --branch v0.9.0 --depth 1 https://github.com/luluchu857/study-abroad-planner.git study-abroad-planner-v0.9.0
-cd study-abroad-planner-v0.9.0
+git clone --depth 1 https://github.com/luluchu857/study-abroad-planner.git study-abroad-planner-install
+cd study-abroad-planner-install
 python3 --version
 ```
 
-Windows 若使用 `py -3`，后续 `python3` 替换为同一 Python 解释器。优先检查 Release 上的 ZIP SHA-256 与下载文件一致。包内 `PACKAGE-MANIFEST.json` 列出文件大小与 SHA-256，安装器会逐项验证；清单证明内容一致，不代替对下载来源的核对。
+如果目录已存在，使用新的临时目录，不能覆盖用户已有工作。没有 Git 时，可用当前宿主从官方默认分支获取入口文件及所需模块，或按更新目录的固定提交取得完整包；仍核对清单后安装，不用搜索缓存代替当前目录。下载来源固定为本仓库，避免第三方镜像。
+
+Windows 若使用 `py -3`，后续 `python3` 替换为同一 Python 解释器。最新版安装器校验更新目录指定的固定提交、清单 SHA-256 和每个包文件；GitHub 源码 ZIP 压缩字节可能变化，不用历史 ZIP 哈希替代目录中的清单校验。用户指定历史 Release 附件时另核对该附件 SHA-256。包内 `PACKAGE-MANIFEST.json` 列出文件大小与 SHA-256，安装器会逐项验证；清单证明内容一致，不代替对下载来源的核对。
 
 先阅读 `SKILL.md`、本指南和要执行的脚本。目录应有 `VERSION`、`PACKAGE-MANIFEST.json`、`scripts/`、`references/`、`templates/`、`tests/`。
 
-## 2. 安装 Skill 文件
+## 2. 安装公开最新版
 
-先按第 3 节确认原生 MCP 的连接方案。环境已有 Python 时，以下命令在**取到的包根目录**运行，选择一条适用的路径。之后引用脚本时使用实际安装目录，不假设咨询工作目录就是 Skill。
-
-**没有 Python、原生 MCP 可用时**：优先用宿主支持的 Skill ZIP 导入，或用本地文件操作将解压后的 `study-abroad-planner` 文件夹装到下列宿主目录。替换前把旧文件夹完整移到活动 `skills` 目录之外，按清单核对来源文件与目标文件的大小及 SHA-256；校验能力不足则不要声称校验通过。无需仅为查询再装 Python。之后需要直连或文件导出时，再安装运行环境；未具备脚本环境的验收项明确列为未执行。
+先按第 3 节确认原生 MCP 的连接方案，已有 Python 3.9+ 直接复用。以下命令在刚取得的官方安装入口目录执行，由脚本从当前更新目录选择版本：
 
 Codex：
 
 ```sh
-python3 scripts/install.py --host codex --dry-run
-python3 scripts/install.py --host codex
+python3 scripts/install_latest.py --host codex
 ```
-
-默认目标是 `$CODEX_HOME/skills/study-abroad-planner`，未设置时为 `~/.codex/skills/study-abroad-planner`。
 
 WorkBuddy：
 
 ```sh
-python3 scripts/install.py --host workbuddy --dry-run
-python3 scripts/install.py --host workbuddy
+python3 scripts/install_latest.py --host workbuddy
 ```
 
-默认目标为 `~/.workbuddy/skills/study-abroad-planner`。这是本人的 Skill 包，不覆盖 WorkBuddy 官方“留学顾问｜留洋洋”专家，也不改动其他名称的 Skill。
-
-其他宿主 / 指定目录：
+其他宿主或隔离安装验证：
 
 ```sh
-python3 scripts/install.py --host custom --destination "<宿主要求的最终Skill目录>" --dry-run
-python3 scripts/install.py --host custom --destination "<宿主要求的最终Skill目录>"
+python3 scripts/install_latest.py --host custom --destination "<宿主要求的最终Skill目录>"
 ```
 
-`--destination` 指**最终 Skill 目录**，不是其父目录。Codex / WorkBuddy 覆盖路径时最后一级仍须为 `study-abroad-planner`。
+`--destination` 是最终 Skill 目录，不是父目录。只有用户明确要求只用稳定版时加 `--stable-only`。脚本报告所选版本、通道、安装或当前生效目录及备份；更新目录暂不可用则停止本次安装，不冒称已经取得最新版。
 
-安装器只复制清单内容与清单本身。相同内容不重复改动；更新时先验证暂存包，将旧目录完整保留到独立备份目录，再替换目标。Codex / WorkBuddy 的默认备份位于各自的 `skill-backups` 下，不放在活动 `skills` 目录中，避免发现多个旧 Skill。记录输出中的目标、版本和备份路径。失败停止，不手工删除旧包。不会修改个人 MCP 配置、密钥或其他 Skill。
+**已有安装的处理：** 先核对当前真实生效版本与本地完整性。更高的已有版本保持；本地修改、额外文件、知识丢失或不兼容包拒绝覆盖。已有自动更新入口时只提交新的独立运行版，不替换入口，因此不会破坏原咨询或导致基线变更保护。旧的无自动更新版本只有在清单完整、无自定义差异、兼容且更高版本时才备份迁移。不能为消除错误而直接清空缓存、旧包或用户自定义文件。
 
-按宿主的正常刷新机制重新载入；若当前会话仍缓存旧说明，开一个新会话验证，不强制重启用户的应用。
+默认 Codex 目录为 `$CODEX_HOME/skills/study-abroad-planner`（未配置时 `~/.codex/skills/study-abroad-planner`），WorkBuddy 为 `~/.workbuddy/skills/study-abroad-planner`。不覆盖 WorkBuddy 官方“留学顾问｜留洋洋”，不修改其他 Skill 或个人 MCP 密钥。新版运行目录可能在用户缓存中，安装根 VERSION 是入口版本，验收必须同时记录 actual / effective 版本。
+
+没有 Python、原生 MCP 可用时，可由有文件/校验能力的 Agent 读取当前 updates.json，按同一版本选择规则下载固定提交并核对清单，只复制包清单列出的文件和清单本身。先保留旧包且完成防降级、知识和本地修改检查；能力不足就报告待完成，不强行覆盖。若宿主不支持脚本执行，正常查询仍可用，但不能声称后台自动升级已实际运行。
+
+`install.py` 是安装已指定完整包的底层工具，只用于维护者明确版本的安装和迁移；普通“帮我安装”默认使用上面的 `install_latest.py`。成功后按宿主正常机制重新载入；旧会话缓存说明时开新会话，不强制重启用户应用。
 
 ## 3. 接通查询：先原生 MCP，缺失时 Python 直连
 
@@ -107,6 +109,8 @@ python3 scripts/mcp_client.py doctor --server query --probe
 
 ## 4. 安装验收
 
+以下业务与文件检查在安装器返回的实际 `runtime_path` 中执行，记录 `effective_version`；不能只测试临时入口源码目录就声称安装后的包可用。更新启动和状态检查仍从原安装目录的 `scripts/check_update.py` 执行，避免把版本快照误当成另一个独立安装。
+
 ### A. 离线检查
 
 ```sh
@@ -138,7 +142,7 @@ python3 scripts/check_update.py --status
 python3 scripts/check_update.py --background
 ```
 
-后台模式应立即返回缓存或启动状态，不等待联网。默认缓存 6 小时，离线不影响业务；它只检查和提示，不自动下载执行。需要立即检查时用 `--check`。
+后台模式应立即返回当前 `runtime_path`、`runtime_skill_path` 与 `effective_version`，不等待联网。Agent 读取该运行版说明，并固定用该目录完成本次咨询。默认成功检查缓存 6 小时，离线继续原版；兼容新版在后台下载、校验并供下次触发自动使用。`--status` 不联网，维护时用 `--check` 前台检查并更新，但不绕过服务器要求的限流等待。
 
 ### D. 验收回报
 
@@ -168,12 +172,20 @@ python3 scripts/check_update.py --background
 
 > 帮我检查留学 Skill 的安装、查询连接和通话助手说明。现在不需要开麦或真实拨号，请把已完成与尚未验证的项目分别告诉我。
 
-## 5. 更新与回退
+## 5. 自动更新与保留旧版
 
-检测到新版且用户要求更新时，从同一官方仓库取指定稳定 Release，重新执行校验、安装和验收。别在正在处理的咨询中直接覆盖已加载代码。
+安装此版本后，按 Skill 启动步骤启用后台自动更新，不需要每次询问。正式版只选择更高正式版；试用版允许更高试用版或正式版，不会被旧稳定版降级。新版本必须兼容本机能力与知识保护；发现本地修改则继续使用原内容，交给维护者处理差异。
 
-回退使用安装器给出的旧目录备份：先保留当前目录，再将对应备份恢复到原目标，最后重新载入并验证。不要回退服务端数据、数据库、个人密钥或无关应用配置。需要让旧备份通过新安装器重装时，只有带有效清单的包才适用；早期无清单版本直接恢复完整备份。
+安装目录是稳定入口；自动更新保存到每个安装目录独立的用户缓存下，校验完成才原子切换 `active.json`。当前咨询固定自己的完整运行目录，后续触发采用新版；后台不替换安装根、不改密钥、不重启宿主。入口根 `VERSION` 与实际 `effective_version` 可能不同，验收应记录两者和 `runtime_path`。旧运行目录保留，不设置会删除仍在使用版本的自动清理。
+
+检查或安装失败会保留当前版；不完整下载没有资格成为运行版。已有卡片必须完整保留，增加新卡可自动更新；修改已有卡片内容或迁移功能需单独审核，不靠更高版本号跳过保护。旧会话需要重新载入新版启动说明才能使用此机制，通常开一个新会话即可。
+
+需要人工回退或迁移时先记录 `--status` 返回的状态目录并保留整个目录，再按安装器备份恢复安装根，将原自动更新状态目录完整移到独立备份位置，重新载入并验证。没有确认当前咨询结束时不要移动它的运行目录。不要回退服务端数据、数据库、个人密钥或无关配置。
+
+完整状态、检查间隔和失败处理见 [自动更新运行说明](references/runtime.md#自动更新)。
 
 ## 维护者发布检查
 
 更新 `VERSION`、Skill 元数据与发布文案，重新生成 `PACKAGE-MANIFEST.json` 的大小和 SHA-256（清单不列自身）。仅收录公开 Skill 文件，不含 Git 元数据、Python 缓存、密钥、真实学生数据或本地报告。跑完离线测试与一次必要在线探测后打版本标签，上传 ZIP 并校验实际下载内容。
+
+自动发布还须维护仓库根 `updates.json`：schema_version=1、repository=`luluchu857/study-abroad-planner`，channels.stable / channels.pilot 分别指向版本、固定 40 位提交 SHA 与包清单 SHA-256。可以同时固定归档大小和 SHA-256；先提交完整包，再校验该不可变提交的实际下载，最后更新目录。试用版只放 pilot，稳定版拒收预发布版本。现有入口协议为 v1；不兼容的未来入口升级需要独立迁移，不能在后台执行未知安装程序。更新目录与下载来源均固定官方仓库，不引入第三方镜像。

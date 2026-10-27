@@ -550,7 +550,7 @@ class UpdateTests(TemporaryTest):
     def test_cli_missing_version_returns_json_success_and_no_spawn(self):
         with mock.patch.object(updates, "__file__", str(self.base / "scripts/check_update.py")), \
                 mock.patch.object(updates.subprocess, "Popen") as popen, contextlib.redirect_stdout(io.StringIO()) as output:
-            self.assertEqual(updates.main(["--background", "--cache-dir", str(self.cache)]), 0)
+            self.assertEqual(updates.legacy_main(["--background", "--cache-dir", str(self.cache)]), 0)
         self.assertEqual(json.loads(output.getvalue())["status"], "error")
         popen.assert_not_called()
 

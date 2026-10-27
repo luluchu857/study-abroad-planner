@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "capabilities": [
+    "program-research",
+    "anonymous-admission-evidence",
+    "budget-and-timeline",
+    "materials-essays-interviews-offers",
+    "editable-plan-export",
+    "native-mcp-first",
+    "python-mcp-fallback",
+    "advisor-web-entry",
+    "voice-helper-guidance",
+    "reviewed-knowledge-cards",
+    "entity-disambiguation",
+    "immutable-runtime-auto-update-v1"
+  ]
+}

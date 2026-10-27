@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Check the official release in the background; never download or replace Skill files.
+"""Skill update entrypoint and shared version/locking helpers.
 
-No network is used by --status. --background reuses a six-hour cache and starts a
-detached worker only when needed. --check performs an explicit foreground check.
-All update failures produce JSON and exit successfully so the Skill can continue.
+The CLI delegates to auto_update.py: background download and verified immutable
+runtimes, with the current consultation pinned to its returned runtime_path.
+Legacy read-only check functions remain for compatibility, not the normal CLI.
 """
 
 import argparse
@@ -354,7 +354,7 @@ def status(directory, current, clock=time.time):
     return _result(cache, current, "cached" if cache else "unknown", now)
 
 
-def main(argv=None):
+def legacy_main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--background", action="store_true")
@@ -380,6 +380,20 @@ def main(argv=None):
                   "update_available": False, "release_url": None}
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     return 0
+
+
+def main(argv=None):
+    sys.dont_write_bytecode = True
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    try:
+        from auto_update import main as activate
+        return activate(argv)
+    except Exception:
+        root = Path(__file__).resolve().parent.parent
+        print(json.dumps({"status": "kept_current", "error": "update_unavailable",
+                          "runtime_path": str(root), "runtime_skill_path": str(root / "SKILL.md")},
+                         ensure_ascii=False, sort_keys=True))
+        return 0
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1266 @@
+{
+  "schema_version": "1.0",
+  "snapshot_version": "pilot-20261027-2",
+  "built_at": "2026-10-27",
+  "scope": "首批 19 张经验方法卡与 7 张官网核对事实卡；经验不等于官方要求。未处理全部 381 篇，未写入远程学校库。",
+  "cards": [
+    {
+      "id": "intake-goals-constraints",
+      "title": "没有留学方向：先确定目标和主要限制",
+      "kind": "method",
+      "topic": "需求定位",
+      "countries": [],
+      "levels": [],
+      "tags": [
+        "留学定位",
+        "留学规划",
+        "没方向",
+        "国家选择",
+        "预算",
+        "学历目标"
+      ],
+      "question_aliases": [
+        "我想留学",
+        "不知道去哪里留学",
+        "想出国但没方向",
+        "留学先准备什么",
+        "帮我选国家"
+      ],
+      "summary": "先明确这次留学要解决什么，再用学段和主要限制筛方向；不要先报一串国家和学校。",
+      "content": "复用学生已提供的信息。完全没有方向时，先问当前学段和留学最想解决的问题；目标说不清时，用升学、转专业、就业等少量选项帮助表达。随后只补影响下一步最大的限制，如全程预算、入学时间或语言准备。目标明确后给出优先方向与排除理由，再查项目。已有具体院校问题时直接查，不重启完整画像；不能将“想留学”自动理解成移民、读硕士或预算充足。",
+      "applies_when": [
+        "学生尚无目标国家或项目",
+        "需要把笼统愿望变成可比较的路径"
+      ],
+      "not_applicable_when": [
+        "只问一个已明确项目的事实条件"
+      ],
+      "next_steps": [
+        "先确认当前学段和主要目标",
+        "补最关键的一项限制",
+        "给出优先方向及下一步查证项"
+      ],
+      "source_label": "留学访谈整理｜2026-06",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-06-03",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "high-school-academic-fit",
+      "title": "美高选择：课程强度与学习支持要匹配",
+      "kind": "method",
+      "topic": "中学选校",
+      "countries": [
+        "US"
+      ],
+      "levels": [
+        "secondary"
+      ],
+      "tags": [
+        "美高",
+        "美国高中",
+        "学术适配",
+        "语言支持",
+        "课程难度",
+        "高压环境"
+      ],
+      "question_aliases": [
+        "孩子成绩普通怎么选美高",
+        "排名越高的高中越好吗",
+        "英语一般适合去美高吗",
+        "不想太卷怎么选美国高中"
+      ],
+      "summary": "基础薄弱且缺少支持时，不宜只为排名进入高压课程；能力强的学生也需要合适的进阶课程。",
+      "content": "先看最近的课程成绩、独立完成作业、课堂表达与压力适应，再查候选学校的课程梯度、学术英语和辅导。基础薄弱、语言尚不能支撑课堂，而学校缺少相应支持时，直接建议暂不选这所学校，先补能力或换支持更充足的学校。能力强且方向明确时，优先有进阶课程和相应资源的学校。艺术体育活动和生活适应也应比较。录取得到不等于学得下来，不能只凭“普娃”标签或排名下判断。",
+      "applies_when": [
+        "比较美国高中或评估课程适应",
+        "家长只按排名或顶尖毕业生去向选校"
+      ],
+      "not_applicable_when": [
+        "没有核对课程和学生能力就按标签排除学校"
+      ],
+      "next_steps": [
+        "了解学习和课堂适应的具体情况",
+        "核对课程、英语辅导与支持方式",
+        "给出适合或不太适合及关键依据"
+      ],
+      "source_label": "顾问培训分享｜2025-11",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-11-26",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "international-student-support",
+      "title": "国际生少不等于更适合：查真实支持",
+      "kind": "method",
+      "topic": "中学选校",
+      "countries": [
+        "US"
+      ],
+      "levels": [
+        "secondary"
+      ],
+      "tags": [
+        "国际生比例",
+        "中国学生比例",
+        "升学指导",
+        "ESL",
+        "住宿支持",
+        "美国高中"
+      ],
+      "question_aliases": [
+        "中国学生越少越好吗",
+        "国际生很少的学校能去吗",
+        "美高要看哪些服务",
+        "学校有升学指导就够了吗"
+      ],
+      "summary": "用辅导、升学和生活支持的实际安排判断适配，不用国际生比例单独替代学校质量。",
+      "content": "核实谁负责国际生事务、英语与作业辅导如何安排、普通学生能否获得升学指导，以及住宿和紧急情况找谁。国际生少但支持明确、学生能适应，可以考虑；英语和独立生活能力弱而支持不足时，不建议仅为了“中文环境少”选择该校。顶尖毕业生去向只是线索，还要看普通学生获得的支持和整体情况。具体服务查学校当前说明，不由国籍比例推断质量或安全。",
+      "applies_when": [
+        "家长以国际生或中国学生比例为主要选校理由",
+        "评估普通国际学生可获得的支持"
+      ],
+      "not_applicable_when": [
+        "因某国学生多或少直接推断教学质量或安全"
+      ],
+      "next_steps": [
+        "列出学生最需要的两类支持",
+        "核实负责人员和服务范围",
+        "比较支持是否满足需求"
+      ],
+      "source_label": "顾问培训分享｜2025-11",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-11-26",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "application-critical-path",
+      "title": "申请时间线：从最晚到校日倒推",
+      "kind": "method",
+      "topic": "申请时间线",
+      "countries": [],
+      "levels": [],
+      "tags": [
+        "申请时间线",
+        "晚申",
+        "开学",
+        "材料准备",
+        "截止日期",
+        "签证衔接"
+      ],
+      "question_aliases": [
+        "现在申请还来得及吗",
+        "赶得上开学吗",
+        "留学申请怎么排时间",
+        "能等截止前再申请吗"
+      ],
+      "summary": "是否来得及，要看材料、录取条件、签证与到校环节的依赖，不能只看申请截止日。",
+      "content": "先确认入学季和学校允许的最晚到校日，再倒推材料、语言或学术条件、录取处理、接受录取与入境手续。区分学生能加快的任务和学校或主管部门决定的等待，采用当前官方安排及已知进度，不把会议里的几周经验当保证。关键环节已没有可行窗口时，直接说明本季不稳妥，比较下一季或已核实仍能办理的方案。线上能提交不等于能按时到校。",
+      "applies_when": [
+        "临近开学、错过轮次或希望赶当季入学",
+        "制定材料与入境准备顺序"
+      ],
+      "not_applicable_when": [
+        "按历史审理时间承诺录取或签证结果"
+      ],
+      "next_steps": [
+        "核实最晚到校日和各截止点",
+        "列出材料缺口与外部等待",
+        "判断能赶上、有风险或建议换季"
+      ],
+      "source_label": "顾问培训分享｜2025-11",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-11-26",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "cooperative-path-fit",
+      "title": "合作办学与国际本科：明确判断是否值得选",
+      "kind": "method",
+      "topic": "升学路径",
+      "countries": [],
+      "levels": [
+        "bachelor",
+        "foundation"
+      ],
+      "tags": [
+        "合作办学",
+        "国际本科",
+        "计划外",
+        "国内本科",
+        "适合人群",
+        "学习投入"
+      ],
+      "question_aliases": [
+        "我适不适合合作办学",
+        "能上国内本科还要读国际本科吗",
+        "成绩不错要不要走2+2",
+        "国际本科是不是花钱买名校"
+      ],
+      "summary": "按目标文凭、已有国内选择、全程预算和学习投入直接给结论，不把合作项目当无条件进入名校的捷径。",
+      "content": "先问目标是海外学习、特定职业还是单纯校名，再比较已有国内选择与具体项目的结果、成本和条件。已有符合目标的国内本科选择、又不想海外学习，项目增加成本却没有清楚收益时，不建议为校名改走这条路。只想轻松进名校、不愿持续投入英语和专业课，也不太适合。海外目标明确、愿意学习、需要国内过渡且能承担全程预算时，可以认真比较具体项目。先给建议，再解释决定性的依据；这是咨询判断，不宣称学校禁止某成绩层次申请。",
+      "applies_when": [
+        "比较国内本科与国际本科或合作路径",
+        "评估国内过渡后出国是否适合"
+      ],
+      "not_applicable_when": [
+        "只凭分数标签定论",
+        "将讲者偏好说成统一录取资格"
+      ],
+      "next_steps": [
+        "确认目标文凭和已有选择",
+        "核对具体项目的条件与总成本",
+        "给明确建议及会改变建议的条件"
+      ],
+      "source_label": "顾问培训分享（摘要整理）｜2025-12",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-12-12",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "pathway-degree-check",
+      "title": "看项目先核文凭、学籍和升学条件",
+      "kind": "method",
+      "topic": "升学路径",
+      "countries": [],
+      "levels": [
+        "bachelor",
+        "foundation",
+        "top_up"
+      ],
+      "tags": [
+        "国际本科",
+        "合作办学",
+        "文凭",
+        "学籍",
+        "颁证院校",
+        "升学条件",
+        "学历认证"
+      ],
+      "question_aliases": [
+        "2+2最后拿哪里的文凭",
+        "在名校校园上课等于名校学历吗",
+        "国际本科宣传怎么核实",
+        "3+1是不是直接拿本科"
+      ],
+      "summary": "先确认谁招生、谁授课、谁颁证和怎样升读，再评价项目；校园和名称不能代替学历事实。",
+      "content": "把招生主体、授课机构、学籍注册、颁证机构、证书、升读条件及未达标去向分开，逐项查学校或主管部门当前材料。学生必须取得某种文凭，而已核实项目不提供时，直接判定不适合该目标。宣传与书面材料不一致或关键文凭信息无法核实，先不推荐缴费。不能仅凭“计划内/计划外”或“几加几”推断所有项目证书与认证结果；按具体项目和个人学习情况核实。",
+      "applies_when": [
+        "宣传强调名校背景、双文凭或升学保证",
+        "学生对最终证书有明确要求"
+      ],
+      "not_applicable_when": [
+        "未核具体项目就套统一证书或认证结论"
+      ],
+      "next_steps": [
+        "取得项目正式名称和招生文件",
+        "核对颁证与升读条件",
+        "目标不符明确排除，缺证据列具体缺口"
+      ],
+      "source_label": "顾问培训分享（摘要整理）｜2025-12",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-12-12",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "whole-path-budget",
+      "title": "预算看完整路径，奖学金与打工收入分开算",
+      "kind": "method",
+      "topic": "费用预算",
+      "countries": [],
+      "levels": [],
+      "tags": [
+        "留学预算",
+        "总费用",
+        "学费",
+        "生活费",
+        "奖学金",
+        "资金缺口"
+      ],
+      "question_aliases": [
+        "预算够不够留学",
+        "只算学费可以吗",
+        "靠奖学金和打工能读完吗",
+        "2+2比直读便宜多少"
+      ],
+      "summary": "算完全部阶段和必要支出再判断能否承担，不用未获奖学金或未来打工收入填平确定缺口。",
+      "content": "按学年或阶段列学费、住宿生活、保险、交通和已知一次性支出，保留币种、年份与学制，语言和衔接阶段也纳入。奖学金只扣减已确认覆盖的项目与时段，待申请的另列情景，打工收入不作确定资金。必要总支出已明显超过可承担金额且无可靠补足来源时，直接说目前不适合，优先降成本或换路径。余量按实际波动和家庭承受能力商定，不套固定上浮比例。",
+      "applies_when": [
+        "比较国家或升学路径总成本",
+        "判断预算能否持续支持学业"
+      ],
+      "not_applicable_when": [
+        "缺学制或费用年份却给精确总价",
+        "把资金证明最低额当实际花费"
+      ],
+      "next_steps": [
+        "确认预算币种与全程上限",
+        "逐阶段列费用和未知项",
+        "比较情景并明确是否可承担"
+      ],
+      "source_label": "顾问培训分享（摘要整理）｜2025-12",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-12-12",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "community-transfer-fit",
+      "title": "社区大学转学：适合愿意按目标持续修课的人",
+      "kind": "method",
+      "topic": "社区大学转学",
+      "countries": [
+        "US"
+      ],
+      "levels": [
+        "bachelor"
+      ],
+      "tags": [
+        "社区大学",
+        "community college",
+        "2+2转学",
+        "转学规划",
+        "自主学习",
+        "名校目标"
+      ],
+      "question_aliases": [
+        "社区大学适合我吗",
+        "成绩一般能靠社区大学进名校吗",
+        "想通过CC去美国名校",
+        "读社区大学是不是轻松很多"
+      ],
+      "summary": "需要过渡和控制前期成本时可比较这条路径，但不能将入学容易理解为以后转入名校也容易。",
+      "content": "先定目标大学与专业，再看是否愿意持续完成必修课程、保持学业表现并主动核对转学计划。预算或学术准备需要过渡、接受目标调整且愿意执行课程计划时，可以考虑。只接受一所名校、把转学当保录，或不愿跟进选课学习时，不建议作为唯一方案。需要强支持的学生应核实辅导实际怎样提供。整体转学录取比例不能换算为个人机会。",
+      "applies_when": [
+        "评估社区大学到四年制大学的路径",
+        "希望通过转学改善选择或预算"
+      ],
+      "not_applicable_when": [
+        "不核目标专业和协议条件就保证录取"
+      ],
+      "next_steps": [
+        "确认目标专业与可接受备选",
+        "核对学习投入、选课执行与支持需求",
+        "明确适合、需补条件或不宜唯一押注"
+      ],
+      "source_label": "顾问培训分享｜2026-05",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-05-15",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "transfer-agreement-course-map",
+      "title": "转学协议：逐项核对专业、课程和申请动作",
+      "kind": "method",
+      "topic": "社区大学转学",
+      "countries": [
+        "US"
+      ],
+      "levels": [
+        "bachelor"
+      ],
+      "tags": [
+        "TAG",
+        "TAP",
+        "转学协议",
+        "学分转换",
+        "选课",
+        "课程衔接",
+        "社区大学"
+      ],
+      "question_aliases": [
+        "有TAG是不是就稳了",
+        "选够学分就能转学吗",
+        "社区大学学分都能转吗",
+        "TAP等于保证录取吗"
+      ],
+      "summary": "区分协议保证、优先考虑和普通申请，按目标专业逐门核课程与当季要求。",
+      "content": "查目标大学、专业和申请季是否适用协议，再核成绩、必修课、可转学分、材料、截止日期及仍需单独完成的申请。“课程可转”“优先考虑”“有条件保证”“正式录取”分开说。协议不覆盖目标专业时，直接说明它不能保障这个目标，另查普通转学路径。选课前做课程对应表，学期结束按成绩复查；不同学校和协议的门槛不能混用。具体数值查当前官方材料。",
+      "applies_when": [
+        "提到转学协议、TAG、TAP或保底承诺",
+        "准备社区大学选课与转学申请"
+      ],
+      "not_applicable_when": [
+        "缺具体学校专业和申请季就给确定门槛"
+      ],
+      "next_steps": [
+        "取得当季官方协议与课程要求",
+        "建立已修、待修和不确定的对应表",
+        "标清申请动作及未达标的替代路径"
+      ],
+      "source_label": "顾问培训分享｜2026-05",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-05-15",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "learning-support-fit",
+      "title": "自制力不足时，先确认学习支持能否落实",
+      "kind": "method",
+      "topic": "学习适应",
+      "countries": [],
+      "levels": [
+        "secondary",
+        "bachelor",
+        "foundation"
+      ],
+      "tags": [
+        "自制力",
+        "网课",
+        "学习监督",
+        "作业",
+        "学习支持",
+        "出勤"
+      ],
+      "question_aliases": [
+        "孩子不自觉适合出国吗",
+        "全网课会不会学不下来",
+        "有人监督是不是就能毕业",
+        "语言弱能不能先出国再说"
+      ],
+      "summary": "需要持续外部支持而方案只给课程账号或笼统承诺时，目前就不太适合，应先核实支持与学生投入。",
+      "content": "用近期出勤、作业完成、主动求助和时间管理判断支持需求。核实负责人员、作业反馈、学业预警和求助渠道，学生愿意配合再比较方案。学习拖延明显且拒绝配合，不能靠“有人盯着”保证毕业，先改善学习安排或换支持更充分的环境。线上线下都按实际支持评估，不把线上一概说成无效，也不把监督服务当能力替代。",
+      "applies_when": [
+        "担心自律、远程课程或转学适应",
+        "方案以监督辅导作为核心卖点"
+      ],
+      "not_applicable_when": [
+        "仅凭标签认定学生没有学习能力"
+      ],
+      "next_steps": [
+        "核实近期行为与主要困难",
+        "确认支持职责与反馈方式",
+        "说明是否匹配及入读前需补条件"
+      ],
+      "source_label": "顾问培训分享｜2026-05",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-05-15",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "career-resources-evidence",
+      "title": "就业导向选校：查资源能否被你实际使用",
+      "kind": "method",
+      "topic": "就业与选校",
+      "countries": [],
+      "levels": [
+        "bachelor",
+        "taught_master"
+      ],
+      "tags": [
+        "就业目标",
+        "职业导向",
+        "实习机会",
+        "校企合作",
+        "就业率",
+        "校友资源"
+      ],
+      "question_aliases": [
+        "学校合作大企业是不是好找工作",
+        "选排名还是就业",
+        "就业率高我就能找到工作吗",
+        "留学怎么选就业好的专业"
+      ],
+      "summary": "查目标岗位、课程和实习支持怎样衔接，不用企业名单或单个成功故事替代就业判断。",
+      "content": "先定目标岗位，再查相关课程、实践项目、招聘活动与职业辅导是否对该专业和国际学生开放，是否要竞争或另行申请，以及自身语言、技能与经历是否匹配。只有宣传名单、没有可核实的使用路径时，不应因“就业率高”优先推荐。就业率还需查统计群体和口径；个人案例只说明一种做法，不推算个人结果。",
+      "applies_when": [
+        "以毕业就业为主要目标选校",
+        "看到高就业率、名企合作或成功校友宣传"
+      ],
+      "not_applicable_when": [
+        "将获得录取等同于工作资格或就业结果"
+      ],
+      "next_steps": [
+        "明确岗位所需技能与经历",
+        "核实职业资源的实际入口",
+        "分开呈现可用资源、个人差距和未知项"
+      ],
+      "source_label": "招生与在读经验分享｜2025-11",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-11-21",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "career-preparation-early",
+      "title": "求职准备从入学前后开始，不等毕业",
+      "kind": "method",
+      "topic": "就业准备",
+      "countries": [],
+      "levels": [
+        "bachelor",
+        "taught_master"
+      ],
+      "tags": [
+        "求职准备",
+        "职业规划",
+        "简历",
+        "招聘会",
+        "实习",
+        "面试",
+        "校友交流"
+      ],
+      "question_aliases": [
+        "留学后什么时候开始找工作",
+        "一年硕士怎么准备就业",
+        "没有实习先做什么",
+        "怎么用学校career service"
+      ],
+      "summary": "确定目标岗位后，尽早把课程、实践、简历和招聘节奏连起来，先补最影响求职的一项缺口。",
+      "content": "选一个目标岗位，读真实招聘要求，对照已有课程、项目、语言和实践。尽早用职业服务改简历、准备面试、参加相关活动或招聘会，用课程项目或实践补证据，并按反馈调整。没有岗位方向时，先通过课程体验、岗位信息和校友交流缩小范围，不盲投大量无关岗位。工作与实习资格另查现行规则，不因抢进度忽略资格条件。",
+      "applies_when": [
+        "希望准备实习和毕业就业",
+        "不知道如何利用学校职业服务"
+      ],
+      "not_applicable_when": [
+        "把单个成功案例当普遍承诺"
+      ],
+      "next_steps": [
+        "选目标岗位并列证据差距",
+        "找对应职业辅导入口",
+        "完成最关键的简历、项目或面试准备"
+      ],
+      "source_label": "招生与在读经验分享｜2025-11",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2025-11-21",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "visual-development-fit",
+      "title": "视觉开发还是插画：先看想做什么工作",
+      "kind": "knowledge",
+      "topic": "艺术专业选择",
+      "countries": [],
+      "levels": [
+        "bachelor",
+        "taught_master"
+      ],
+      "tags": [
+        "视觉开发",
+        "visual development",
+        "插画",
+        "illustration",
+        "概念设计",
+        "游戏美术",
+        "动画"
+      ],
+      "question_aliases": [
+        "视觉开发和插画有什么区别",
+        "喜欢画角色该选什么专业",
+        "想做游戏原画适合视觉开发吗",
+        "不喜欢团队制作适合视觉开发吗"
+      ],
+      "summary": "视觉开发强调为故事和制作流程解决设计问题；只想完成个人风格画作时，应比较插画等其他方向。",
+      "content": "先看喜欢的是独立画面表达，还是围绕故事设计角色、道具和场景并服务后续制作。培训强调视觉开发设计需能从多角度成立、向三维或动画制作转化，并清楚交代给制作人员。喜欢协作与功能性约束，可优先考察视觉开发；只喜欢个人绘画、不愿调整风格或解释设计，不宜仅因“喜欢画角色”就选它。两者有交叉，最终比较课程和作品要求，不靠名称绝对划分。",
+      "applies_when": [
+        "比较艺术设计方向",
+        "喜欢绘画但没有明确专业目标"
+      ],
+      "not_applicable_when": [
+        "据此断言某学校当前课程、就业需求或入学资格"
+      ],
+      "next_steps": [
+        "了解喜爱的作品类型和工作方式",
+        "比较目标课程与作品集要求",
+        "建议优先方向及验证兴趣的练习"
+      ],
+      "source_label": "艺术专业培训分享｜2026-07",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-07-22",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "art-portfolio-target",
+      "title": "艺术作品集围绕目标任务展示证据",
+      "kind": "method",
+      "topic": "艺术申请",
+      "countries": [],
+      "levels": [
+        "bachelor",
+        "taught_master"
+      ],
+      "tags": [
+        "作品集",
+        "portfolio",
+        "艺术申请",
+        "视觉开发",
+        "设计过程",
+        "专业匹配"
+      ],
+      "question_aliases": [
+        "作品集是不是作品越多越好",
+        "作品集要专精还是多样",
+        "只有好看的图够申请吗",
+        "视觉开发作品集怎么准备"
+      ],
+      "summary": "按目标课程或岗位展示设计过程和解决问题的能力，专精或多样都要服务目标。",
+      "content": "先读目标项目当季作品集要求，再挑能证明能力的作品。视觉开发除成品图，还需解释故事设定、设计选择、不同角度或制作可行性及本人贡献。目标需要专门能力时突出深度；任务范围广或仍探索时展示相关的多种能力，不堆无关作品。讲者偏好多样性属于职业经验，不是所有学校和雇主要求；未查要求不规定统一数量和格式。",
+      "applies_when": [
+        "准备艺术申请或比较作品集方向",
+        "纠结数量、个人风格和专业匹配"
+      ],
+      "not_applicable_when": [
+        "未查项目要求就规定作品数量与格式"
+      ],
+      "next_steps": [
+        "取得当前作品集说明",
+        "写清每件作品的任务、过程和个人贡献",
+        "删去重复或不支持目标的内容"
+      ],
+      "source_label": "艺术专业培训分享｜2026-07",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-07-22",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "scholarship-scope-confirmation",
+      "title": "奖学金：核适用条件和覆盖范围再算净费用",
+      "kind": "method",
+      "topic": "奖学金",
+      "countries": [],
+      "levels": [],
+      "tags": [
+        "奖学金",
+        "学费减免",
+        "奖学金资格",
+        "奖学金期限",
+        "有条件录取",
+        "净费用"
+      ],
+      "question_aliases": [
+        "有录取就一定有奖学金吗",
+        "奖学金能减掉多少总费用",
+        "奖学金只减第一年吗",
+        "语言班和正课奖学金一样吗"
+      ],
+      "summary": "名称相近的奖学金也可能针对不同课程与学期；确认获得前，不当作确定收入。",
+      "content": "核对身份、课程、入学季、直录或打包路径、成绩、是否另申请、接受期限、覆盖费用及持续条件。分开第一年与全学制、学费与住宿、语言与正课阶段。不符合明确条件就直接说这项不适用，再查其他机会；仅满足基本资格只能说可争取，没有获奖确认就不能说已获得。预算同时显示未获奖是否仍能承担，历史会议金额和截止不作现行事实。",
+      "applies_when": [
+        "计算奖学金后预算",
+        "比较奖学金和不同入学路径"
+      ],
+      "not_applicable_when": [
+        "沿用历史金额、比例或截止作为当前事实"
+      ],
+      "next_steps": [
+        "查学校当前条款",
+        "核学生路径和获奖文件",
+        "按确认覆盖范围计算净费用"
+      ],
+      "source_label": "奖学金与住宿培训分享｜2026-04",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-04-28",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "housing-fit-backup",
+      "title": "住宿选择：费用构成、生活能力和备选一起看",
+      "kind": "method",
+      "topic": "行前与生活",
+      "countries": [],
+      "levels": [],
+      "tags": [
+        "住宿",
+        "学生公寓",
+        "包餐",
+        "校内住宿",
+        "住宿申请",
+        "生活能力"
+      ],
+      "question_aliases": [
+        "校内公寓一定能住到吗",
+        "住宿包餐划算吗",
+        "不会做饭怎么选宿舍",
+        "拿到录取就有宿舍吗"
+      ],
+      "summary": "先核住宿申请与房位，再按通勤、包餐和生活能力比总成本，热门住宿要有备选。",
+      "content": "课程录取与住宿申请分别确认，查房位、申请日期、费用包含项、餐饮、通勤及合同条件。不会做饭或独立生活经验少时，包餐与现场支持可能更适配，但要比较真实总价，不只看租金。还在等候名单时保留替代方案；学校有公寓不等于本人已获房位。未成年学生住宿和照护安排另核，不能用旧会议的价格或保障计划代替确认。",
+      "applies_when": [
+        "准备行前住宿或比较校内校外方案",
+        "担心房位和独立生活"
+      ],
+      "not_applicable_when": [
+        "以历史价格、截止或保障计划代替当前确认"
+      ],
+      "next_steps": [
+        "确认申请与房位状态",
+        "比较完整成本和所需支持",
+        "保留条件已核实的备选"
+      ],
+      "source_label": "奖学金与住宿培训分享｜2026-04",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-04-28",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "top-up-credit-fit",
+      "title": "专升本插读：先看课程对应，别先承诺一年完成",
+      "kind": "method",
+      "topic": "专升本与插读",
+      "countries": [],
+      "levels": [
+        "top_up",
+        "bachelor"
+      ],
+      "tags": [
+        "专升本",
+        "top up",
+        "top-up",
+        "插读",
+        "转学分",
+        "跨专业",
+        "大专"
+      ],
+      "question_aliases": [
+        "大专能不能一年升本",
+        "专升本能跨专业吗",
+        "工作经验能抵掉专业课吗",
+        "读了三年大专就能直接读大四吗"
+      ],
+      "summary": "插读阶段要看既有课程与目标专业的对应，大专年限或工作经验不能单独证明可一年完成。",
+      "content": "收集学历类型、成绩单、课程内容和目标专业，核对学校插读与学分评估规则。课程匹配且学校确认可进入相应阶段，才说明学习路径。原专业与目标差距大、又只接受一年完成时，不建议先押注；比较相关方向，或接受补课及更长学制。工作经历能提供能力证据，但能否抵学分或替代学历由项目决定。不能将某校培训条件推及所有学校。",
+      "applies_when": [
+        "大专生考虑海外专升本、插读或转专业",
+        "希望压缩学制"
+      ],
+      "not_applicable_when": [
+        "把某校培训要求推广为所有学校规则"
+      ],
+      "next_steps": [
+        "确认学历类型、课程和目标方向",
+        "核对学分与可插读阶段",
+        "说明可行条件和替代路径"
+      ],
+      "source_label": "院校项目培训分享｜2026-08",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-08-13",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "second-master-purpose",
+      "title": "二硕值不值得：看新增能力与目标收益",
+      "kind": "method",
+      "topic": "研究生路径",
+      "countries": [],
+      "levels": [
+        "taught_master"
+      ],
+      "tags": [
+        "二硕",
+        "第二个硕士",
+        "重复专业",
+        "职业转型",
+        "课程比较",
+        "学习目的"
+      ],
+      "question_aliases": [
+        "已经有硕士还要读二硕吗",
+        "同专业二硕有没有必要",
+        "工作几年想再读一个硕士",
+        "二硕能帮我转行吗"
+      ],
+      "summary": "新旧课程高度重复、又无明确职业或能力收益时，不推荐只为再拿一个学位读二硕。",
+      "content": "对照已有硕士、工作经历与新课程，找出要补的技能、进入的岗位或所需学术训练。能指出新内容及其对目标的作用，才值得继续查资格与成本。内容高度重复而目标不清时，直接建议先核职业和课程需求，不急着申请。学校录取与签证要求分别核实；已有学位不自动证明另一阶段的专业前置条件满足，也不据此预测个人签证结果。",
+      "applies_when": [
+        "已有硕士考虑再读",
+        "希望以二硕实现职业或学术转向"
+      ],
+      "not_applicable_when": [
+        "据此断言个人签证会获批或被拒"
+      ],
+      "next_steps": [
+        "列新旧课程差别",
+        "把新增能力对应到目标",
+        "明确值得继续、暂不建议或需补证据"
+      ],
+      "source_label": "院校项目培训分享｜2026-08",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-08-13",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "study-work-residence-goals",
+      "title": "以就业或移民为目标：分开判断每道条件",
+      "kind": "method",
+      "topic": "留学与长期规划",
+      "countries": [],
+      "levels": [],
+      "tags": [
+        "留学移民",
+        "毕业工签",
+        "工作目标",
+        "移民目标",
+        "长期规划",
+        "家庭安排"
+      ],
+      "question_aliases": [
+        "我留学主要想留下工作",
+        "读个硕士就能移民吗",
+        "为了移民应该选什么专业",
+        "留学带家人怎么规划"
+      ],
+      "summary": "入学、完成学业、工作资格、找到工作和长期居留是不同环节，不能用一个学历承诺整条结果。",
+      "content": "先确认主要目标、学历工作背景、预算、时间与同行家人安排，再分别查课程资格、毕业后工作安排和长期居留的当前官方条件。关键条件已核实不满足，就明确说明该方案当前无法实现相应目标，比较可补条件或其他路径。待生效政策或只有培训说法，不作为已可用条件。找工作还受岗位、语言和能力影响，毕业工签不等于已有工作或居留结果。",
+      "applies_when": [
+        "明确以毕业就业、居留或家庭安排为目标",
+        "比较留学与长期计划是否衔接"
+      ],
+      "not_applicable_when": [
+        "未核个人身份与现行官方规则就作确定资格结论"
+      ],
+      "next_steps": [
+        "确认最主要目标与限制",
+        "分别列学业、工作和居留条件",
+        "给当前可行性及最关键待核项"
+      ],
+      "source_label": "留学访谈整理｜2026-06",
+      "verification_status": "experience_reviewed",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-06-03",
+      "last_verified_at": null,
+      "official_urls": []
+    },
+    {
+      "id": "fact-ucd-biomolecular-ai-2027",
+      "title": "UCD 生物分子数据分析与 AI：项目已确认，该页未列学费",
+      "kind": "official_fact",
+      "topic": "院校专业",
+      "countries": [
+        "IE"
+      ],
+      "levels": [
+        "taught_master"
+      ],
+      "tags": [
+        "UCD",
+        "都柏林大学",
+        "生物",
+        "生命科学",
+        "人工智能",
+        "新专业",
+        "2027",
+        "学费"
+      ],
+      "question_aliases": [
+        "UCD有没有生物和AI结合的硕士",
+        "生物背景能否读数据分析",
+        "UCD F302学费多少"
+      ],
+      "summary": "F302 是 1 年全日制 MSc，页面列出 2027 年 9 月申请入口；该页没有学费数值。",
+      "content": "UCD 的 Biomolecular Data Analytics & AI（F302）为 1 年全日制 MSc、NFQ 9、90 学分，面向生命科学、生物、化学或相关本科背景。官方页面列出 2027 年 9 月入学申请入口。费用栏要求联系学院，不能把会议中的 2026 年理工学费当成此项目的 2027 年报价。是否符合成绩和语言要求仍需按个人背景核对。",
+      "applies_when": [
+        "了解 UCD 生物与数据分析交叉硕士",
+        "拟申请 2027 年入学并比较课程方向"
+      ],
+      "not_applicable_when": [
+        "不能据此认定任何本科专业都可申请",
+        "不能据此给出具体学费或录取结论"
+      ],
+      "next_steps": [
+        "核对本科课程与生命科学背景的关联",
+        "向学院确认目标入学年的学费和具体入学要求"
+      ],
+      "source_label": "UCD 官网｜2027 入学",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-12-26",
+      "official_urls": [
+        "https://hub.ucd.ie/usis/!W_HU_MENU.P_PUBLISH?MAJR=F302&p_tag=COURSE"
+      ]
+    },
+    {
+      "id": "fact-ucd-business-analytics-ai-2027",
+      "title": "UCD 商业分析与 AI：量化背景和 2027/28 学费",
+      "kind": "official_fact",
+      "topic": "院校专业",
+      "countries": [
+        "IE"
+      ],
+      "levels": [
+        "taught_master"
+      ],
+      "tags": [
+        "UCD",
+        "都柏林大学",
+        "商务分析",
+        "商业分析",
+        "Business Analytics",
+        "AI",
+        "2027",
+        "费用",
+        "量化背景"
+      ],
+      "question_aliases": [
+        "UCD商业分析改名了吗",
+        "UCD商业分析2027学费",
+        "商科能不能申请UCD商业分析AI"
+      ],
+      "summary": "官网当前名称为 MSc Business Analytics & AI；2027/28 全日制非欧盟学费为 €26,710。",
+      "content": "官网当前使用 MSc Business Analytics & AI，2027 年 9 月开学，全日制 12 个月。2027/28 学年全日制非欧盟学费为 €26,710，属于学费，不含生活费。课程要求至少二等荣誉本科学位或同等资格并有量化学习内容；商科背景需学过 MIS、数学或其他量化课程，学校可要求 GMAT/GRE。咨询判断：缺少量化课程时，这个项目暂不适合作为稳妥选项，应先核对成绩单。会议称课程更名及代码变化，但旧代码到新代码的对应关系尚未核实。",
+      "applies_when": [
+        "拟申请 UCD 商业分析与 AI 硕士",
+        "比较 2027/28 全日制非欧盟学费",
+        "评估商科或理工背景的量化课程匹配"
+      ],
+      "not_applicable_when": [
+        "费用不能套用欧盟身份、非全日制或其他入学年",
+        "满足最低要求不代表获录取",
+        "不能将咨询匹配判断写成学校拒收规定"
+      ],
+      "next_steps": [
+        "列出数学、统计、MIS、编程等已修课程与成绩",
+        "核对英语及学校对本科学位的等同性认定",
+        "付款前复核该学年收费"
+      ],
+      "source_label": "UCD 商学院官网｜2027/28",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-12-26",
+      "official_urls": [
+        "https://www.smurfitschool.ie/programmes/masters/mscinbusinessanalytics/",
+        "https://www.smurfitschool.ie/programmes/masters/mscinbusinessanalytics/eligibilityfees/"
+      ]
+    },
+    {
+      "id": "fact-hk-ttps-purdue-boundary",
+      "title": "普渡与香港高才：学校在名单，不等于项目自动符合",
+      "kind": "official_fact",
+      "topic": "香港人才政策",
+      "countries": [
+        "HK",
+        "US"
+      ],
+      "levels": [
+        "bachelor"
+      ],
+      "tags": [
+        "高才",
+        "高才通",
+        "香港",
+        "普渡",
+        "Purdue",
+        "西拉法叶",
+        "学位",
+        "B类",
+        "C类"
+      ],
+      "question_aliases": [
+        "读普渡就能拿香港高才吗",
+        "普渡转学项目能不能走高才",
+        "高才是不是毕业就有24个月"
+      ],
+      "summary": "名单列的是 Purdue University - West Lafayette；B/C 类还要核对学士学位、毕业时间和工作经历等条件。",
+      "content": "香港入境处名单列有 Purdue University - West Lafayette（西拉法叶）。B/C 类以合资格大学认可的学士学位为基础：B 类看申请前 5 年内至少 3 年工作经验；C 类看申请前 5 年内毕业、工作经验少于 3 年，并受年度配额等条件限制。B/C 类获批后通常首次逗留 24 个月，申请时不必先有香港工作 offer。仅凭转学项目宣传不能确认资格；名单学校的分校、继续教育等资格亦有排除规定。先核最终颁证单位、学位和个人条件，不能承诺自动获批或落户。",
+      "applies_when": [
+        "以普渡学士或转学路径评估香港高才 B/C 类",
+        "核对项目宣传中的香港身份收益"
+      ],
+      "not_applicable_when": [
+        "不能推定所有 Purdue 名称的校区和项目都适用",
+        "不用于完整判断高才 A 类、续签或永久居民资格"
+      ],
+      "next_steps": [
+        "核对最终学位证及颁证单位的准确名称",
+        "确认毕业年份、毕业后的全职工作年限和申请类别",
+        "申请前复核最新名单与个人适用限制"
+      ],
+      "source_label": "香港入境处官网",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-11-26",
+      "official_urls": [
+        "https://www.immd.gov.hk/eng/services/visas/TTPS.html",
+        "https://www.immd.gov.hk/pdf/aggregate_list.pdf"
+      ]
+    },
+    {
+      "id": "fact-us-uc-tag-boundary",
+      "title": "UC TAG 的保证范围：不包含 UCLA、伯克利和圣地亚哥",
+      "kind": "official_fact",
+      "topic": "转学路径",
+      "countries": [
+        "US"
+      ],
+      "levels": [
+        "bachelor",
+        "transfer"
+      ],
+      "tags": [
+        "社区大学",
+        "TAG",
+        "UC",
+        "UCLA",
+        "伯克利",
+        "Berkeley",
+        "San Diego",
+        "保录",
+        "转学"
+      ],
+      "question_aliases": [
+        "社区大学能保录UCLA吗",
+        "TAG包括伯克利吗",
+        "美国2+2保录名校可靠吗"
+      ],
+      "summary": "UC TAG 只有六个参与校区，必须满足协议要求并另交 UC 申请；UCLA、伯克利和圣地亚哥不在其中。",
+      "content": "UC 官方 TAG 参与校区为 Davis、Irvine、Merced、Riverside、Santa Barbara 和 Santa Cruz。需按所选校区和专业检查资格，完成约定课程、GPA 等要求，并提交 UC 入学申请。UCLA、Berkeley、San Diego 不参加 UC TAG。咨询判断：如果你的目标只接受 UCLA 或伯克利，而且要求确定录取，社区大学转学路径不满足这个要求；可以作为竞争性申请路线，但不能称为这两校的 TAG 保录。",
+      "applies_when": [
+        "评估美国社区大学转 UC 路径",
+        "学生或项目声称 UCLA/伯克利 TAG 保录"
+      ],
+      "not_applicable_when": [
+        "不等于其他转学协议均不存在",
+        "不把某校总体转学录取率当个人录取概率",
+        "不由此推定任何专业都参加 TAG"
+      ],
+      "next_steps": [
+        "确定可接受的目标校区与专业",
+        "查目标入学年的 TAG 条件和专业例外",
+        "把竞争性申请与真正满足条件的 TAG 路径分别列明"
+      ],
+      "source_label": "加州大学招生官网",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-11-26",
+      "official_urls": [
+        "https://admission.universityofcalifornia.edu/admission-requirements/transfer-requirements/uc-transfer-programs/transfer-admission-guarantee-tag.html"
+      ]
+    },
+    {
+      "id": "fact-ie-study-visa-course-gap",
+      "title": "爱尔兰学习签证：跨专业和学业空档需要解释",
+      "kind": "official_fact",
+      "topic": "签证材料",
+      "countries": [
+        "IE"
+      ],
+      "levels": [
+        "bachelor",
+        "taught_master",
+        "doctorate",
+        "foundation"
+      ],
+      "tags": [
+        "爱尔兰",
+        "签证",
+        "跨专业",
+        "学习计划",
+        "空档",
+        "gap",
+        "拒签"
+      ],
+      "question_aliases": [
+        "跨专业去爱尔兰会拒签吗",
+        "爱尔兰签证学习计划怎么写",
+        "毕业多年去爱尔兰读书需要解释吗"
+      ],
+      "summary": "跨专业或有学业空档不能直接判为拒签；官方要求说明转向原因、教育空档及就业经历。",
+      "content": "爱尔兰长期学习签证材料要求：课程与既往教育或就业经历不自然衔接时，解释合理原因，并在可取得时提供证明；从上次全日制学习至申请期间的空档及工作经历也要交代。咨询时先说明为什么选这个课程、已做过哪些相关准备、课程如何服务后续计划，并使用真实材料支持。会议中的拒签案例归纳不能写成新的官方拒签规则；材料齐全也不保证获签。",
+      "applies_when": [
+        "办理爱尔兰长期学习签证",
+        "有跨专业、教育空档或工作后返校经历"
+      ],
+      "not_applicable_when": [
+        "不因年龄、跨专业或空档单独断言必拒",
+        "不能编造工作、学习或职业动机"
+      ],
+      "next_steps": [
+        "整理教育与工作时间线",
+        "找出转专业的真实原因及相应课程、项目或工作证据",
+        "按受理办公室要求检查完整材料"
+      ],
+      "source_label": "爱尔兰移民局官网",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-11-26",
+      "official_urls": [
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/what-are-my-study-visa-options/how-to-apply-for-long-term-study-visa/"
+      ]
+    },
+    {
+      "id": "fact-ie-study-visa-funds",
+      "title": "爱尔兰学习签证资金：解释真实来源与可用性",
+      "kind": "official_fact",
+      "topic": "签证资金",
+      "countries": [
+        "IE"
+      ],
+      "levels": [
+        "bachelor",
+        "taught_master",
+        "doctorate",
+        "foundation"
+      ],
+      "tags": [
+        "爱尔兰",
+        "签证",
+        "资金",
+        "银行流水",
+        "存款",
+        "担保人",
+        "赞助人"
+      ],
+      "question_aliases": [
+        "爱尔兰只交存款证明可以吗",
+        "父母担保爱尔兰签证要什么",
+        "爱尔兰大额入账怎么解释"
+      ],
+      "summary": "常规银行材料路径要求近 6 个月流水，大额或不规则入账需解释；父母担保也要核资金及关系。",
+      "content": "按爱尔兰移民局常规银行材料要求，申请人须提供近 6 个月流水，即使由他人资助。大额或不规则入账须说明来源；存款或储蓄账户还需银行确认资金可提取。由父母等资助时，需说明关系、资助额度及资助人的资金情况，并提供对应材料。不要为凑材料制造流水，也不要认为余额越大越有利。学位课程另有官方认可的教育保证金替代路径，应单独核对，不能把普通存款直接当作该路径。",
+      "applies_when": [
+        "爱尔兰学习签证采用银行流水证明资金",
+        "存在父母资助、大额入账或存款账户"
+      ],
+      "not_applicable_when": [
+        "本卡不提供各类课程的完整最低资金数额",
+        "教育保证金等替代路径须按官方单独确认",
+        "不能把签证最低资金证明等同实际留学预算"
+      ],
+      "next_steps": [
+        "提前整理申请人与资助人的真实账户记录",
+        "为大额入账准备可对应的来源材料",
+        "核对资金可用性及资助关系"
+      ],
+      "source_label": "爱尔兰移民局官网",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-11-26",
+      "official_urls": [
+        "https://www.irishimmigration.ie/coming-to-study-in-ireland/what-are-my-study-options/a-fee-paying-private-primary-or-secondary-school/information-on-student-finances/"
+      ]
+    },
+    {
+      "id": "fact-au-anu-coe-gs",
+      "title": "澳洲 Conditional CoE：学校确认不等于签证保证",
+      "kind": "official_fact",
+      "topic": "签证与入学",
+      "countries": [
+        "AU"
+      ],
+      "levels": [
+        "bachelor",
+        "taught_master"
+      ],
+      "tags": [
+        "澳洲",
+        "澳大利亚",
+        "ANU",
+        "澳国立",
+        "CoE",
+        "Conditional CoE",
+        "有条件",
+        "大四",
+        "GS",
+        "签证"
+      ],
+      "question_aliases": [
+        "拿到Conditional CoE是不是稳过签",
+        "澳国立大四流程",
+        "CoE和签证是什么关系"
+      ],
+      "summary": "以 ANU 为例，CoE 前须通过学校 GS 评估；签证阶段内政部仍会独立评估。",
+      "content": "ANU 官网说明，录取可附学术或英语条件；所有申请人在获得 CoE 前须通过学校的 Genuine Student（GS）评估，签证阶段澳洲内政部还会独立评估。因而 Conditional CoE 不能当作签证保证。应按目标学校、课程和入学季的书面条件核对何时可发 CoE、何时补交毕业及成绩材料；本卡没有核实各校 2027 年大四流程的具体截止日，不提供统一日期或“交七学期成绩就一定可以”的承诺。",
+      "applies_when": [
+        "评估澳洲有条件 CoE 或毕业材料未齐时的入学安排",
+        "ANU 申请人了解学校与签证两层 GS 评估"
+      ],
+      "not_applicable_when": [
+        "ANU 的流程不能直接套用其他澳洲大学",
+        "不能仅因有条件 offer 或 CoE 就判断签证会获批"
+      ],
+      "next_steps": [
+        "核对本人 offer 中的学术和英语条件",
+        "取得学校针对目标入学季的补件要求与期限",
+        "确保学校 GS 与签证材料真实且一致"
+      ],
+      "source_label": "ANU 与澳洲内政部官网",
+      "verification_status": "official_verified",
+      "publication_status": "published",
+      "audience": "public",
+      "as_of": "2026-10-27",
+      "last_verified_at": "2026-10-27",
+      "valid_until": null,
+      "review_due_at": "2026-11-26",
+      "official_urls": [
+        "https://study.anu.edu.au/apply/international-applications/assessment",
+        "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500/genuine-student-requirement"
+      ]
+    }
+  ]
+}
