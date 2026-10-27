@@ -3,9 +3,9 @@
   "repository": "luluchu857/study-abroad-planner",
   "channels": {
     "stable": {
-      "version": "0.9.0",
-      "commit": "ab90f61ef1c1edf3e55aa8348d5e0aaa3e211089",
-      "manifest_sha256": "d0924227863634145de8c05d363f3482c2a67479facc1c72aea86155805fe60f"
+      "version": "0.10.1",
+      "commit": "4a9b9c15fa9bd91e4c2e4993eeba36090344b92f",
+      "manifest_sha256": "10ffedc9ac7fab2e3c78df57bba112e7034e1a4c2816865f64fb360e811a8c4f"
     },
     "pilot": {
       "version": "0.10.0-pilot.5",
