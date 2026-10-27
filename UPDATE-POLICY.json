@@ -12,6 +12,7 @@
     "voice-helper-guidance",
     "reviewed-knowledge-cards",
     "entity-disambiguation",
-    "immutable-runtime-auto-update-v1"
+    "immutable-runtime-auto-update-v1",
+    "advisor-proactive-review"
   ]
 }
