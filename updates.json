@@ -8,9 +8,9 @@
       "manifest_sha256": "d0924227863634145de8c05d363f3482c2a67479facc1c72aea86155805fe60f"
     },
     "pilot": {
-      "version": "0.10.0-pilot.4",
-      "commit": "5faf86ffac7df46d2a9e973e407deec957dcd2e8",
-      "manifest_sha256": "43cdc20d1f4fe0381c7a018be9b53f86d804e32480d70bf4287a02e1259639ad"
+      "version": "0.10.0-pilot.5",
+      "commit": "ac77c984d463f2fda592d9c4f09c195b7e24c052",
+      "manifest_sha256": "5452cd6b898482cd9fef2cd50574911e81f60107babbcf15a420514cabe3c778"
     }
   }
 }
