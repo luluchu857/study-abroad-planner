@@ -1,10 +1,12 @@
 # 留学规划助手 · Study Abroad Planner
 
+当前包为 **0.10.0-pilot.2 试用版**，未作为公开稳定版发布。保留原学校 MCP，新增 19 张经验方法卡与 7 张官网核对事实卡，可用包内查询工具按问题检索；没有处理完全部 381 篇，也没有把这些卡片写入远程学校库。安装使用当前完整包，详情见 [知识查询](references/knowledge-query.md)。
+
 **从选校到申请准备，把留学信息变成可执行的下一步。**
 
 告诉 AI 你的背景、预算和入学目标，它会帮助你比较院校与专业、参考相似背景案例、找出申请差距，整理成可以继续修改的方案；需要时，还能打开在线顾问。
 
-[让 AI 帮我安装](INSTALL.md) · [下载最新版](https://github.com/luluchu857/study-abroad-planner/releases/latest) · [在线顾问](https://hi.xwoork.cn)
+[让 AI 帮我安装](INSTALL.md) · [最新正式版](https://github.com/luluchu857/study-abroad-planner/releases/latest) · [本页试用版](https://github.com/luluchu857/study-abroad-planner/tree/auto-update-pilot-20261027) · [在线顾问](https://hi.xwoork.cn)
 
 ## 你可以得到什么
 
@@ -61,7 +63,7 @@
 
 复制下面这段话给支持本地文件与命令执行的 AI：
 
-> 请安装 https://github.com/luluchu857/study-abroad-planner 。先阅读仓库的 INSTALL.md，选择适合当前应用的安装方式；保留旧版本备份，完成查询连接检查和示例方案导出，并告诉我怎样使用在线顾问与通话助手。安装检查不需要开麦或拨号，缺少 Python 时先使用原生 MCP。告诉我哪些功能已经实测可用、哪些还需要个人授权。
+> 请安装 https://github.com/luluchu857/study-abroad-planner/tree/auto-update-pilot-20261027 的 0.10.0-pilot.2 试用版。先阅读该分支的 INSTALL.md，保留已有试用知识和旧版备份，不要改装更旧的稳定版；完成查询连接、示例方案和自动更新检查。安装检查不需要开麦或拨号，缺少 Python 时先使用原生 MCP。告诉我实际可用的功能与尚缺的授权。
 
 支持 **Codex、WorkBuddy**，其他兼容 Skill 的应用可按说明选择安装目录。首次安装优先配置原生 MCP，已有连接直接复用；原生连接无法安装或只读连接故障时，使用包内的 **Python 直连客户端**访问同一服务。申请助手需要个人授权，换用 Python 不会绕过授权。
 
@@ -69,7 +71,9 @@
 
 ## 保持更新
 
-触发 Skill 时可在后台检查版本；默认 6 小时内复用检测结果，网络慢或离线时继续使用当前版本。检测到的新版会在后续读取状态或下一次使用时提示，更新时保留旧包备份。正在使用的任务不会因为检查更新而被替换。
+每次使用时自动在后台检查；有兼容新版就下载、校验并保留旧版，下一次使用自动采用新版。当前咨询继续使用原来的完整版本，离线、下载失败或 GitHub 暂时限流都不打断咨询。正式版只接收正式更新；试用版可接收更高的试用版或正式版，绝不自动降级。已有知识条目和能力缺失、或者发现本地自定义修改时，会保留当前版本。
+
+正常检查间隔为 6 小时；失败会按较短间隔退避，服务要求等待时遵守其时间。更新目录通过官方 GitHub 静态地址读取，不依赖 GitHub API 匿名查询额度。旧版用户需要先安装一次新入口，随后才能自动升级。需要宿主允许运行包内 Python 脚本；不支持执行脚本的应用仍可正常咨询，更新需要按安装指南处理。
 
 ## 在线顾问
 
@@ -89,4 +93,4 @@
 
 ---
 
-当前包版本：**0.9.0**。查看 [版本变化](CHANGELOG.md)。开发与接入细节见 [安装指南](INSTALL.md)、[运行说明](references/runtime.md) 与 [Python 客户端说明](references/mcp-client.md)。
+当前包版本：**0.10.0-pilot.2**。查看 [版本变化](CHANGELOG.md)。开发与接入细节见 [安装指南](INSTALL.md)、[运行说明](references/runtime.md) 与 [Python 客户端说明](references/mcp-client.md)。
