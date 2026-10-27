@@ -1,29 +1,29 @@
 {
-  "version": "0.10.0-pilot.5",
+  "version": "0.10.1",
   "files": {
     "CHANGELOG.md": {
-      "size": 3528,
-      "sha256": "227c2f2e799f52a2c88c2b3c665b55862f20e6dfecc75017693b289bd938085b"
+      "size": 4639,
+      "sha256": "bb5d018abb52e8724a20e74915b34d9248d54571218cebcf68d412a7464e70c8"
     },
     "INSTALL.md": {
-      "size": 17255,
-      "sha256": "fb75794156440d72cb1a2553c07ee288a784f104160539f65b461d7bf5387eaa"
+      "size": 19077,
+      "sha256": "39d45133ff2ce272d79a1955578dcb323229537253022a0a17d4218f5b7289d0"
     },
     "README.md": {
-      "size": 8201,
-      "sha256": "9fa2588e9005815c6cf603aa279a3d904a5a26961681256350e7f9eef3ea3359"
+      "size": 8540,
+      "sha256": "93edc17c9fa78bc58e083ee0a77e691baafb7b0db49dd964063920450fc75401"
     },
     "SKILL.md": {
-      "size": 20068,
-      "sha256": "047aa708dd4772a7d078d8fbec0bf3e257a0a5617bfacae76268f174e76a8061"
+      "size": 21641,
+      "sha256": "755e30a18897a6e36c62fd25f78077636d9f61a71dbf605b3d0edda6df4fa248"
     },
     "UPDATE-POLICY.json": {
       "size": 527,
       "sha256": "f6c39ed41a11f8b3a3d1b891fe4103af3ab942f31640b1538540aead473a37ac"
     },
     "VERSION": {
-      "size": 15,
-      "sha256": "b0f46104788ef42072f950b3f10c35b69e3d84486fc607684b6d007b77b7f89c"
+      "size": 7,
+      "sha256": "f4d439e0b523208a09d13862c16820cc3028fd94417310ce1d53a31d14d6a2c4"
     },
     "agents/openai.yaml": {
       "size": 827,
@@ -42,28 +42,28 @@
       "sha256": "34eba38c6727b00392b1d493923d1144de7bbdee771dced4f6312b92c0d3873a"
     },
     "references/data-coverage.md": {
-      "size": 2828,
-      "sha256": "28e66123bbc959e7325999c0118a8fb46dfb72aca58b1b66c569f654fcf4c9db"
+      "size": 3493,
+      "sha256": "fb7cbc42422fd7d29826f12ec307a9af84250ca5405fd67cd67a37a011e688ad"
     },
     "references/knowledge-cards.json": {
-      "size": 53659,
-      "sha256": "c9497837f7ca8f0017048ebc1a7a4c3edfc148fd8a3217f0e2d99e5530fa8739"
+      "size": 396977,
+      "sha256": "25a9f51d30e6734db21df549c74baa962b4d4559a309c0848757fa6d7d99f3b1"
     },
     "references/knowledge-query.md": {
-      "size": 2058,
-      "sha256": "a14733fffee18f03996bede747df609aedcab85dbd30007690a1e0f549f18f38"
+      "size": 2925,
+      "sha256": "4a858e44f832b3a0c4a9588f22934211a5b7cd64e31bde92dca38bf7337d5d5e"
     },
     "references/mcp-client.md": {
-      "size": 6339,
-      "sha256": "9b4ae13ef82df6534ecc0c4a533ca2a013edd7b7e21f93464e27d9816d24925f"
+      "size": 6908,
+      "sha256": "98757288b0df42463ef83316ded2dd4582628706f0dceb9187f392ba92531047"
     },
     "references/planning-workflow.md": {
       "size": 7404,
       "sha256": "5fbb1b68df5c4b22c295d4d314a77900594660e221a42c256ecb847a617b02b5"
     },
     "references/runtime.md": {
-      "size": 6778,
-      "sha256": "ded5b5e189554f5ccf30fcd8f61ba9de0daf7b44087d221d85864b894bd7844b"
+      "size": 7773,
+      "sha256": "1ee536d6f34ef873ecdc0c89aecb8823dcf24881d94b356d661b77757cc3629a"
     },
     "references/voice-calling.md": {
       "size": 6441,
@@ -94,12 +94,12 @@
       "sha256": "73b86027d04a3f2103ebed20d2b505d6b1cbd230befb56b66be4b5a56e05a851"
     },
     "scripts/knowledge_query.py": {
-      "size": 21872,
-      "sha256": "a531dc317136aee9fd373bbda3c4fb0c7630ba7b35ddf8e3730af67824d24365"
+      "size": 29203,
+      "sha256": "2ea5c4556c3b5cc9c049026f4969db43b5cce8ff66e46a8eb4d48f775b7f3517"
     },
     "scripts/mcp_client.py": {
-      "size": 25601,
-      "sha256": "46d6c18b6fc41398ecbbcee5a4a2d5a77073f550fccbac09f7c9f3a068915316"
+      "size": 25905,
+      "sha256": "db776d2adea5d80f70203f507326a06009dfedc25f58a1808bcc573bd5faf003"
     },
     "scripts/update_feed.py": {
       "size": 16111,
@@ -130,8 +130,8 @@
       "sha256": "b7e8caa14079050ecb194c6c785f0e904219329c19cdc7fe23a7a0e640936cd4"
     },
     "tests/test_mcp_client.py": {
-      "size": 25891,
-      "sha256": "b387a612dd276788a8bd628f3c1a24868eacc99b3d75f95cd72834e960735578"
+      "size": 27521,
+      "sha256": "cda806e735d45434b11fb3f5254f187aead0405ae15c3ab59e75d4efc4fc0443"
     },
     "tests/test_plan.py": {
       "size": 13898,

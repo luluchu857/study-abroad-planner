@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only, standard-library lookup for the bundled local knowledge pilot.
+"""Read-only, standard-library lookup for the bundled reviewed knowledge.
 
 This does not call the deployed school MCP or write to a database. Only public,
 published, reviewed cards are exposed. The data path is fixed for CLI callers;
@@ -46,6 +46,17 @@ COUNTRIES = {
     "ie": "IE", "ireland": "IE", "爱尔兰": "IE",
     "nz": "NZ", "new zealand": "NZ", "新西兰": "NZ",
     "cn": "CN", "china": "CN", "中国": "CN", "中国大陆": "CN",
+    "ch": "CH", "switzerland": "CH", "瑞士": "CH",
+    "de": "DE", "germany": "DE", "德国": "DE",
+    "fr": "FR", "france": "FR", "法国": "FR",
+    "nl": "NL", "netherlands": "NL", "荷兰": "NL",
+    "be": "BE", "belgium": "BE", "比利时": "BE",
+    "es": "ES", "spain": "ES", "西班牙": "ES",
+    "it": "IT", "italy": "IT", "意大利": "IT",
+    "jp": "JP", "japan": "JP", "日本": "JP",
+    "kr": "KR", "korea": "KR", "south korea": "KR", "韩国": "KR",
+    "th": "TH", "thailand": "TH", "泰国": "TH",
+    "ae": "AE", "uae": "AE", "united arab emirates": "AE", "阿联酋": "AE",
 }
 LEVELS = {
     "高中": "high_school", "中学": "high_school", "美高": "high_school", "secondary": "high_school", "high_school": "high_school",
@@ -68,6 +79,15 @@ SYNONYMS = (
 STOP_TERMS = set("学生 学校 大学 留学 申请 专业 情况 问题 这个 那个 这些 那些 现在 目前 可以 是否 怎么 如何 什么 哪些 需要 建议 适合 可能 一些 一般 比较 知道 信息 要求 选择 学习 准备 考虑 进行 相关 关于 以及 帮我 请问 我想 想要 能不能 不能 能不 能否 有没有 不足 的话 时候 还是 自己 一个 方面 结果 内容 方法".split())
 STOP_EN = set("the and for with can could should would want study abroad a an of in to is are i my me on at how what which please".split())
 GENERAL_FACT_TAGS = {"学费", "费用", "预算", "总费用", "生活费", "申请", "要求", "专业", "新专业", "硕士", "本科", "博士", "奖学金", "学校", "大学", "入学", "申请季"}
+POLICY_SCOPE_HINTS = {
+    "CA": ("PGWP", "IRCC", "PAL", "TAL", "CAQ", "GIC", "Visitor Record"),
+    "US": ("CPT", "OPT", "SEVIS", "F-1", "I-20", "DS-160", "TAG"),
+    "UK": ("CAS", "Graduate visa"),
+    "AU": ("CoE", "ANU", "澳国立"),
+    "IE": ("Stamp 1G", "Stamp 4", "CSEP"),
+    "HK": ("高才", "高才通", "IANG", "TTPS"),
+    "NZ": ("Green List", "Teaching Council"),
+}
 # Deliberately small and extendable institution registry. Short "UCD" alone is
 # ambiguous; a full name, location or official host is needed to resolve it.
 SCHOOL_ENTITIES = {
@@ -78,6 +98,46 @@ SCHOOL_ENTITIES = {
     "university-california-davis": {
         "aliases": ("UC Davis", "U.C. Davis", "University of California Davis", "加州大学戴维斯", "加州大学戴维斯分校", "加州大学戴维斯校区"),
         "country": "US", "hosts": ("ucdavis.edu",), "ambiguous_aliases": ("ucd",),
+    },
+    "university-western-australia": {
+        "aliases": ("University of Western Australia", "西澳大学"),
+        "country": "AU", "hosts": ("uwa.edu.au",), "ambiguous_aliases": ("uwa",),
+    },
+    "university-west-alabama": {
+        "aliases": ("University of West Alabama", "西阿拉巴马大学"),
+        "country": "US", "hosts": ("uwa.edu",), "ambiguous_aliases": ("uwa",),
+    },
+    "university-san-francisco": {
+        "aliases": ("University of San Francisco", "旧金山大学"),
+        "country": "US", "hosts": ("usfca.edu",), "ambiguous_aliases": ("usf",),
+    },
+    "university-south-florida": {
+        "aliases": ("University of South Florida", "南佛罗里达大学"),
+        "country": "US", "hosts": ("usf.edu",), "ambiguous_aliases": ("usf",),
+    },
+    "university-canberra": {
+        "aliases": ("University of Canberra", "堪培拉大学"),
+        "country": "AU", "hosts": ("canberra.edu.au",), "ambiguous_aliases": ("uc",),
+    },
+    "university-canterbury": {
+        "aliases": ("University of Canterbury", "坎特伯雷大学"),
+        "country": "NZ", "hosts": ("canterbury.ac.nz",), "ambiguous_aliases": ("uc",),
+    },
+    "university-cincinnati": {
+        "aliases": ("University of Cincinnati", "辛辛那提大学"),
+        "country": "US", "hosts": ("uc.edu",), "ambiguous_aliases": ("uc",),
+    },
+    "university-california-system": {
+        "aliases": ("University of California", "加州大学"),
+        "country": "US", "hosts": ("universityofcalifornia.edu",), "ambiguous_aliases": ("uc",),
+    },
+    "fairleigh-dickinson-vancouver": {
+        "aliases": ("Fairleigh Dickinson Vancouver", "Fairleigh Dickinson University Vancouver", "FDU Vancouver", "菲尔莱狄更斯大学温哥华", "菲尔莱狄更斯大学加拿大"),
+        "country": "CA", "hosts": (), "ambiguous_aliases": ("fdu", "fairleigh dickinson university", "菲尔莱狄更斯大学"),
+    },
+    "fairleigh-dickinson-us": {
+        "aliases": ("Fairleigh Dickinson New Jersey", "FDU New Jersey", "菲尔莱狄更斯大学美国"),
+        "country": "US", "hosts": (), "ambiguous_aliases": ("fdu", "fairleigh dickinson university", "菲尔莱狄更斯大学"),
     },
 }
 
@@ -127,6 +187,16 @@ def _expand_query(query: str) -> str:
         # Route a domestic/overseas study-path question to comparison methods;
         # this does not certify any specific programme as approved joint study.
         extra.append("国际本科")
+    if re.search(r"先修|数学|编程",query) and re.search(r"没修|没学|没有|缺|补",query):
+        extra.extend(("先修课程", "补修", "跨专业"))
+    if "实习" in query and re.search(r"工资|发钱|发薪|报酬|带薪|无薪",query):
+        extra.extend(("带薪实习", "企业工资", "补助"))
+    if re.search(r"学位|毕业|读完|项目",query) and re.search(r"注册|执业|治疗师",query):
+        extra.extend(("职业资格", "职业注册", "专业认证", "首次执业"))
+    if re.search(r"网上|在线|网课|线上",query) and re.search(r"工签|工作签|居留",query):
+        extra.extend(("混合授课", "实际境外学习时间"))
+    if re.search(r"读书|留学",query) and "移民" in query:
+        extra.extend(("留学目标", "毕业工作", "居留资格"))
     return query + (" " + " ".join(extra) if extra else "")
 
 
@@ -142,20 +212,38 @@ def _school_entities(text: str, urls=(), country=""):
     for key, entity in SCHOOL_ENTITIES.items():
         if any(_mentions(text, alias) for alias in entity["aliases"]):
             found.add(key)
-        if country == entity["country"] and any(_mentions(text, alias) for alias in entity["ambiguous_aliases"]):
-            found.add(key)
         for url in urls:
             host = (urlsplit(url).hostname or "").casefold()
             if any(host == h or host.endswith("." + h) for h in entity["hosts"]):
                 found.add(key)
+    # A country only resolves an abbreviation when exactly one registered
+    # entity in that country uses it (USF + US still names two universities).
+    aliases = {a for e in SCHOOL_ENTITIES.values() for a in e["ambiguous_aliases"]}
+    for alias in aliases:
+        if not _mentions(text, alias):
+            continue
+        candidates = {k for k, e in SCHOOL_ENTITIES.items()
+                      if alias in e["ambiguous_aliases"] and e["country"] == country}
+        if len(candidates) == 1:
+            found.update(candidates)
     return found
 
 
 def _ambiguous_school_aliases(query: str, resolved):
-    if resolved:
-        return []
     aliases = {a for e in SCHOOL_ENTITIES.values() for a in e["ambiguous_aliases"]}
-    return sorted(a.upper() for a in aliases if _mentions(query, a))
+    unresolved = []
+    for alias in aliases:
+        if not _mentions(query, alias):
+            continue
+        # UC in "UC Davis" is part of an explicit resolved name, rather than
+        # a second unresolved institution mentioned alongside it.
+        if any(_norm(full) != _norm(alias) and _mentions(full, alias) and _mentions(query, full)
+               for key in resolved for full in SCHOOL_ENTITIES[key]["aliases"]):
+            continue
+        candidates = {k for k, e in SCHOOL_ENTITIES.items() if alias in e["ambiguous_aliases"]}
+        if len(resolved & candidates) != 1:
+            unresolved.append(alias.upper() if alias.isascii() else alias)
+    return sorted(unresolved)
 
 
 def _query_scope(query: str):
@@ -177,11 +265,23 @@ def _query_scope(query: str):
 
 def _subject_anchor(card: dict, query: str, country: str = "") -> bool:
     """A general fee question must not surface an arbitrary university's fee fact."""
-    if card["verification_status"] == "official_verified" and card["topic"].startswith("签证"):
-        if not (country and country in card["countries"]) and not re.search(r"签证|visa|\bcoe\b|\bgs\b", query, re.I):
+    if card["verification_status"] == "official_verified" and card["topic"] != "院校专业":
+        countries = {COUNTRIES.get(c.casefold(), c.upper()) for c in card["countries"]}
+        explicit_country, _ = _query_scope(query)
+        scoped = bool((country and country in countries) or (explicit_country and explicit_country in countries))
+        named_policy = any(_mentions(query, hint) for cc in countries for hint in POLICY_SCOPE_HINTS.get(cc, ()))
+        if countries and not (scoped or named_policy):
             return False
     if card["verification_status"] != "official_verified" or card["topic"] != "院校专业":
         return True
+    entities=_school_entities(" ".join((card['title'],*card['tags'])),card['official_urls'])
+    if entities:
+        # A subject such as AI or biology does not identify a university.
+        # Explicit names, ambiguous school abbreviations (reported separately),
+        # and a specific course code may surface its school card.
+        return any(_mentions(query,a) for key in entities for a in
+                   (*SCHOOL_ENTITIES[key]['aliases'],*SCHOOL_ENTITIES[key]['ambiguous_aliases'])) or any(
+                       re.fullmatch(r'[A-Za-z]{1,4}[0-9]{2,6}',tag) and _mentions(query,tag) for tag in card['tags'])
     nq = _norm(query)
     return any(_norm(tag) in nq for tag in card["tags"]
                if len(_norm(tag)) >= 2 and _norm(tag) not in GENERAL_FACT_TAGS
@@ -272,8 +372,10 @@ class KnowledgeStore:
     def __init__(self, path=DEFAULT_DATA, today=None):
         self.path = Path(path)
         self.today = today or _today()
+        self.snapshot_metadata = {}
 
     def _load(self):
+        self.snapshot_metadata = {}
         try:
             if self.path.stat().st_size > MAX_DATA_BYTES:
                 return None, "snapshot_invalid"
@@ -284,6 +386,12 @@ class KnowledgeStore:
             ids = [c.get("id") for c in cards if isinstance(c, dict)]
             if any(not isinstance(i, str) for i in ids) or len(ids) != len(set(ids)):
                 return None, "snapshot_invalid"
+            if isinstance(payload, dict):
+                version, built = payload.get("snapshot_version"), payload.get("built_at")
+                if isinstance(version, str) and re.fullmatch(r"[A-Za-z0-9._-]{1,80}", version):
+                    self.snapshot_metadata["snapshot_version"] = version
+                if built and _date(built):
+                    self.snapshot_metadata["snapshot_date"] = built
             published = []
             for card in cards:
                 if not isinstance(card, dict):
@@ -301,8 +409,9 @@ class KnowledgeStore:
             return None, "snapshot_invalid"
 
     def _response(self, **kwargs):
-        return {**kwargs, "meta": {"source": "local_knowledge_pilot", "as_of": self.today.isoformat(),
-                "scope": "本地试点知识快照；不是已部署的远程学校 MCP。经验卡不属于学校官方要求。"}}
+        return {**kwargs, "meta": {"source": "bundled_study_abroad_knowledge", "as_of": self.today.isoformat(),
+                **self.snapshot_metadata,
+                "scope": "随包已审核知识快照；经验方法不是学校官方要求，核验范围与日期以每条为准。"}}
 
     def get(self, card_id: str):
         if not isinstance(card_id, str) or not ID_RE.fullmatch(card_id):
@@ -341,6 +450,18 @@ class KnowledgeStore:
         cards, error = self._load()
         if error:
             return self._response(error=error, results=[], count=0)
+        if ambiguous_aliases:
+            candidates=[]
+            for key,entity in SCHOOL_ENTITIES.items():
+                if cc and entity['country'] != cc:
+                    continue
+                if any(a.casefold() in {x.casefold() for x in ambiguous_aliases} for a in entity['ambiguous_aliases']):
+                    candidates.append({'institution':entity['aliases'][0],'country':entity['country']})
+            response=self._response(error='ambiguous_institution',results=[],count=0,
+                institution_candidates=candidates,
+                clarification='先确认完整校名、国家或具体项目链接；确认前不报某校学费、截止日或适配结论，也不用“如果是某校”预先报价。')
+            response['meta'].update(ambiguous_school_aliases=ambiguous_aliases,needs_institution_clarification=True)
+            return response
         docs = []
         for card, aliases in cards:
             countries = {COUNTRIES.get(x.casefold(), x.upper()) for x in card["countries"]}
@@ -408,7 +529,7 @@ def get(card_id: str):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="查询本地试点知识快照（只读，不是远程学校 MCP）")
+    parser = argparse.ArgumentParser(description="查询随包已审核知识快照（只读，不是远程学校 MCP）")
     sub = parser.add_subparsers(dest="command", required=True)
     find = sub.add_parser("search")
     find.add_argument("--query", required=True)

@@ -6,7 +6,20 @@
 
 若当前连接的留学服务实际提供 `search_knowledge` / `get_knowledge`，先读它们的 schema 后调用。只有工具名相似、或文档列出名称，不等于已安装或已部署。
 
-没有这两项工具时，使用随包的本地知识快照：
+宿主目录没有这两项工具时，先用包内客户端发现同一查询服务的当前目录；有些宿主需要重新连接才会刷新工具：
+
+```sh
+python3 <skill>/scripts/mcp_client.py list-tools --server query
+```
+
+目录确实包含知识工具后，按其实际参数调用：
+
+```sh
+python3 <skill>/scripts/mcp_client.py call --server query --tool search_knowledge --args-json '{"query":"合作办学是否适合我","limit":3}'
+python3 <skill>/scripts/mcp_client.py call --server query --tool get_knowledge --args-json '{"card_id":"<搜索实际返回的id>"}'
+```
+
+不要把这里示例的尖括号当真实ID。客户端沿用原查询服务的只读权限、PoW和频率限制；遇到拒绝或限流，不换路径重复请求。旧服务没有知识工具，或者按启动规则确认远程不可用时，使用随包本地快照：
 
 ```sh
 python3 <skill>/scripts/knowledge_query.py search --query '合作办学是否适合我' --limit 3
@@ -25,4 +38,4 @@ python3 <skill>/scripts/knowledge_query.py get --id <搜索实际返回的id>
 - 用户问当前政策，必要时补查现行官网；过期、冲突或待核内容不能当当前事实。
 - 没有命中就继续原学校查询或一般方法，并说明具体缺口；不自行修改快照、扩大受众权限或搜私人审核文件补答案。
 
-源文件与原文定位只在内部审核档案保留，公共快照不含私人路径、学生身份或商业返佣内容。本地快照是首批经过审查的内容，不能宣称全部 381 篇已转换或全部学校信息已核实。
+源文件与原文定位只在内部审核档案保留，公共快照不含私人路径、学生身份或商业返佣内容。以实际返回的快照版本、覆盖说明和每条核验范围为准：会议被审阅不等于所有口述事实已获官方确认，未发表的候选也不是可查询的事实。

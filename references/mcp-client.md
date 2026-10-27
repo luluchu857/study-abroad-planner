@@ -19,7 +19,7 @@ Windows 可将 `python3` 换成已安装的 `python`。`--args-file 文件名.js
 - `query` 固定访问 `https://hi.xwoork.cn/info/mcp`，保持匿名，不读取或发送助手密钥。
 - `assist` 固定访问 `https://hi.xwoork.cn/assist/mcp`，需要运行环境中的 `LIUXUE_API_KEY`，或显式传入 `--key-file 私密文件`。不支持命令行直接写出密钥。POSIX 下文件必须属于本人、是普通文件且无组/其他用户权限（建议 `600`），拒绝符号链接；Windows 下应自行使用私密用户目录及文件权限。
 - 输出为 JSON；成功退出码 `0`，服务错误、参数错误或调用失败为非零。`ok` 表示本次协议/工具调用成功，不代表录取、材料登记或学校递交成功。
-- `doctor` 默认只初始化、发现工具并确认本版必需的只读工具齐全；缺少工具就报告失败。`--probe` 仅用于查询服务，另做合成分数 `85` 的绩点换算及 `limit=1` 的专业查询，校验换算方法/数值、结果条数与项目字段，空对象或工具错误不算通过。专业查询可正常返回零条结果；不查询学生资料、不调用递交工具。它不验证顾问网页交互；匿名查询通过不代表助手已授权。
+- `doctor` 默认只初始化、发现工具并确认原有核心只读工具齐全；缺少核心工具就报告失败。`features.knowledge` 仅在目录同时包含 `search_knowledge`、`get_knowledge` 时为真；旧服务缺少知识扩展不影响核心查询诊断通过。`--probe` 仅用于查询服务，另做合成分数 `85` 的绩点换算及 `limit=1` 的专业查询，校验换算方法/数值、结果条数与项目字段，空对象或工具错误不算通过。专业查询可正常返回零条结果；不查询学生资料、不调用递交工具。它不验证顾问网页交互；匿名查询通过不代表助手已授权。
 
 助手示例（先通过自己的安全方式提供个人密钥）：
 
@@ -27,6 +27,8 @@ Windows 可将 `python3` 换成已安装的 `python`。`--args-file 文件名.js
 python3 scripts/mcp_client.py list-tools --server assist --key-file /path/to/private-key
 python3 scripts/mcp_client.py call --server assist --key-file /path/to/private-key --tool open_advisor --args-json '{}'
 ```
+
+`open_advisor` 仅取得入口。按主 Skill 的顾问触发规则完成解答和相应免费评估／在线免费申请引导后，由宿主打开或恢复显示咨询页；已有页面且可见时直接复用，不重复创建。没有助手授权也可打开固定公共入口，取得网址或返回 queued / pending 均不代表页面已经显示。不会自动发送学生背景、方案或材料。
 
 这里的私密文件路径只是示例；不要把真实密钥、学生材料或背景参数放进公共仓库。客户端拒绝所有 HTTP 重定向，避免将 Authorization、会话或业务参数转发到其他地址；错误信息不打印 HTTP 响应正文或密钥，正常结果也会遮蔽当前密钥的原文回显。
 

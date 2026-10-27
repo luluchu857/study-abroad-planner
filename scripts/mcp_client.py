@@ -25,11 +25,16 @@ ENDPOINTS = {
     'assist': 'https://hi.xwoork.cn/assist/mcp',
 }
 VERSIONS = ('2025-06-18', '2025-03-26')
-READ_TOOLS = {
+CORE_READ_TOOLS = {
     'query': frozenset(('search_programs', 'get_program', 'compare_programs',
         'match_cases', 'recommend_tiers', 'assess_schools', 'shortlist_programs',
         'rankings', 'scholarships', 'estimate_cost', 'visa_checklist', 'convert_gpa')),
     'assist': frozenset(('material_checklist', 'essay_assist', 'plan_timeline', 'open_advisor')),
+}
+KNOWLEDGE_TOOLS = frozenset(('search_knowledge', 'get_knowledge'))
+READ_TOOLS = {
+    'query': CORE_READ_TOOLS['query'] | KNOWLEDGE_TOOLS,
+    'assist': CORE_READ_TOOLS['assist'],
 }
 WRITE_TOOL = 'submit_to_hri'
 MAX_RESPONSE = 2 * 1024 * 1024
@@ -387,7 +392,9 @@ class MCPClient:
                   'tool_count': len(tools), 'tool_names': [t.get('name') for t in tools if isinstance(t, dict)],
                   'checks': {'initialize': True, 'tools_list': True}}
         available = {name for name in result['tool_names'] if isinstance(name, str)}
-        missing = sorted(READ_TOOLS[self.server] - available)
+        missing = sorted(CORE_READ_TOOLS[self.server] - available)
+        if self.server == 'query':
+            result['features'] = {'knowledge': KNOWLEDGE_TOOLS <= available}
         result['checks']['required_tools'] = not missing
         if missing:
             return {**result, 'ok': False, 'error': 'required_tools_missing',

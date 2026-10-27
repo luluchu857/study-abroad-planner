@@ -336,6 +336,32 @@ class MCPClientTests(unittest.TestCase):
         self.assertNotIn('convert_gpa', result['checks'])
         self.assertEqual(len(opener.history), 3)
 
+    def test_knowledge_capability_requires_both_tools_without_breaking_core(self):
+        for extra, enabled in (([], False), (['search_knowledge'], False),
+                               (sorted(mcp.KNOWLEDGE_TOOLS), True)):
+            with self.subTest(extra=extra):
+                names = sorted(mcp.CORE_READ_TOOLS['query']) + extra
+                opener = Opener(pages=[{'tools': [{'name': name} for name in names]}])
+                result = mcp.MCPClient(opener=opener).doctor()
+                self.assertTrue(result['ok'])
+                self.assertEqual(result['features']['knowledge'], enabled)
+
+    def test_knowledge_calls_use_query_client_and_preserve_results(self):
+        for name, args in (('search_knowledge', {'query': 'UCD', 'limit': 3}),
+                           ('get_knowledge', {'card_id': 'synthetic-card'})):
+            with self.subTest(name=name):
+                data = {'cards': [{'id': 'synthetic-card', 'conditions': ['specific route only']}]}
+                opener = Opener(results=[tool(data)])
+                result = mcp.MCPClient(opener=opener).call_tool(name, args)
+                self.assertFalse(result['is_error'])
+                self.assertEqual(result['result'], data)
+                calls = [p['params'] for _, p, _ in opener.history if p['method'] == 'tools/call']
+                self.assertEqual(calls[0]['name'], name)
+                self.assertEqual(calls[0]['arguments'], args)
+                self.assert_error('unsupported_tool',
+                    mcp.MCPClient(server='assist', api_key='synthetic', opener=Opener()).call_tool,
+                    name, args)
+
     def test_doctor_rejects_empty_and_invalid_gpa_results(self):
         for result in ({}, {'results': []},
                        {'input': 85, 'from': 'percent', 'results': [{'method': 'bad', 'result': '3.7'}]},
