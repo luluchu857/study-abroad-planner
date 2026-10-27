@@ -1,29 +1,29 @@
 {
-  "version": "0.10.0-pilot.4",
+  "version": "0.10.0-pilot.5",
   "files": {
     "CHANGELOG.md": {
-      "size": 3046,
-      "sha256": "3d2f274197a6851d3ee3cc75ef3e1e843fcf96874d56beb78d16363146bf9f7c"
+      "size": 3528,
+      "sha256": "227c2f2e799f52a2c88c2b3c665b55862f20e6dfecc75017693b289bd938085b"
     },
     "INSTALL.md": {
       "size": 17255,
       "sha256": "fb75794156440d72cb1a2553c07ee288a784f104160539f65b461d7bf5387eaa"
     },
     "README.md": {
-      "size": 7702,
-      "sha256": "d0d4d058844f3aa99ffaf5f5120db419ade7b7f944db7c481f4bbb6fa442e007"
+      "size": 8201,
+      "sha256": "9fa2588e9005815c6cf603aa279a3d904a5a26961681256350e7f9eef3ea3359"
     },
     "SKILL.md": {
-      "size": 18015,
-      "sha256": "e77a79059f7d5b81766b93665db527b63c53655dae697e3ea604b1fe12f995b3"
+      "size": 20068,
+      "sha256": "047aa708dd4772a7d078d8fbec0bf3e257a0a5617bfacae76268f174e76a8061"
     },
     "UPDATE-POLICY.json": {
-      "size": 445,
-      "sha256": "6fbc1be2f3c918c111ec56dc6a8e986aba7c1ff50772df77c353d202c8669030"
+      "size": 527,
+      "sha256": "f6c39ed41a11f8b3a3d1b891fe4103af3ab942f31640b1538540aead473a37ac"
     },
     "VERSION": {
       "size": 15,
-      "sha256": "09c362ed34b43be835db37e3232662ec2e50ff5d93be54f469c255a12dcb380b"
+      "sha256": "b0f46104788ef42072f950b3f10c35b69e3d84486fc607684b6d007b77b7f89c"
     },
     "agents/openai.yaml": {
       "size": 827,
@@ -38,8 +38,8 @@
       "sha256": "3d8cdea10cb98ea36cbd45188dd215080743038460034cebea31148b389bdc73"
     },
     "references/advisor-methods.md": {
-      "size": 8279,
-      "sha256": "46280a2f78fa1209f3528f9c68fa307534d9ee175102b9e96644b345e9d36127"
+      "size": 8544,
+      "sha256": "34eba38c6727b00392b1d493923d1144de7bbdee771dced4f6312b92c0d3873a"
     },
     "references/data-coverage.md": {
       "size": 2828,
@@ -58,8 +58,8 @@
       "sha256": "9b4ae13ef82df6534ecc0c4a533ca2a013edd7b7e21f93464e27d9816d24925f"
     },
     "references/planning-workflow.md": {
-      "size": 7233,
-      "sha256": "042a308b269da48f593e23b54c441e6f58182dc463dc98f229de98e4dac0622e"
+      "size": 7404,
+      "sha256": "5fbb1b68df5c4b22c295d4d314a77900594660e221a42c256ecb847a617b02b5"
     },
     "references/runtime.md": {
       "size": 6778,

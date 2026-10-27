@@ -13,6 +13,8 @@
     "reviewed-knowledge-cards",
     "entity-disambiguation",
     "immutable-runtime-auto-update-v1",
-    "advisor-proactive-review"
+    "advisor-proactive-review",
+    "application-guidance-advisor-entry",
+    "contextual-conversation-followup"
   ]
 }
