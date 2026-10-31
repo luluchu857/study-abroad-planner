@@ -8,7 +8,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
-import tempfile
+import test_support as tempfile
 import unittest
 from unittest import mock
 
@@ -289,10 +289,10 @@ class RuntimeTests(unittest.TestCase):
         saved = path.with_name("saved-runtime")
         path.rename(saved)
         try:
-            path.symlink_to(saved, target_is_directory=True)
-        except (OSError, NotImplementedError):
+            tempfile.symlink_or_skip(self, saved, path, target_is_directory=True)
+        except unittest.SkipTest:
             saved.rename(path)
-            self.skipTest("symlinks unavailable")
+            raise
         result = runtime.resolve_runtime(self.base, self.state)
         self.assertEqual(result["status"], "fallback")
         self.assertEqual(result["runtime_path"], first["runtime_path"])
@@ -397,10 +397,7 @@ class RuntimeTests(unittest.TestCase):
         outside = self.temp / "outside"
         outside.mkdir()
         linked = self.temp / "linked"
-        try:
-            linked.symlink_to(outside, target_is_directory=True)
-        except (OSError, NotImplementedError):
-            self.skipTest("symlinks unavailable")
+        tempfile.symlink_or_skip(self, outside, linked, target_is_directory=True)
         result = runtime.resolve_runtime(self.base, linked)
         self.assertEqual(result["error"], "runtime_state_unavailable")
         self.assertEqual(list(outside.iterdir()), [])

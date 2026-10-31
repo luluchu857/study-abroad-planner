@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 import socket
 import sys
-import tempfile
+import test_support as tempfile
 import time
 import unittest
 from unittest import mock
@@ -130,7 +130,7 @@ class MCPClientTests(unittest.TestCase):
         self.assertIsNone(mcp.private_key('query', environ={'LIUXUE_API_KEY': 'synthetic'}))
         self.assert_error('query_is_anonymous', mcp.private_key, 'query', '/never-read')
         self.assert_error('query_is_anonymous', mcp.MCPClient, api_key='synthetic')
-        self.assert_error('api_key_required', mcp.private_key, 'assist', environ={})
+        self.assertIsNone(mcp.private_key('assist', environ={}))
 
     def test_private_key_file_permissions_and_symlink(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -143,7 +143,7 @@ class MCPClientTests(unittest.TestCase):
                 self.assert_error('key_file_unavailable', mcp.private_key, 'assist', path, {})
                 path.chmod(0o600)
                 link = Path(directory) / 'link'
-                link.symlink_to(path)
+                tempfile.symlink_or_skip(self, path, link)
                 self.assert_error('key_file_unavailable', mcp.private_key, 'assist', link, {})
 
     def test_http_401_429_and_redirect_no_retry_or_body_disclosure(self):
@@ -299,6 +299,40 @@ class MCPClientTests(unittest.TestCase):
         result = client.call_tool('submit_to_hri', {'confirmed': False, 'summary': {}}, allow_write=True)
         self.assertEqual(result['submission_status'], 'not_verified_by_client')
         self.assertFalse(result['is_error'])
+
+    def test_intake_read_and_address_queries_do_not_create_or_upload(self):
+        self.assertNotIn('start_intake', mcp.READ_TOOLS['assist'])
+        self.assertNotIn('upload_intake_file', mcp.READ_TOOLS['assist'])
+        for name, args in [('get_intake_status', {'ticket': 'synthetic'}),
+                           ('upload_intake_file', {'ticket': 'synthetic', 'filename': 'a.pdf'})]:
+            with self.subTest(name=name):
+                opener = Opener(results=[tool({'status': 'use_http_put'})])
+                result = mcp.MCPClient(server='assist', api_key='synthetic-key', opener=opener).call_tool(name, args)
+                self.assertFalse(result['is_error'])
+                self.assert_error('unsupported_tool', mcp.MCPClient(opener=Opener()).call_tool, name, args)
+
+    def test_intake_creation_and_file_content_need_authorized_write(self):
+        for name, args in [('start_intake', {}), ('upload_intake_file',
+                            {'ticket': 'synthetic', 'filename': 'a.pdf', 'content_base64': 'YQ=='})]:
+            with self.subTest(name=name):
+                opener = Opener(results=[tool({'status': 'ready'})])
+                client = mcp.MCPClient(server='assist', api_key='synthetic-key', opener=opener)
+                self.assert_error('write_not_allowed', client.call_tool, name, args)
+                self.assertEqual(opener.history, [])
+                result = client.call_tool(name, args, allow_write=True)
+                self.assertFalse(result['is_error'])
+
+    def test_intake_mutation_network_failure_is_unknown_and_never_resent(self):
+        for name, args in [('start_intake', {}), ('upload_intake_file',
+                            {'ticket': 'synthetic', 'filename': 'a.pdf', 'content_base64': 'YQ=='})]:
+            with self.subTest(name=name):
+                opener = Opener(results=[tool({'status': 'ready'})])
+                client = mcp.MCPClient(server='assist', api_key='synthetic-key', opener=opener)
+                client.initialize()
+                with mock.patch.object(client, '_rpc', side_effect=mcp.ClientError('transport_error', 'synthetic')) as rpc:
+                    error = self.assert_error('transport_error', client.call_tool, name, args, allow_write=True)
+                self.assertTrue(error.details['outcome_unknown'])
+                self.assertEqual(rpc.call_count, 1)
 
     def test_write_timeout_outcome_unknown_no_resubmit(self):
         opener = Opener(results=[socket.timeout()])

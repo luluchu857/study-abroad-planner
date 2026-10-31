@@ -9,11 +9,11 @@ import argparse
 import json
 from pathlib import Path
 import sys
-import tempfile
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import install
+import safe_temp
 import update_feed as feed
 import update_runtime as runtime
 
@@ -106,7 +106,7 @@ def install_latest(host, destination=None, stable_only=False, state=None, fetch=
                         effective_version=current_version,
                         runtime_path=selected_runtime["runtime_path"] if selected_runtime else str(target))
 
-    with tempfile.TemporaryDirectory(prefix="study-abroad-latest-") as temporary:
+    with safe_temp.temporary_directory(prefix="study-abroad-latest-", excluded_roots=(Path(__file__).resolve().parents[1], target)) as temporary:
         source = download(entry, Path(temporary).resolve() / "package")
         manifest, raw, digest = runtime._package(source, check_python=True)
         if manifest["version"] != entry["version"] or digest != entry["manifest_sha256"]:

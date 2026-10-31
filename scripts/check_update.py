@@ -9,6 +9,7 @@ Legacy read-only check functions remain for compatibility, not the normal CLI.
 import argparse
 import errno
 import json
+import importlib.util
 import math
 import os
 from pathlib import Path
@@ -82,6 +83,14 @@ def default_cache_dir():
     return Path.home() / ".cache" / "study-abroad-planner"
 
 
+def _directory_installer():
+    spec = importlib.util.spec_from_file_location(
+        "study_abroad_cache_installer", Path(__file__).with_name("install.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _safe_cache_dir(directory, create=False):
     path = Path(os.path.abspath(os.path.expanduser(str(directory))))
     if path == Path(path.anchor):
@@ -90,7 +99,14 @@ def _safe_cache_dir(directory, create=False):
         if component.is_symlink():
             raise OSError("Cache symbolic links are not allowed")
     if create:
-        path.mkdir(mode=0o700, parents=True, exist_ok=True)
+        if os.name == "nt":
+            installer = _directory_installer()
+            try:
+                installer._private_directory(path)
+            except installer.InstallError as error:
+                raise OSError(str(error)) from error
+        else:
+            path.mkdir(mode=0o700, parents=True, exist_ok=True)
     if path.exists() and not path.is_dir():
         raise OSError("Cache path is not a directory")
     return path

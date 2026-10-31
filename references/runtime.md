@@ -1,4 +1,4 @@
-# 运行环境、连接方式与顾问窗口
+# 运行环境、连接方式与联合招生官窗口
 
 安装、工具缺失或切换宿主时阅读本页；日常咨询只向学生说明结果和实际缺项。
 
@@ -12,9 +12,9 @@
 | 服务 | 地址 | 授权 |
 | --- | --- | --- |
 | 查询 | `https://hi.xwoork.cn/info/mcp` | 按当前匿名查询规则 |
-| 申请助手 | `https://hi.xwoork.cn/assist/mcp` | 个人 API Key |
+| 申请助手 | `https://hi.xwoork.cn/assist/mcp` | 学生工具无需 Key（按 IP 限流、建票需 PoW）；`submit_to_hri` 仍需运维发的 Key |
 
-原生连接凭据不会自动交给 Python；直连读取用户明确设置的 `LIUXUE_API_KEY` 或指定密钥文件。不能扫描其他应用的凭据，不向聊天、报告、URL 或公共仓库写密钥。查询可用与助手授权完成是两项独立结果。
+学生不需要配置任何 Key；运维或合作方的 Key 才通过 `LIUXUE_API_KEY` 或指定密钥文件提供，原生连接凭据不会自动交给 Python。旧服务若仍返回需要 Key，记为“申请助手待开放”，照常打开公共咨询页，不向学生索要 Key。不能扫描其他应用的凭据，不向聊天、报告、URL 或公共仓库写密钥。查询可用与助手授权完成是两项独立结果。
 
 只读连接故障最多切换一次直连，保持原业务参数；失败不循环。`401` / `403` 停止同类重试；`429`、配额与过宽查询按返回说明收窄或稍后处理，不属于连接降级。正常 PoW 先处理挑战；超时不自动重发有副作用的操作。不可通过换客户端规避限制。
 
@@ -27,25 +27,20 @@
 
 参考：[OpenAI Skill 依赖](https://developers.openai.com/plugins/build/skills)、[Codex MCP](https://developers.openai.com/codex/mcp/)、[WorkBuddy 专家依赖](https://open.workbuddy.cn/docs/expert)。
 
-## 打开在线顾问
+## 启动与工具选择
 
-触发时机见 `SKILL.md` 的「在线顾问」：先答完当前问题，在学生有疑虑、反复调整方案、方案交付或最终确认等节点自然邀请免费评估；申请或提交问题先说明办理步骤，再引导在线免费申请。需要打开或恢复显示时实际调用宿主工具；已有咨询页且可见时直接复用，不重复创建。同一话题不反复邀请，学生明确不需要时停止主动打开，继续咨询。在线免费申请指所介绍的顾问申请服务，不代表院校申请费、学费或第三方费用免收，也不承诺全部后续服务免费。`open_advisor` 只是返回入口，真正打开窗口的是宿主工具。
+1. 每次触发从原安装目录运行 `python3 <安装目录>/scripts/check_update.py --background`（路径有空格加引号；Windows 用已确认的 Python 3 命令）。它立即返回 `runtime_path`、`runtime_skill_path`、`effective_version`；版本与已加载说明不同才读运行版 `SKILL.md`，且不再递归执行启动步骤。没有执行能力就用当前说明。
+2. 首次安装按 [INSTALL.md](../INSTALL.md) 优先配置原生 MCP；之后每次先用当前已连接的查询 / 申请助手，不因名称相似就假定存在。
+3. 原生 MCP 未加载或只读请求遇到连接 / 协议故障时，用 `scripts/mcp_client.py`，参数与查询范围不变，先发现 schema 再构造参数。
+4. 两条路径都不可用时给明确“未查库”的一般方法，列出待核项；不为一次咨询反复要求安装。
 
-| 宿主 | 操作 |
-| --- | --- |
-| WorkBuddy | 当前可用的 `present_files(cwd=当前目录, explanation="在线沟通", files=["https://hi.xwoork.cn"])` |
-| Codex | 当前可用的 `open_in_codex(target={type:"browser",url:"https://hi.xwoork.cn"}, placement:"right")` |
-| 其他应用 | 使用实际提供的网页打开能力；没有内嵌窗口则给出链接 |
+原生工具遇到 `pow_required` / `pow_invalid`：用根目录 `pow_client.py` 求解服务返回的挑战，同一业务参数带 `pow_session / pow_challenge_id / pow_nonce` 最多重试一次；成功响应的下一挑战可用 `PowPipeline` 预计算。Python 客户端已封装此流程。
 
-助手授权不可用时仍可打开公共入口。工具只有 URL 或返回 queued / pending 不等于页面已显示。可用宿主浏览器工具检查现有标签、页面内容和可见状态；已有顾问标签就复用，按当前浏览器实际支持的接口显示。仍无法确认时，说明请求已排队，不反复创建窗口。入口不携带学生资料，不说已转交背景或附件。不展示不存在的 `guide_url` / `progress_url` 页面。
+## 打开联合招生官
 
-Skill 能说明何时打开页面，永久侧栏按钮仍取决于宿主界面功能；Python 客户端也不会自行增加宿主按钮。
+学生识别码：`python3 <skill>/scripts/student_code.py link`（上传页加 `--upload`）返回本次要打开的地址。第一次会向平台申请 8 位 ID 和 6 位授权码，存到本机私有文件 `~/.liuxue/id`（Windows 在 `%APPDATA%\liuxue\id`），之后复用；地址形如 `https://hi.xwoork.cn/s/<ID>#<授权码>`，授权码在 `#` 后不进服务器日志，页面读取后会从地址栏去掉。平台未开放、限流或离线时返回普通 `/student`，并在本机记下等待时间，不反复请求。`student_code.py ensure` 只返回 ID（不含授权码），供 `start_intake(student_code=…)` 关联交接票。授权码不写进普通回复；没有打开能力需要给学生链接时，可以给完整地址。
 
-## 通话助手使用系统浏览器
-
-咨询入口可在宿主内嵌窗口显示；麦克风明确受限或用户选择助手后，语音助手应在真正的系统浏览器打开 **https://hi.xwoork.cn/voice-helper**。原咨询页保持打开。宿主的内嵌 `open_in_codex` / `present_files` 不等于打开系统浏览器；优先用当前可用的 Chrome / Edge / Safari 能力或“在浏览器打开”，缺少该能力则给用户固定链接，不虚报已经打开。
-
-助手是无需本地安装的 HTTPS 网页，不新增 MCP 连接、不安装 Python 音频程序。按 [通话流程](voice-calling.md) 完成准备配对、原页确认 10 位码、用户启用语音和本次开始 / 接听。原生权限请求 pending 不视为失败。Python 查询客户端、旧 localhost 检测工具与真实通话媒体分别处理，不把查询连接成功当成音频验收。
+触发时机、一句话结尾和拒绝规则以 `SKILL.md`「联合招生官」为准；地址、宿主差异和材料交接见 [联合招生官说明](joint-officer.md)。Skill 能说明何时打开页面，永久侧栏按钮仍取决于宿主界面；Python 客户端不会自行增加宿主按钮。
 
 ## 自动更新
 

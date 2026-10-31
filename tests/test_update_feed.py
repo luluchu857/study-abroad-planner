@@ -7,7 +7,7 @@ import json
 import os
 from pathlib import Path
 import stat
-import tempfile
+import test_support as tempfile
 import unittest
 from unittest import mock
 import urllib.error
@@ -270,17 +270,14 @@ class FeedTests(unittest.TestCase):
             self.download(body, entry)
         self.assertEqual((target / "precious.txt").read_bytes(), b"keep")
         link = self.base / "link"
-        try:
-            link.symlink_to(target, target_is_directory=True)
-        except (OSError, NotImplementedError):
-            return
+        tempfile.symlink_or_skip(self, target, link, target_is_directory=True)
         with self.assertRaisesRegex(feed.FeedError, "invalid_destination"):
             self.download(body, entry, link / "new")
         self.assertFalse((target / "new").exists())
 
     def test_traversal_absolute_wrong_root_and_windows_names_are_rejected(self):
         prefix = "study-abroad-planner-" + COMMIT + "/"
-        paths = [prefix + "../outside", "/absolute", "different-root/extra", prefix + "a\\b", prefix + "CON.txt",
+        paths = [prefix + "../outside", "/absolute", "different-root/extra", prefix + "CON.txt",
                  prefix + "nested/trailing.", prefix + "bad:stream", prefix + "a//b"]
         for path in paths:
             body, entry, unused = package(extras={path: b"unsafe"})
@@ -298,6 +295,23 @@ class FeedTests(unittest.TestCase):
             with self.assertRaises(feed.FeedError):
                 self.download(body, entry)
             self.assertFalse((self.base / "new").exists())
+
+    def test_raw_backslash_zip_member_is_rejected_on_every_platform(self):
+        # ZipInfo normalizes host separators on Windows. Change both stored
+        # headers after writing so the malicious archive bytes are identical.
+        prefix = "study-abroad-planner-" + COMMIT + "/"
+        safe = (prefix + "a-b").encode()
+        unsafe = (prefix + "a\\b").encode()
+        body, entry, unused = package(extras={safe.decode(): b"unsafe"})
+        self.assertEqual(body.count(safe), 2, "local and central filename headers")
+        body = body.replace(safe, unsafe)
+        self.assertEqual(body.count(unsafe), 2)
+        with zipfile.ZipFile(io.BytesIO(body)) as archive:
+            self.assertIn(unsafe.decode(), [item.orig_filename for item in archive.infolist()])
+        entry.update(archive_sha256=hashlib.sha256(body).hexdigest(), archive_size=len(body))
+        with self.assertRaisesRegex(feed.FeedError, "unsafe_archive_path"):
+            self.download(body, entry)
+        self.assertFalse((self.base / "new").exists())
 
     def test_symlink_and_nonregular_members_are_rejected_even_if_unlisted(self):
         for kind in (stat.S_IFLNK, stat.S_IFIFO, stat.S_IFCHR):

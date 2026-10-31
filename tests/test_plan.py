@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
-import tempfile
+import test_support as tempfile
 import unittest
 from unittest.mock import patch
 
@@ -183,7 +183,7 @@ class PlanTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "v1"
             build_plan(plan, output)
-            markdown = (output / "report.md").read_text()
+            markdown = (output / "report.md").read_text(encoding="utf-8")
             self.assertNotIn("[", markdown)
             self.assertNotIn("]", markdown)
             self.assertIn("https://example.invalid/pixel", unescape(markdown))
@@ -255,10 +255,10 @@ class PlanTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "brief"
             build_plan(plan, output, "brief")
-            self.assertNotIn("材料3", (output / "report.html").read_text())
-            self.assertIn("简版", (output / "report.html").read_text())
-            self.assertIn("材料3", (output / "report.csv").read_text())
-            self.assertEqual(len(json.loads((output / "plan.json").read_text())["sections"]["materials"]), 4)
+            self.assertNotIn("材料3", (output / "report.html").read_text(encoding="utf-8"))
+            self.assertIn("简版", (output / "report.html").read_text(encoding="utf-8"))
+            self.assertIn("材料3", (output / "report.csv").read_text(encoding="utf-8"))
+            self.assertEqual(len(json.loads((output / "plan.json").read_text(encoding="utf-8"))["sections"]["materials"]), 4)
 
     def test_xlsx_missing_dependency_is_clear_csv_fallback(self):
         original = builtins.__import__

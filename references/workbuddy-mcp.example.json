@@ -17,37 +17,14 @@
     "liuxue-application-helper": {
       "type": "http",
       "url": "https://hi.xwoork.cn/assist/mcp",
-      "headers": {
-        "Authorization": "Bearer ${LIUXUE_API_KEY}"
-      },
       "x-workbuddy": {
         "displayName": {
           "zh": "留学申请助手",
           "en": "Study Abroad Application Helper"
         },
         "description": {
-          "zh": "个人授权后查看材料、文书与时间线辅助。",
-          "en": "Application preparation with a personal API key."
-        },
-        "auth": {
-          "type": "token",
-          "tokenSchema": {
-            "title": {
-              "zh": "配置个人 API Key",
-              "en": "Configure your API key"
-            },
-            "fields": [
-              {
-                "key": "LIUXUE_API_KEY",
-                "label": {
-                  "zh": "个人 API Key",
-                  "en": "Personal API key"
-                },
-                "type": "password",
-                "required": true
-              }
-            ]
-          }
+          "zh": "材料清单、文书提纲、时间线与联合招生官材料交接，无需配置 Key。",
+          "en": "Materials, essays, timelines and joint admissions officer handoff; no key needed."
         }
       }
     }

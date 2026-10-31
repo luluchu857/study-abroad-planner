@@ -1,49 +1,53 @@
 {
-  "version": "0.10.1",
+  "version": "0.11.0",
   "files": {
     "CHANGELOG.md": {
-      "size": 4639,
-      "sha256": "bb5d018abb52e8724a20e74915b34d9248d54571218cebcf68d412a7464e70c8"
+      "size": 11917,
+      "sha256": "a7a5c2dec939b00b1fc189b8566e7aada2e9616afb765058f5026efc145eb2b5"
     },
     "INSTALL.md": {
-      "size": 19077,
-      "sha256": "39d45133ff2ce272d79a1955578dcb323229537253022a0a17d4218f5b7289d0"
+      "size": 18433,
+      "sha256": "7bf59968ab327f5e9a45bb29c1708b2171d21afa903ca85d127a0f2465cc4c66"
     },
     "README.md": {
-      "size": 8540,
-      "sha256": "93edc17c9fa78bc58e083ee0a77e691baafb7b0db49dd964063920450fc75401"
+      "size": 8014,
+      "sha256": "9e9bfbff931c2ef62479ec48e5e70aa27a80d6350c9fc56449075d6f8f6a7943"
     },
     "SKILL.md": {
-      "size": 21641,
-      "sha256": "755e30a18897a6e36c62fd25f78077636d9f61a71dbf605b3d0edda6df4fa248"
+      "size": 6465,
+      "sha256": "baec6bac4eecb5993dfbf6066a97a71f8e5d9de2dba49f99fe8f63343f8b8937"
     },
     "UPDATE-POLICY.json": {
-      "size": 527,
-      "sha256": "f6c39ed41a11f8b3a3d1b891fe4103af3ab942f31640b1538540aead473a37ac"
+      "size": 744,
+      "sha256": "a65eecb2150e612fe43184be750740c159a8057373f6510a6152b7c16ea27b38"
     },
     "VERSION": {
       "size": 7,
-      "sha256": "f4d439e0b523208a09d13862c16820cc3028fd94417310ce1d53a31d14d6a2c4"
+      "sha256": "795d6bc79574d2aec03ad9cfec404bb95083c9dd210e6521e0d4199772d28d44"
     },
     "agents/openai.yaml": {
-      "size": 827,
-      "sha256": "068ab7e64fd0a9282bf5ffd06ef120be24d719c8894316b397fbfb758af84850"
+      "size": 856,
+      "sha256": "9dceadc7cd196c7b6c51d83ac74996737468a87340dbf7750650c5e4240f6539"
     },
     "mcp.example.json": {
-      "size": 339,
-      "sha256": "d16c56a21ee126ebd042fed1bece695cb1d8f9fc2a0887903ecd24ce28b4ee4c"
+      "size": 259,
+      "sha256": "9414c02842a9ee4488e55f39da34bc2cea46f7ee4a4ac9dc988c089679ce6523"
     },
     "pow_client.py": {
       "size": 6001,
       "sha256": "3d8cdea10cb98ea36cbd45188dd215080743038460034cebea31148b389bdc73"
     },
     "references/advisor-methods.md": {
-      "size": 8544,
-      "sha256": "34eba38c6727b00392b1d493923d1144de7bbdee771dced4f6312b92c0d3873a"
+      "size": 8364,
+      "sha256": "e0fe5377e7643b2eb196881507b33c8818bff11af08c1e40ac0c2a59c988e56a"
     },
     "references/data-coverage.md": {
       "size": 3493,
       "sha256": "fb7cbc42422fd7d29826f12ec307a9af84250ca5405fd67cd67a37a011e688ad"
+    },
+    "references/joint-officer.md": {
+      "size": 5566,
+      "sha256": "c7d474d6ac136dda68808ac2e0620d746e67dda482aaed2b37ca88e5f117e2e6"
     },
     "references/knowledge-cards.json": {
       "size": 396977,
@@ -54,24 +58,24 @@
       "sha256": "4a858e44f832b3a0c4a9588f22934211a5b7cd64e31bde92dca38bf7337d5d5e"
     },
     "references/mcp-client.md": {
-      "size": 6908,
-      "sha256": "98757288b0df42463ef83316ded2dd4582628706f0dceb9187f392ba92531047"
+      "size": 8761,
+      "sha256": "52f716d5d3ff933e67c0fbc68d593e8a82f302fff691f2f068d7744a8b13fd0f"
     },
     "references/planning-workflow.md": {
-      "size": 7404,
-      "sha256": "5fbb1b68df5c4b22c295d4d314a77900594660e221a42c256ecb847a617b02b5"
+      "size": 9065,
+      "sha256": "de79ad66e7eebd04151d4141ce194b51a6e7335f5d6d1b61146fe51824d5b741"
     },
     "references/runtime.md": {
-      "size": 7773,
-      "sha256": "1ee536d6f34ef873ecdc0c89aecb8823dcf24881d94b356d661b77757cc3629a"
+      "size": 7708,
+      "sha256": "b36f12b0f48c2beaad3d01f72c6aba6337d1cdb5825db1e27f1d40cdc293db03"
     },
     "references/voice-calling.md": {
-      "size": 6441,
-      "sha256": "f9e3a0b619c00e98f05a789617a9b83a8fdb62684a0ec8379d34578bdb2fa13c"
+      "size": 1074,
+      "sha256": "cb3dcd723475fbf82954091d5406bac235d355529e7ef9cab497a97227c3f2e9"
     },
     "references/workbuddy-mcp.example.json": {
-      "size": 1517,
-      "sha256": "ed27bf7af7fa2844fe35d5ab14706485da1c4884a976bd20b5de2087d98330a7"
+      "size": 971,
+      "sha256": "70a0611687764338adcef18cc0fde0f7e6b092b4691347b6d13fc2c974bdcd74"
     },
     "scripts/auto_update.py": {
       "size": 9124,
@@ -82,32 +86,44 @@
       "sha256": "bc71f9b42b3389671cbbd38ad1beeea267a912f1b18cc4e380fe5b8eb44ff796"
     },
     "scripts/check_update.py": {
-      "size": 15744,
-      "sha256": "b8f533780b2d207cfa340752a342c5c4c71d0e9856eae464c36e90c0e1825c0b"
+      "size": 16298,
+      "sha256": "1fd81390190272d102522c60b3e8677e8e1e4594e3dafc7395eacf501a63f9fe"
     },
     "scripts/install.py": {
-      "size": 16799,
-      "sha256": "0ec184a5bd966bf86fca3027fc2dc3de11602c081cedbc6359e472b0a038720c"
+      "size": 23269,
+      "sha256": "5bdbb034238d46204fcb253cf970bc266a488817d15d5d032eb6141f881f1e04"
     },
     "scripts/install_latest.py": {
-      "size": 8047,
-      "sha256": "73b86027d04a3f2103ebed20d2b505d6b1cbd230befb56b66be4b5a56e05a851"
+      "size": 8112,
+      "sha256": "5f7c9292b074de7688ced17b506bae4d7f2930e58e1c0b175dbff647b6c8342a"
     },
     "scripts/knowledge_query.py": {
       "size": 29203,
       "sha256": "2ea5c4556c3b5cc9c049026f4969db43b5cce8ff66e46a8eb4d48f775b7f3517"
     },
     "scripts/mcp_client.py": {
-      "size": 25905,
-      "sha256": "db776d2adea5d80f70203f507326a06009dfedc25f58a1808bcc573bd5faf003"
+      "size": 26475,
+      "sha256": "93bdd6ac94d6eef83366cec30f7e3e50aa2794d922d01816fc6eef0bd61d38bb"
+    },
+    "scripts/run_tests.py": {
+      "size": 679,
+      "sha256": "3c2548add09fb259f42c4bf710249f5a4027831a9f0767597346e66d175a8167"
+    },
+    "scripts/safe_temp.py": {
+      "size": 1388,
+      "sha256": "7015ece4e29ed6a6345e7920ffaaab10e45640c185c8ad0d822798b6bc1e0567"
+    },
+    "scripts/student_code.py": {
+      "size": 6008,
+      "sha256": "f4988845f1fb1ba2266667095d3a1b0a8e6e59de0c66d5ccb7d85ae05542c81b"
     },
     "scripts/update_feed.py": {
       "size": 16111,
       "sha256": "b34f3582b047f5ccbc92c17cedf9866c3659f9b0d198533ba025bddf1d4b4873"
     },
     "scripts/update_runtime.py": {
-      "size": 20408,
-      "sha256": "2b9e62f09148ab019fe388f84a83763c9a17219ebfded2782efc1b735750ba39"
+      "size": 20619,
+      "sha256": "855204497e5f1d57d2527b24a0fcdda8216cb336b3e2555363c8289da23e992d"
     },
     "scripts/validate_plan.py": {
       "size": 9884,
@@ -118,32 +134,52 @@
       "sha256": "962368c94c67768fc1d2dfd3ab7b4a57a34fd3686d78aeaddd09c39f5c655288"
     },
     "tests/test_auto_update.py": {
-      "size": 9161,
-      "sha256": "14880738d4efe209d42ece537200631c4637d88826c55b976892ca0471194e12"
+      "size": 9177,
+      "sha256": "fb5ecf9dcf8246c80533f25fa6272da0656e54a374e5d3027ab146ab26a70085"
     },
     "tests/test_install_latest.py": {
-      "size": 13580,
-      "sha256": "0ff34bd9367dfd0f96df26b93b1bc14b8e7bddbac1f65acb42a18319ff43d42c"
+      "size": 13596,
+      "sha256": "8c91fc58dbc8e0171d49f0b5012dfb50069994ca39d0974c311f681c3368d42b"
     },
     "tests/test_install_update.py": {
-      "size": 29759,
-      "sha256": "b7e8caa14079050ecb194c6c785f0e904219329c19cdc7fe23a7a0e640936cd4"
+      "size": 31451,
+      "sha256": "a8b2d909956f5887b6a131d706ffb9dcb61c2bf7a4b2b60380f2899cdf55495c"
     },
     "tests/test_mcp_client.py": {
-      "size": 27521,
-      "sha256": "cda806e735d45434b11fb3f5254f187aead0405ae15c3ab59e75d4efc4fc0443"
+      "size": 29898,
+      "sha256": "874428280d8c947cb4fe4cf707d512f6a325c259ba0d50476b2c694b34994cea"
     },
     "tests/test_plan.py": {
-      "size": 13898,
-      "sha256": "25dbdfceb4b47b784eb426d738eecb7342cd9f78a1d1679da8413bd3ed7ba3f5"
+      "size": 13994,
+      "sha256": "0ff558a08bbde116c727c40febc0fe158f1ff6d2055327e99eb020f4b4a25572"
+    },
+    "tests/test_portable_fixtures.py": {
+      "size": 2821,
+      "sha256": "9909d3dc326984712c0e0066526bf2546a2a8010e4dc7a28bfd5446686fe3a3e"
+    },
+    "tests/test_skill_text.py": {
+      "size": 3233,
+      "sha256": "6562c1a4c7c1b763b8eadee74362ea04287688ebeadb890c9fa6f660e314d2d9"
+    },
+    "tests/test_student_code.py": {
+      "size": 4142,
+      "sha256": "36f8d66a186184008945912cf5f3f522a2e1c2d22e223300693c74c0927969ff"
+    },
+    "tests/test_support.py": {
+      "size": 1481,
+      "sha256": "a57a83ba0efe84f488a06a8b289bbf28a44d00b8d7fee9afef7c38c1f56cd665"
     },
     "tests/test_update_feed.py": {
-      "size": 17929,
-      "sha256": "85b171587e90aaa7a14f54ed2384604b029bbbd500cc2b85584d11c2a3893668"
+      "size": 18903,
+      "sha256": "168d0c36326514308b24d305700bc05a564bbe0b9db81aee4e7f8c74aaf784e8"
     },
     "tests/test_update_runtime.py": {
-      "size": 21791,
-      "sha256": "d11add8a220bc25d3cf7ea4478a9ee72f0da79165ba450e3fca207a1c34f6169"
+      "size": 21690,
+      "sha256": "232b92ac38269420f3cf137b02d96cb9eafe2b65bbf8d3d5a9006d25b3ae8b0a"
+    },
+    "tests/test_windows_directory_access.py": {
+      "size": 12273,
+      "sha256": "7872625922a7d2054880787f3de673ee5027eb7110119663dde3e3d6dc2070f7"
     }
   }
 }

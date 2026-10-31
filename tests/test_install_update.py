@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-import tempfile
+import test_support as tempfile
 import unittest
 from unittest import mock
 
@@ -63,10 +63,7 @@ class TemporaryTest(unittest.TestCase):
         self.temp.cleanup()
 
     def symlink(self, target, link):
-        try:
-            link.symlink_to(target, target_is_directory=target.is_dir())
-        except (OSError, NotImplementedError):
-            self.skipTest("Symbolic link creation is unavailable")
+        tempfile.symlink_or_skip(self, target, link)
 
 
 class InstallerTests(TemporaryTest):
@@ -219,8 +216,43 @@ class InstallerTests(TemporaryTest):
 
     def test_deep_manifest_json_is_reported_as_invalid(self):
         (self.source / install.MANIFEST_NAME).write_text("[" * 2000 + "0" + "]" * 2000)
-        with self.assertRaisesRegex(install.InstallError, "Invalid package manifest"):
+        with self.assertRaises(install.InstallError):
             install.read_manifest(self.source)
+
+    def test_deep_manifest_rejected_with_both_python_decoder_behaviors(self):
+        for decoder in (mock.Mock(side_effect=RecursionError("interpreter-specific")),
+                        mock.Mock(return_value=[[[0]]])):
+            with self.subTest(decoder=decoder), mock.patch.object(install.json, "loads", decoder):
+                with self.assertRaises(install.InstallError):
+                    install.read_manifest(self.source)
+            self.assertFalse(self.target.exists())
+
+    def test_windows_reparse_attribute_is_rejected_without_following_it(self):
+        real = Path.lstat
+        def lstat(path):
+            if path == self.source:
+                return mock.Mock(st_file_attributes=0x400)
+            return real(path)
+        with mock.patch.object(Path, "lstat", lstat), mock.patch.object(Path, "is_symlink", return_value=False):
+            with self.assertRaises(install.InstallError):
+                install.verify_package(self.source)
+        self.assertFalse(self.target.exists())
+
+    @unittest.skipUnless(os.name == "nt", "Windows junction capability check")
+    def test_real_windows_junction_source_is_rejected(self):
+        junction = self.base / "junction"
+        result = subprocess.run(["cmd", "/c", "mklink", "/J", str(junction), str(self.source)],
+                                capture_output=True, text=True, check=False)
+        if result.returncode:
+            self.skipTest("Windows junction creation unavailable (exit %d)" % result.returncode)
+        try:
+            self.assertTrue(install._link_like(junction))
+            with self.assertRaises(install.InstallError):
+                install.install_package(junction, self.target)
+            self.assertFalse(self.target.exists())
+            self.assertTrue((self.source / "VERSION").is_file())
+        finally:
+            os.rmdir(junction)
 
     def test_required_files_manifest_self_reference_and_version_match(self):
         for name in ("VERSION", "SKILL.md"):

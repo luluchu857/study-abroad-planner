@@ -69,8 +69,7 @@ def _state_path(base, state=None, create=False):
     if state == Path(state.anchor) or state == base or base in state.parents or state in base.parents:
         raise RuntimeUpdateError("runtime_state_overlaps_installation")
     if create:
-        state.mkdir(mode=0o700, parents=True, exist_ok=True)
-        installer._no_symlinks(state)
+        installer._private_directory(state)
     if state.exists() and not state.is_dir():
         raise RuntimeUpdateError("runtime_state_not_directory")
     return state
@@ -85,7 +84,7 @@ class RuntimeLock:
 
     def acquire(self):
         installer._no_symlinks(self.state)
-        self.state.mkdir(mode=0o700, parents=True, exist_ok=True)
+        installer._private_directory(self.state)
         path = self.state / "runtime.lock"
         installer._no_symlinks(path)
         flags = os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
@@ -267,7 +266,7 @@ def _write_pointer(state, value):
 def _snapshot(source, state, manifest, raw, digest):
     versions = state / "versions"
     installer._no_symlinks(versions)
-    versions.mkdir(mode=0o700, parents=True, exist_ok=True)
+    installer._private_directory(versions)
     target = versions / digest
     if target.exists() or target.is_symlink():
         saved, saved_raw, saved_digest = _package(target)
@@ -276,6 +275,7 @@ def _snapshot(source, state, manifest, raw, digest):
         return target
     stage = Path(tempfile.mkdtemp(prefix=".prepare-", dir=str(versions)))
     try:
+        installer._grant_windows_user_modify(stage)
         for name, entry in manifest["files"].items():
             data = installer._verified_bytes(source, name, entry)
             output = stage / name
@@ -420,6 +420,8 @@ def resolve_runtime(base, state=None):
             return _resolve(base, state, initialize=True)
         finally:
             lock.release()
+    except installer.WindowsDirectoryAccessError:
+        return _answer(base, "fallback", "windows_user_acl_failed")
     except Exception:
         return _answer(base, "fallback", "runtime_state_unavailable")
 
@@ -462,6 +464,8 @@ def publish_candidate(source, state, base):
         updated = dict(pointer, active=digest, previous=previous[:128])
         _write_pointer(state, updated)
         return _answer(target, "updated", allowed=True, manifest=candidate)
+    except installer.WindowsDirectoryAccessError as error:
+        raise RuntimeUpdateError("windows_user_acl_failed") from error
     except RuntimeUpdateError:
         raise
     except (installer.InstallError, OSError, ValueError, SyntaxError, UnicodeError) as error:

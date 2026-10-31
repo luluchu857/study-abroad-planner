@@ -15,6 +15,12 @@
     "immutable-runtime-auto-update-v1",
     "advisor-proactive-review",
     "application-guidance-advisor-entry",
-    "contextual-conversation-followup"
+    "contextual-conversation-followup",
+    "joint-admissions-officer-guidance",
+    "brochure-materials-enquiry",
+    "voice-failure-nonblocking",
+    "authorized-intake-file-handoff",
+    "portable-isolated-install-tests",
+    "platform-student-code-v1"
   ]
 }

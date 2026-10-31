@@ -43,6 +43,132 @@ class InstallError(Exception):
         self.backup = backup
 
 
+class WindowsDirectoryAccessError(InstallError):
+    """A private directory could not be made usable by the actual token user."""
+
+
+def _windows_acl_api():
+    """Load only the native APIs needed to add a user ACE; no privilege changes."""
+    import ctypes
+
+    class Trustee(ctypes.Structure):
+        _fields_ = [("multiple", ctypes.c_void_p), ("operation", ctypes.c_int),
+                    ("form", ctypes.c_int), ("type", ctypes.c_int),
+                    ("sid", ctypes.c_void_p)]
+
+    class ExplicitAccess(ctypes.Structure):
+        _fields_ = [("permissions", ctypes.c_uint32), ("mode", ctypes.c_int),
+                    ("inheritance", ctypes.c_uint32), ("trustee", Trustee)]
+
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    security = ctypes.WinDLL("advapi32", use_last_error=True)
+    pointer = ctypes.c_void_p
+    dword = ctypes.c_uint32
+    signatures = (
+        (kernel.GetCurrentProcess, [], pointer),
+        (kernel.CloseHandle, [pointer], ctypes.c_int),
+        (kernel.LocalFree, [pointer], pointer),
+        (security.OpenProcessToken, [pointer, dword, ctypes.POINTER(pointer)], ctypes.c_int),
+        (security.GetTokenInformation, [pointer, ctypes.c_int, pointer, dword,
+                                        ctypes.POINTER(dword)], ctypes.c_int),
+        (security.IsValidSid, [pointer], ctypes.c_int),
+        (security.GetNamedSecurityInfoW, [ctypes.c_wchar_p, ctypes.c_int, dword,
+             ctypes.POINTER(pointer), ctypes.POINTER(pointer), ctypes.POINTER(pointer),
+             ctypes.POINTER(pointer), ctypes.POINTER(pointer)], dword),
+        (security.SetEntriesInAclW, [dword, ctypes.POINTER(ExplicitAccess), pointer,
+                                    ctypes.POINTER(pointer)], dword),
+        (security.SetNamedSecurityInfoW, [ctypes.c_wchar_p, ctypes.c_int, dword,
+                                         pointer, pointer, pointer, pointer], dword),
+    )
+    for function, arguments, result in signatures:
+        function.argtypes = arguments
+        function.restype = result
+    return ctypes, kernel, security, ExplicitAccess
+
+
+def _grant_windows_user_modify(path):
+    """Add inheritable Modify for TokenUser to a newly created private directory.
+
+    Python's Windows 0700 ACL can use OWNER RIGHTS while an elevated process's
+    owner is Administrators. TokenUser is the same person's normal-login SID.
+    Merge into the existing DACL: keep owner, SYSTEM, Administrators, denials and
+    protection unchanged. Do not enable parent inheritance or grant WRITE_DAC /
+    WRITE_OWNER. Call before creating children, never to repair an existing tree.
+    """
+    if os.name != "nt":
+        return
+    _no_symlinks(path)
+    try:
+        ctypes, kernel, security, ExplicitAccess = _windows_acl_api()
+        token = ctypes.c_void_p()
+        descriptor = ctypes.c_void_p()
+        merged = ctypes.c_void_p()
+        try:
+            if not security.OpenProcessToken(kernel.GetCurrentProcess(), 0x0008, ctypes.byref(token)):
+                raise OSError("OpenProcessToken failed")
+            needed = ctypes.c_uint32()
+            # TokenUser == 1. Never use TokenOwner (4) or a textual account name.
+            security.GetTokenInformation(token, 1, None, 0, ctypes.byref(needed))
+            if not ctypes.sizeof(ctypes.c_void_p) <= needed.value <= 65536:
+                raise OSError("Invalid TokenUser size")
+            user = ctypes.create_string_buffer(needed.value)
+            if not security.GetTokenInformation(token, 1, user, needed.value, ctypes.byref(needed)):
+                raise OSError("GetTokenInformation(TokenUser) failed")
+            sid = ctypes.cast(user, ctypes.POINTER(ctypes.c_void_p))[0]
+            if not sid or not security.IsValidSid(sid):
+                raise OSError("Invalid TokenUser SID")
+            old_acl = ctypes.c_void_p()
+            error = security.GetNamedSecurityInfoW(str(path), 1, 4, None, None,
+                                                  ctypes.byref(old_acl), None, ctypes.byref(descriptor))
+            if error or not old_acl.value:
+                raise OSError("Cannot read a restricted directory DACL: %s" % error)
+            entry = ExplicitAccess()
+            entry.permissions = 0x1301BF  # FILE_GENERIC_READ/WRITE/EXECUTE | DELETE (Modify).
+            entry.mode = 1  # GRANT_ACCESS merges rather than replacing existing user rights.
+            entry.inheritance = 3  # OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE.
+            entry.trustee.form = 0  # TRUSTEE_IS_SID.
+            entry.trustee.type = 1  # TRUSTEE_IS_USER.
+            entry.trustee.sid = sid
+            error = security.SetEntriesInAclW(1, ctypes.byref(entry), old_acl, ctypes.byref(merged))
+            if error or not merged.value:
+                raise OSError("Cannot merge TokenUser ACE: %s" % error)
+            # DACL only: no owner/group update, no unprotect/inheritance flag.
+            error = security.SetNamedSecurityInfoW(str(path), 1, 4, None, None, merged, None)
+            if error:
+                raise OSError("Cannot apply TokenUser ACE: %s" % error)
+        finally:
+            if merged.value:
+                kernel.LocalFree(merged)
+            if descriptor.value:
+                kernel.LocalFree(descriptor)
+            if token.value:
+                kernel.CloseHandle(token)
+    except Exception as error:
+        raise WindowsDirectoryAccessError("windows_user_acl_failed: " + str(path)) from error
+
+
+def _private_directory(path):
+    """Create a private leaf directory; leave existing permissions untouched."""
+    _no_symlinks(path)
+    try:
+        path.mkdir(mode=0o700, parents=True)
+    except FileExistsError:
+        if not path.is_dir():
+            raise
+    else:
+        try:
+            _grant_windows_user_modify(path)
+        except Exception:
+            # Do not let a retry mistake an incompletely prepared leaf for an
+            # existing usable directory. rmdir never removes somebody's files.
+            try:
+                path.rmdir()
+            except OSError:
+                pass
+            raise
+    _no_symlinks(path)
+
+
 def _version(value):
     if not isinstance(value, str) or len(value) > 128:
         raise InstallError("Invalid semantic version")
@@ -68,11 +194,22 @@ def _absolute(path):
     return Path(os.path.abspath(os.path.expanduser(str(path))))
 
 
+def _link_like(path):
+    """Reject symlinks and Windows reparse points, including junctions."""
+    if path.is_symlink():
+        return True
+    try:
+        info = path.lstat()
+    except FileNotFoundError:
+        return False
+    return bool(getattr(info, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
+
+
 def _no_symlinks(path):
-    """Check existing components without following a leaf symlink."""
+    """Check existing components without following a leaf link or junction."""
     for component in [path] + list(path.parents):
-        if component.is_symlink():
-            raise InstallError("Symbolic links are not allowed: " + str(component))
+        if _link_like(component):
+            raise InstallError("Symbolic links or reparse points are not allowed: " + str(component))
 
 
 def _read_regular(path, limit):
@@ -220,8 +357,8 @@ def _tree_files(target):
     for directory, directories, files in os.walk(str(target), followlinks=False):
         for name in directories + files:
             path = Path(directory) / name
-            if path.is_symlink():
-                raise InstallError("Symbolic links are not allowed in the destination: " + str(path))
+            if _link_like(path):
+                raise InstallError("Symbolic links or reparse points are not allowed in the destination: " + str(path))
         for name in files:
             path = Path(directory) / name
             if not path.is_file():
@@ -263,8 +400,7 @@ def backup_directory(source, target, create=False):
     if directory.exists() and not directory.is_dir():
         raise InstallError("Backup path is not a directory")
     if create:
-        directory.mkdir(mode=0o700, parents=True, exist_ok=True)
-        _no_symlinks(directory)
+        _private_directory(directory)
         if directory.stat().st_dev != target.parent.stat().st_dev:
             raise InstallError("Backup and destination must be on the same filesystem for atomic rename")
         # Fail before moving the original package if the backup directory is unwritable.
@@ -322,6 +458,7 @@ def install_package(source, target, dry_run=False, expected_manifest_sha256=None
         original_identity = (target.stat().st_dev, target.stat().st_ino) if existed else None
         backup_root = backup_directory(source, target, create=True) if existed else None
         stage = Path(tempfile.mkdtemp(prefix="." + target.name + ".staging-", dir=str(target.parent)))
+        _grant_windows_user_modify(stage)
         for name, entry in manifest["files"].items():
             data = _verified_bytes(source, name, entry)
             output = stage / name

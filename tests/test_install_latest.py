@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import shutil
 import sys
-import tempfile
+import test_support as tempfile
 import unittest
 from unittest import mock
 

@@ -32,9 +32,10 @@ CORE_READ_TOOLS = {
     'assist': frozenset(('material_checklist', 'essay_assist', 'plan_timeline', 'open_advisor')),
 }
 KNOWLEDGE_TOOLS = frozenset(('search_knowledge', 'get_knowledge'))
+INTAKE_TOOLS = frozenset(('start_intake', 'get_intake_status', 'upload_intake_file'))
 READ_TOOLS = {
     'query': CORE_READ_TOOLS['query'] | KNOWLEDGE_TOOLS,
-    'assist': CORE_READ_TOOLS['assist'],
+    'assist': CORE_READ_TOOLS['assist'] | frozenset(('get_intake_status',)),
 }
 WRITE_TOOL = 'submit_to_hri'
 MAX_RESPONSE = 2 * 1024 * 1024
@@ -96,7 +97,8 @@ def private_key(server, key_file=None, environ=None):
     else:
         value = environ.get('LIUXUE_API_KEY', '').strip()
     if not value:
-        raise ClientError('api_key_required', '助手需要 LIUXUE_API_KEY 或 --key-file 指定的个人密钥。')
+        return None  # student tools on the assistant are anonymous; a key is only for operator scopes
+
     if len(value) > 512 or any(ord(c) <= 32 or ord(c) >= 127 for c in value):
         raise ClientError('invalid_key_format', '个人密钥格式不正确。')
     return value
@@ -165,8 +167,6 @@ class MCPClient:
             raise ClientError('invalid_server', 'server 只能为 query 或 assist。')
         if not 0 < timeout <= 30 or not 1 <= max_requests <= 32:
             raise ClientError('invalid_limits', '请求超时须在 0–30 秒，数量上限须在 1–32。')
-        if server == 'assist' and not api_key:
-            raise ClientError('api_key_required', '助手需要个人 API Key。')
         if server == 'query' and api_key:
             raise ClientError('query_is_anonymous', '查询客户端不发送助手个人密钥。')
         if api_key and (len(api_key) > 512 or any(ord(c) <= 32 or ord(c) >= 127 for c in api_key)):
@@ -336,8 +336,14 @@ class MCPClient:
         parse_json(encoded)
         if any(not isinstance(k, str) or k.startswith('pow_') for k in arguments):
             raise ClientError('reserved_pow_arguments', 'pow_ 参数由客户端管理。')
-        is_write = name == WRITE_TOOL
-        if is_write:
+        is_submission = name == WRITE_TOOL
+        is_intake = self.server == 'assist' and name in INTAKE_TOOLS
+        intake_mutation = is_intake and (name == 'start_intake' or
+            (name == 'upload_intake_file' and bool(arguments.get('content_base64'))))
+        is_mutation = intake_mutation or (is_submission and arguments.get('confirmed') is True)
+        if intake_mutation and not allow_write:
+            raise ClientError('write_not_allowed', '创建材料票或上传文件需要对应学生授权及显式 --allow-write。')
+        if is_submission:
             if self.server != 'assist' or not allow_write:
                 raise ClientError('write_not_allowed', 'submit_to_hri 需要助手服务与显式 --allow-write。')
             if type(arguments.get('confirmed')) is not bool:
@@ -345,7 +351,7 @@ class MCPClient:
             if arguments['confirmed'] and (not confirm_write or not arguments.get('confirm_code')
                                             or not isinstance(arguments.get('summary'), dict)):
                 raise ClientError('confirmation_required', '确认阶段需要 --confirm-write、原摘要及服务返回的 confirm_code。')
-        elif name not in READ_TOOLS[self.server]:
+        elif not is_intake and name not in READ_TOOLS[self.server]:
             raise ClientError('unsupported_tool', '该工具不属于本版本支持的服务工具名单。')
         self.initialize()
         prepared = self._pow.attach_args(arguments)
@@ -355,7 +361,7 @@ class MCPClient:
                 raw = self._rpc('tools/call', {'name': name, 'arguments': prepared})
                 data, is_error = decode_tool_result(raw)
             except ClientError as exc:
-                if is_write and arguments.get('confirmed'):
+                if is_mutation:
                     exc.details['outcome_unknown'] = True
                 raise
             error = data.get('error') if isinstance(data, dict) else None
@@ -379,7 +385,7 @@ class MCPClient:
                 except ClientError as exc:
                     # A bad *next* challenge must not erase an already received result.
                     outcome['warnings'] = [exc.as_dict()]
-            if is_write:
+            if is_submission:
                 outcome['submission_status'] = 'not_verified_by_client'
             return outcome
         raise AssertionError('unreachable')
@@ -395,6 +401,8 @@ class MCPClient:
         missing = sorted(CORE_READ_TOOLS[self.server] - available)
         if self.server == 'query':
             result['features'] = {'knowledge': KNOWLEDGE_TOOLS <= available}
+        else:
+            result['features'] = {'intake': INTAKE_TOOLS <= available}
         result['checks']['required_tools'] = not missing
         if missing:
             return {**result, 'ok': False, 'error': 'required_tools_missing',

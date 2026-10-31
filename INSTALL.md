@@ -6,7 +6,7 @@
 
 不要把搜索引擎缓存、旧 README 截图、某个历史 Git 标签或 GitHub `/releases/latest` 当作默认安装依据；后者只代表 GitHub Release，可能落后于本仓库公开更新目录中的稳定版或试用版。用户仅要求稳定版时仍由 `install_latest.py --stable-only` 读取当前 stable 条目；只有明确指定某个历史 Release 时才使用历史 Release 页面。更新目录读取失败就报告无法确认最新，不自行把旧包称为最新版。
 
-**本包是 0.10.1，包含 181 条已审知识，对应已审阅的 263 篇会议。** 通过仓库安装入口按公开更新目录选择当前版本；GitHub Release 发布状态以实际页面为准。安装后先发现同一查询服务的工具目录，实际检索并读取一条知识；远程暂不可用时才使用包内审核快照。学校查询、知识查询与顾问窗口分别验收，不把工具登记当业务调用成功。安装过程不采音、不拨号。
+**本包是 0.11.0（稳定版），包含 181 条已审知识，对应已审阅的 263 篇会议。** 通过仓库安装入口按公开更新目录选择当前版本；GitHub Release 发布状态以实际页面为准。安装后先发现同一查询服务的工具目录，实际检索并读取一条知识；远程暂不可用时才使用包内审核快照。学校查询、知识查询与联合招生官窗口分别验收，不把工具登记当业务调用成功。安装过程不采音、不拨号。
 
 ## 1. 确认环境与取包
 
@@ -65,7 +65,7 @@ python3 scripts/install_latest.py --host custom --destination "<宿主要求的�
 
 收到并明确指定完整包时，先核对清单、版本和目标状态。全新空目录可用 `scripts/install.py` 的 `--dry-run` 预检，再按同一目标安装；已有安装必须先检查原入口与实际运行版，不直接覆盖入口或清空自动更新状态。
 
-当前 0.10.0 的 181 条知识与本包逐条一致，完整性与能力检查通过时，可经现有更新入口选择更高的 0.10.1 运行版，原入口及旧运行目录保留。稳定入口的后台更新还要求对应包实际进入公开 stable 目录；本地版本号本身不表示已经发布。
+当前 0.10.0 的 181 条知识与本包逐条一致，完整性与能力检查通过时，可经现有更新入口选择更高的运行版，原入口及旧运行目录保留。稳定入口的后台更新还要求对应包实际进入公开 stable 目录；本地版本号本身不表示已经发布。
 
 旧 pilot.2—pilot.5 的 26 个知识 ID 均保留在 181 条知识中，但对象内容已审核修订，包含新增检索别名、来源信息与部分正文调整。现有更新保护会返回 `knowledge_would_change_or_be_removed`，这是正确拒绝。即使当前运行版另有更新，也会同时检查原入口知识；不能改 ID、删旧卡、放宽比较或直接覆盖入口来绕过。需要维护者独立逐卡审阅迁移，先保留原包、知识与整个更新状态，并确认使用旧运行目录的咨询已经结束；再由明确授权且有校验回执的迁移流程处理。未完成迁移时继续旧版，不能声称已升级。
 
@@ -76,7 +76,7 @@ python3 scripts/install_latest.py --host custom --destination "<宿主要求的�
 | 服务 | 地址 | 授权 |
 | --- | --- | --- |
 | 留学信息查询 | `https://hi.xwoork.cn/info/mcp` | 匿名规则下可查询 |
-| 留学申请助手 | `https://hi.xwoork.cn/assist/mcp` | 个人 API Key |
+| 留学申请助手 | `https://hi.xwoork.cn/assist/mcp` | 学生工具无需 Key |
 
 ### Codex 原生连接
 
@@ -84,11 +84,11 @@ python3 scripts/install_latest.py --host custom --destination "<宿主要求的�
 
 ```sh
 codex mcp add liuxue-info-query --url https://hi.xwoork.cn/info/mcp
-codex mcp add liuxue-application-helper --url https://hi.xwoork.cn/assist/mcp --bearer-token-env-var LIUXUE_API_KEY
+codex mcp add liuxue-application-helper --url https://hi.xwoork.cn/assist/mcp
 codex mcp list
 ```
 
-第二条只保存环境变量**名称**，不提供真实密钥。运行 Codex 的环境须取得用户自己的值；不要在命令示例、聊天或仓库中填入密钥。当前服务采用 API Key，不能把 `mcp login` 的 OAuth 流程当作领 Key 方法。
+两条连接都不需要填 Key。旧服务若对申请助手返回“需要 API Key”，记为“申请助手待开放”，查询和咨询页照常可用，不向用户索要 Key。
 
 `agents/openai.yaml` 也声明两项依赖，支持相关元数据的宿主可据此引导连接；不能保证所有应用只读一个 Skill 文件就自动安装完成。[Codex 官方说明](https://developers.openai.com/codex/mcp/)
 
@@ -109,7 +109,7 @@ python3 scripts/mcp_client.py doctor --server query --probe
 
 脚本初始化 MCP、发现工具、按 schema 发送请求，并完成必要的 PoW。它不是普通 REST URL 替换器，也不是离线数据库。
 
-助手使用用户主动设置的 `LIUXUE_API_KEY`，或命令的 `--key-file "<私密文件>"`。不要索要密钥粘贴到对话，不扫描其他应用存储的凭据。未提供个人授权时记录“申请助手待授权”，查询和本地导出仍可完成。
+助手的学生工具不需要 Key；只有运维或合作方 Key 才用 `LIUXUE_API_KEY` 或 `--key-file "<私密文件>"`。不要索要密钥粘贴到对话，不扫描其他应用存储的凭据。
 
 后续每次使用仍优先原生 MCP。只读请求出现宿主连接 / 协议故障，可按相同参数切换直连一次；两条都失败就停止重试。401 / 403、额度、限流、过宽查询和正常 PoW 挑战不属于该故障降级，不通过换客户端规避。提交请求超时不能确定是否已执行，不自动切换后重发。
 
@@ -122,7 +122,7 @@ python3 scripts/mcp_client.py doctor --server query --probe
 ### A. 离线检查
 
 ```sh
-python3 -m unittest discover -s tests -p 'test_*.py' -v
+python3 -B scripts/run_tests.py
 python3 scripts/validate_plan.py templates/plan.example.json
 python3 scripts/build_plan.py templates/plan.example.json --output "<新的临时目录>/demo"
 ```
@@ -141,7 +141,11 @@ python3 scripts/mcp_client.py doctor --server query --probe
 
 原生 MCP 还需要在当前宿主发现工具并执行一次合成只读查询，才能报告“原生连接可用”。Python 测试成功仅证明直连路径成功。
 
-已有用户提供的助手授权时，可做 `doctor --server assist` 的发现检查；没有授权不做反复尝试，不调用提交接口“测试写入”。网络失败、401、429 记录实际结果，不绕过限制。
+可做一次无 Key 的 `doctor --server assist` 发现检查；不调用提交接口“测试写入”。网络失败、401、429 记录实际结果，不绕过限制。
+
+### B2. 学生识别码
+
+安装完成后运行一次 `python3 scripts/student_code.py ensure`（在实际 `runtime_path` 中）。它向平台申请学生识别码并保存到本机私有文件；失败不影响安装，以后打开联合招生官时会再试。不要把授权码写进验收报告。
 
 ### C. 更新检测
 
@@ -158,27 +162,16 @@ python3 scripts/check_update.py --background
 
 - 已安装版本、应用与目录；旧包备份位置（如有）。
 - 查询：原生 MCP / Python 哪条路径实际成功。
-- 申请助手：已授权并通过发现，或仍待个人授权；不能用查询成功代替。
+- 申请助手：无 Key 发现工具是否成功；旧服务仍要求 Key 时记为“待开放”，不能用查询成功代替。
+- 学生识别码：`python3 scripts/student_code.py ensure` 的结果（ready / unavailable）；平台未开放时为 unavailable，咨询照常。
 - 本地报告：实际生成的格式及示例入口。
 - 是否发现新版本、任何真实失败或尚未验证项。
 
 不要仅回复“全部搞定”而略过授权、加载或联网失败。
 
-### E. 顾问与语音边界
+### E. 联合招生官与语音边界
 
-语音助手是 **https://hi.xwoork.cn/voice-helper** 的系统浏览器 HTTPS 页面，不是本地 Python 音频程序，也不需要新增语音 MCP、浏览器扩展或 localhost 服务。Skill / 原生查询 MCP / 通话助手均不要求为了语音先安装 Python。
-
-安装检查不自动开麦、配对、拨打或进入真实咨询。用户需要在线顾问时按 Skill 的触发规则打开原咨询页；用户明确要求通话时，再按 [通话说明](references/voice-calling.md) 推进。原生麦克风优先；系统请求仍在等待，不当作失败，也不重复请求。明确无 API、权限 / 容器政策阻止或用户选择后，才使用系统浏览器助手。
-
-实际使用顺序：原咨询页保持打开 → 系统浏览器助手「准备配对」取得 10 位码 → 回原咨询页确认配对 → 助手「启用语音」并由用户允许麦克风 → 原咨询页完成同一次开始 / 接听。若原先开始 / 接听动作在配对后继续执行，不重复拨号。助手提供静音、播放、停止 / 挂断；RTC 连接必要时经 TURN 中继。不要把助手再开进同一个受限内嵌容器，不向 URL 复制原咨询身份令牌。
-
-安装验收可核对页面和指引，并明确“尚未请求麦克风、尚未验证实际通话”。用户另行要求实际验证时，分别记录配对、设备授权、实际双向声音、静音与挂断结果。新助手已有合成链路验证，不能据此声称真人设备或所有 WorkBuddy 版本通过。旧 `localhost:18976` / `pis-voice` 测试工具不属于本次安装，不安装或唤起它们。
-
-可让用户复制给 Agent：
-
-> 我已经打开在线咨询，但页面提示当前应用无法使用麦克风。请保留这个咨询，在系统浏览器打开 https://hi.xwoork.cn/voice-helper，指导我取得配对码、回原页确认和启用语音。不要另建咨询，也不要安装 Python 音频程序；系统权限由我确认。
-
-> 帮我检查留学 Skill 的安装、查询连接和通话助手说明。现在不需要开麦或真实拨号，请把已完成与尚未验证的项目分别告诉我。
+咨询服务名为“联合招生官”。安装检查只确认能打开 `https://hi.xwoork.cn/student`，不自动开麦、拨打或进入真实咨询。语音一律由网页原生麦克风处理，本包不包含、不准备任何本机通话助手；WorkBuddy 的 `present_files` 预览可能拒绝麦克风，可改用 WorkBuddy 浏览器（“+ → 打开浏览器”）或系统浏览器打开同一地址。[通话说明](references/voice-calling.md)。
 
 ## 5. 自动更新与保留旧版
 
@@ -196,4 +189,8 @@ python3 scripts/check_update.py --background
 
 更新 `VERSION`、Skill 元数据与发布文案，重新生成 `PACKAGE-MANIFEST.json` 的大小和 SHA-256（清单不列自身）。仅收录公开 Skill 文件，不含 Git 元数据、Python 缓存、密钥、真实学生数据或本地报告。跑完离线测试与一次必要在线探测后打版本标签，上传 ZIP 并校验实际下载内容。
 
-自动发布还须维护仓库根 `updates.json`：schema_version=1、repository=`luluchu857/study-abroad-planner`，channels.stable / channels.pilot 分别指向版本、固定 40 位提交 SHA 与包清单 SHA-256。可以同时固定归档大小和 SHA-256；先提交完整包，再校验该不可变提交的实际下载，最后更新目录。试用版只放 pilot，稳定版拒收预发布版本。现有入口协议为 v1；不兼容的未来入口升级需要独立迁移，不能在后台执行未知安装程序。更新目录与下载来源均固定官方仓库，不引入第三方镜像。
+自动发布还须维护仓库根 `updates.json`：schema_version=1、repository=`luluchu857/study-abroad-planner`，channels.stable / channels.pilot 分别指向版本、固定 40 位提交 SHA 与包清单 SHA-256。可以同时固定归档大小和 SHA-256；先提交完整包，再校验该不可变提交的实际下载，最后更新目录。试用版只放 pilot，且版本名须为 `-pilot.N`；稳定版拒收预发布版本。`-dev.N` 仅供本地候选验证，不进入公开更新目录，发布前需确定正式/试用版本并重新生成清单和验证下载。现有入口协议为 v1；不兼容的未来入口升级需要独立迁移，不能在后台执行未知安装程序。更新目录与下载来源均固定官方仓库，不引入第三方镜像。
+
+## 离线验证不修改安装目录
+
+运行 `python3 -B scripts/run_tests.py`（Windows可用`python -B`）。测试不依赖默认临时目录回退，不在安装树生成临时文件或Python缓存。系统临时目录不可写时可将 `STUDY_ABROAD_TEST_TMPDIR` 指向一个**安装目录之外**的可写绝对目录；不存在可用目录就明确失败，不回退到当前Skill目录。符号链接只有实际创建能力不具备时才单项跳过，并报告原因；Windows junction只在Windows做真实检查。离线全过不代替宿主原生MCP、Windows实机或网页真人通话验收。

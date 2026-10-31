@@ -1,6 +1,6 @@
 interface:
   display_name: "留学规划助手"
-  short_description: "查询院校专业与匿名案例，整理选校方案、材料和时间线，并衔接在线顾问"
+  short_description: "查询院校专业与匿名案例，整理选校方案、材料和时间线，并衔接联合招生官"
   default_prompt: "使用 $study-abroad-planner 帮我整理留学目标、比较适合的项目并给出下一步。"
 
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
       url: "https://hi.xwoork.cn/info/mcp"
     - type: "mcp"
       value: "liuxue-application-helper"
-      description: "留学申请辅助：材料、文书、时间线和顾问入口；需要个人 API Key"
+      description: "留学申请辅助：材料、文书、时间线、联合招生官与授权材料交接；学生使用无需 Key"
       transport: "streamable_http"
       url: "https://hi.xwoork.cn/assist/mcp"
 

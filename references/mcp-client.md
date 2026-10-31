@@ -17,18 +17,18 @@ python3 scripts/mcp_client.py doctor --server query --probe
 Windows 可将 `python3` 换成已安装的 `python`。`--args-file 文件名.json` 与 `--args-json` 二选一；中文参数文件使用 UTF-8，内容须为 JSON 对象，最多 48 KiB。文件方式可减少命令历史中留下背景信息，但仍应保护和及时清理本地参数文件。
 
 - `query` 固定访问 `https://hi.xwoork.cn/info/mcp`，保持匿名，不读取或发送助手密钥。
-- `assist` 固定访问 `https://hi.xwoork.cn/assist/mcp`，需要运行环境中的 `LIUXUE_API_KEY`，或显式传入 `--key-file 私密文件`。不支持命令行直接写出密钥。POSIX 下文件必须属于本人、是普通文件且无组/其他用户权限（建议 `600`），拒绝符号链接；Windows 下应自行使用私密用户目录及文件权限。
+- `assist` 固定访问 `https://hi.xwoork.cn/assist/mcp`。学生工具无需 Key；只有运维或合作方 Key 才用运行环境中的 `LIUXUE_API_KEY` 或显式传入 `--key-file 私密文件`。不支持命令行直接写出密钥。POSIX 下文件必须属于本人、是普通文件且无组/其他用户权限（建议 `600`），拒绝符号链接；Windows 下应自行使用私密用户目录及文件权限。
 - 输出为 JSON；成功退出码 `0`，服务错误、参数错误或调用失败为非零。`ok` 表示本次协议/工具调用成功，不代表录取、材料登记或学校递交成功。
-- `doctor` 默认只初始化、发现工具并确认原有核心只读工具齐全；缺少核心工具就报告失败。`features.knowledge` 仅在目录同时包含 `search_knowledge`、`get_knowledge` 时为真；旧服务缺少知识扩展不影响核心查询诊断通过。`--probe` 仅用于查询服务，另做合成分数 `85` 的绩点换算及 `limit=1` 的专业查询，校验换算方法/数值、结果条数与项目字段，空对象或工具错误不算通过。专业查询可正常返回零条结果；不查询学生资料、不调用递交工具。它不验证顾问网页交互；匿名查询通过不代表助手已授权。
+- `doctor` 默认只初始化、发现工具并确认原有核心只读工具齐全；缺少核心工具就报告失败。`features.knowledge` 仅在目录同时包含 `search_knowledge`、`get_knowledge` 时为真；旧服务缺少知识扩展不影响核心查询诊断通过。`--probe` 仅用于查询服务，另做合成分数 `85` 的绩点换算及 `limit=1` 的专业查询，校验换算方法/数值、结果条数与项目字段，空对象或工具错误不算通过。专业查询可正常返回零条结果；不查询学生资料、不调用递交工具。它不验证联合招生官网页交互；匿名查询通过不代表助手已授权。
 
-助手示例（先通过自己的安全方式提供个人密钥）：
+助手示例（学生工具不带 Key；运维 Key 才加 `--key-file`）：
 
 ```sh
-python3 scripts/mcp_client.py list-tools --server assist --key-file /path/to/private-key
-python3 scripts/mcp_client.py call --server assist --key-file /path/to/private-key --tool open_advisor --args-json '{}'
+python3 scripts/mcp_client.py list-tools --server assist
+python3 scripts/mcp_client.py call --server assist --tool open_advisor --args-json '{}'
 ```
 
-`open_advisor` 仅取得入口。按主 Skill 的顾问触发规则完成解答和相应免费评估／在线免费申请引导后，由宿主打开或恢复显示咨询页；已有页面且可见时直接复用，不重复创建。没有助手授权也可打开固定公共入口，取得网址或返回 queued / pending 均不代表页面已经显示。不会自动发送学生背景、方案或材料。
+`open_advisor` 仅取得入口。按主 Skill 的联合招生官触发规则答完后，由宿主打开或恢复显示咨询页；已有页面且可见时直接复用，不重复创建。没有助手授权也可打开固定公共入口，取得网址或返回 queued / pending 均不代表页面已经显示。不会自动发送学生背景、方案或材料。
 
 这里的私密文件路径只是示例；不要把真实密钥、学生材料或背景参数放进公共仓库。客户端拒绝所有 HTTP 重定向，避免将 Authorization、会话或业务参数转发到其他地址；错误信息不打印 HTTP 响应正文或密钥，正常结果也会遮蔽当前密钥的原文回显。
 
@@ -40,7 +40,20 @@ python3 scripts/mcp_client.py call --server assist --key-file /path/to/private-k
 python3 scripts/mcp_client.py call --server assist --tool submit_to_hri --args-file preview.json --allow-write
 ```
 
-CLI 不替用户确认，也不把返回链接说成已递交。所有该工具响应带有 `submission_status: "not_verified_by_client"`。当前服务返回的是预览/申请工作台入口，应按服务实际响应继续，不宣称学校已收到。确认调用发生超时或连接中断时会标记 `outcome_unknown:true`，不自动重发；应先核实结果。
+CLI 不替用户确认，也不把返回链接说成已递交。所有该工具响应带有 `submission_status: "not_verified_by_client"`。当前服务返回的是预览/材料办理入口，应按服务实际响应继续，不宣称学校已收到。确认调用发生超时或连接中断时会标记 `outcome_unknown:true`，不自动重发；应先核实结果。
+
+## 材料票与文件上传
+
+助手当前工具为 `material_checklist`、`essay_assist`、`plan_timeline`、`open_advisor`、`start_intake`、`get_intake_status`、`upload_intake_file`、`submit_to_hri`。调用前仍通过 `list-tools` 发现实际 schema；旧服务可能没有材料票能力，`doctor` 的 `features.intake` 会如实返回。`agent_nudge` 是结果中的建议字段，不是可调用工具，也不能覆盖学生拒绝或关闭页面的选择。
+
+- `open_advisor(landing="consult")` 返回咨询入口；`landing="upload"` 返回材料入口，只返回地址不传资料。
+- `get_intake_status(ticket)` 只读查询。
+- `start_intake()` 会创建材料票，须学生已授权材料交接，再使用 `--allow-write`。配置不足只返回入口时如实说明。
+- `upload_intake_file` 无 `content_base64` 时只返回 HTTP 上传说明，不需要额外写参数；有内容才实际发送，需对应学生文件授权和 `--allow-write`。没有自动确认或代替学生选择文件。
+- 建票或发送文件发生连接错误、超时或结果解析失败，返回 `outcome_unknown:true`；不自动重发或切另一条路径重试。已取得真实票号时先查状态，确认为未执行后再按原授权重试。`start_intake` 超时未返回票号时，当前工具不能反查：保留结果未知，明确尚未上传文件，不猜票号、不另建票，也不声称已执行状态查询；取得原请求的确认结果后再继续。PoW 只有服务明确拒绝本次业务且返回有效挑战时才按原有规则重试一次。
+- 工具参数48 KiB限制保持；较大文件使用工具实际返回的上传方式，或让学生在材料页操作。票据、上传URL凭据及内容只用于本次授权的材料交接。
+
+取得地址、创建票、上传文件、完成问卷、向院校提交是不同状态，各自以服务回执为准。
 
 ## 协议与边界
 
@@ -61,7 +74,7 @@ CLI 不替用户确认，也不把返回链接说成已递交。所有该工具�
 ## 离线测试
 
 ```sh
-python3 -m unittest discover -s tests -p 'test_mcp_client.py' -v
+python3 -B scripts/run_tests.py --pattern test_mcp_client.py
 ```
 
 测试使用合成 HTTP/JSON/SSE、合成密钥和小难度挑战，并阻止真实网络请求；覆盖握手、结果解析、分页/限额、401/429/超时、一次重试、预计算、私密文件和递交门槛。
